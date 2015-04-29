@@ -1,5 +1,6 @@
 from django.conf.urls import include, url
 from django.contrib import admin
+from dibujos.views import prueba
 
 urlpatterns = [
     # Examples:
@@ -7,5 +8,5 @@ urlpatterns = [
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^prueba/', "templates/prueba.html"),
+    url(r'^prueba/', prueba),
 ]
