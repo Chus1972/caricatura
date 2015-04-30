@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.http import HttpResponse
 import json
 import os, base64, hmac, urllib
+from django.template.context_processors import csrf
+
 
 def prueba(request):
 	data = {'hola' : 'adios'}
@@ -36,9 +38,13 @@ def sign_s3(request):
 		})
 
 def submit_form(request):
+	c = {}
+	c.update(csrf(request))
+
 	username = request.form["username"]
 	full_name = request.form["full_name"]
 	avatar_url = request.form["avatar_url"]
 	update_account(username, full_name, avatar_url)
 
-	return render(request, 'prueba.html')
+	return render_to_response("prueba.html", c)
+	
