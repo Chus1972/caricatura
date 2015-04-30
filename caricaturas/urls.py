@@ -1,6 +1,6 @@
 from django.conf.urls import include, url
 from django.contrib import admin
-from dibujos.views import prueba
+from dibujos.views import prueba, ejemplo, sign_s3, submit_form
 
 urlpatterns = [
     # Examples:
@@ -9,4 +9,7 @@ urlpatterns = [
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^prueba/', prueba),
+    url(r'^ejemplo/', ejemplo),
+    url(r'^sign_s3/', sign_s3),
+    url(r'^submit_form', submit_form),
 ]

@@ -56,7 +56,7 @@ ROOT_URLCONF = 'caricaturas.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': os.path.join('dibujos/templates'),
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
