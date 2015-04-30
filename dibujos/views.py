@@ -41,4 +41,4 @@ def submit_form(request):
 	avatar_url = request.form["avatar_url"]
 	update_account(username, full_name, avatar_url)
 
-	return redirect(url_for('profile'))
+	return render(request, 'prueba.html')
