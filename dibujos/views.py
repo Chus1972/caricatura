@@ -31,7 +31,7 @@ def sign_s3(request):
 	signature = urllib.quote_plus(signature.strip())
 
 	url = 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, object_name)
-
+	
 	return json.dumps({
 		'signed_request' : '%s?AWSAccessKeyId=%s&Expires=%d&Signature=%s' % (url, AWS_SECRET_KEY, expires, signature),
 		'url' : url
