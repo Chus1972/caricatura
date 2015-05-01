@@ -40,6 +40,7 @@ def sign_s3(request):
 def submit_form(request):
 	c = {}
 	c.update(csrf(request))
+	print c
 
 	username = request.GET.get("username")
 	full_name = request.GET.get("full_name")
