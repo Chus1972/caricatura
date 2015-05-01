@@ -41,9 +41,9 @@ def submit_form(request):
 	c = {}
 	c.update(csrf(request))
 
-	username = request.form["username"]
-	full_name = request.form["full_name"]
-	avatar_url = request.form["avatar_url"]
+	username = request.GET.get("username")
+	full_name = request.GET.get("full_name")
+	avatar_url = request.GET.get("avatar_url")
 	update_account(username, full_name, avatar_url)
 
 	return render_to_response("prueba.html", c)
