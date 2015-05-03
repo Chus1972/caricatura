@@ -46,6 +46,9 @@ def submit_form(request):
 	username = request.GET.get("username")
 	full_name = request.GET.get("full_name")
 	avatar_url = request.GET.get("avatar_url")
-
+	print username
+	print full_name
+	print avatar_url
+	
 	return render_to_response("prueba.html", c)
 	
