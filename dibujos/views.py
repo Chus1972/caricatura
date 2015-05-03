@@ -38,6 +38,7 @@ def sign_s3(request):
 		})
 
 def submit_form(request):
+	print 'ENTRA SUBMIT_FORM'
 	c = {}
 	c.update(csrf(request))
 	print c

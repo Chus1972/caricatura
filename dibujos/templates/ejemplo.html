@@ -32,6 +32,7 @@
     Function to carry out the actual PUT request to S3 using the signed request from the Python app.
 */
 function upload_file(file, signed_request, url){
+    alert("entra en upload_file")
     var xhr = new XMLHttpRequest();
     xhr.open("PUT", signed_request);
     xhr.setRequestHeader('x-amz-acl', 'public-read');
@@ -52,6 +53,7 @@ function upload_file(file, signed_request, url){
     request.
 */
 function get_signed_request(file){
+    alert("entra en get_signed_request")
     var xhr = new XMLHttpRequest();
     alert("GET    /sign_s3?file_name="+file.name+"&file_type="+file.type)
     xhr.open("GET", "/sign_s3?file_name="+file.name+"&file_type="+file.type);
@@ -75,8 +77,10 @@ function get_signed_request(file){
    start upload procedure by asking for a signed request from the app.
 */
 function init_upload(){
+    alert("entra en init_upload")
     var files = document.getElementById("file_input").files;
     var file = files[0];
+    alert("fichero:" + file.name + "ext " +file.type )
     if(file == null){
         alert("No file selected.");
         return;

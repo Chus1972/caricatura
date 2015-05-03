@@ -1,4 +1,5 @@
 function s3_upload() {
+	alert("Entra en s3_upload")
 	var status_elem = document.getElementById("status");
 	var url_elem = document.getElementById("avatar_url");
 	var preview_elem = document.getElementById("preview");
