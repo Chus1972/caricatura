@@ -43,7 +43,7 @@ def submit_form(request):
 	c.update(csrf(request))
 	print c
 
-	username = request.GET("username")
+	username = request.GET.get("username")
 	full_name = request.get("full_name")
 	avatar_url = request.GET.get("avatar_url")
 
