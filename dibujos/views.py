@@ -54,7 +54,7 @@ def submit_form(request):
 	print c
 
 	username = request.GET.get("username")
-	full_name = request.POST.get("full_name")
+	full_name = request.GET.get("full_name")
 	avatar_url = request.GET.get("avatar_url")
 
 	print username
