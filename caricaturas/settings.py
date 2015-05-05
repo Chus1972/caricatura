@@ -25,7 +25,7 @@ SECRET_KEY = 'r+ra2!l8*$2lb7p8kgt1&vlvtr_4q$)up(((6w#-=@m4w&s*t2'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['lit-woodland-9635.herokuapp.com', '127.0.0.1', ]
+ALLOWED_HOSTS = [*]
 
 
 # Application definition
