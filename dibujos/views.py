@@ -18,6 +18,10 @@ def sign_s3(request):
 	AWS_ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY')
 	AWS_SECRET_KEY = os.environ.get('AWS_SECRET_KEY')
 	S3_BUCKET = os.environ.get('S3_BUCKET')
+	
+	print AWS_SECRET_KEY
+	print S3_BUCKET
+
 
 	object_name = request.args.get('s3_object_name')
 	mime_type = request.args.get('s3_object_type')
@@ -41,6 +45,7 @@ def submit_form(request):
 	print 'ENTRA SUBMIT_FORM'
 	c = {}
 	c.update(csrf(request))
+	print 'Esto es c.update : '
 	print c
 
 	username = request.GET.get("username")
