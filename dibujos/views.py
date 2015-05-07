@@ -53,7 +53,7 @@ def sign_s3(request):
 		'signed_request' : '%s?AWSAccessKeyId=%s&Expires=%s&Signature=%s' % (url, AWS_ACCESS_KEY, expires, signature),
 		'url' : url
 		})
-	
+
 	return json.dumps({
 		'signed_request' : '%s?AWSAccessKeyId=%s&Expires=%s&Signature=%s' % (url, AWS_ACCESS_KEY, expires, signature),
 		'url' : url
@@ -66,12 +66,10 @@ def submit_form(request):
 	print 'Esto es c.update : '
 	print c
 
-	#username = request.GET.get("username")
-	#full_name = request.GET.get("full_name")
-	#avatar_url = request.GET.get("avatar_url")
-	username = request.form["username"]
-	full_name = request.form["full_name"]
-	avatar_url = request.form["avatar_url"]
+	username = request.GET.get("username")
+	full_name = request.GET.get("full_name")
+	avatar_url = request.GET.get("avatar_url")
+
 
 	print username
 	print full_name
