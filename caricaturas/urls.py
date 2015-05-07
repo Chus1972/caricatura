@@ -11,5 +11,5 @@ urlpatterns = [
     url(r'^prueba/', prueba),
     url(r'^ejemplo/', ejemplo),
     url(r'^sign_s3/', sign_s3),
-    url(r'^submit_form', submit_form),
+    url(r'^submit_form/', submit_form),
 ]
