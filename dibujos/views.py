@@ -74,7 +74,6 @@ def submit_form(request):
 	print username
 	print full_name
 	print avatar_url
-	update_account(username, full_name, avatar_url)
 
 	return render_to_response("prueba.html", c)
 	
