@@ -23,17 +23,18 @@ def sign_s3(request):
 	print S3_BUCKET
 
 
-	object_name = request.args.get('s3_object_name')
+	object_name = urllib.quote_plus(request.args.get('file_name'))
 	print object_name
-	mime_type = request.args.get('s3_object_type')
+	mime_type = request.args.get('file_type')
 	print mime_type
-	expires = long(time.time()+10)
+	expires = long(time.time()+60*60*24)
 	amz_headers = "x-amz-acl:public-read"
 
 	put_request = "PUT\n\n%s\n%d\n%s\n/%s/%s" % (mime_type, expires, amz_headers, S3_BUCKET, object_name)
 	print put_request
 
-	signature = base64.encodestring(hmac.new(AWS_SECRET_KEY, put_request, sha1).digest())
+	#signature = base64.encodestring(hmac.new(AWS_SECRET_KEY, put_request, sha1).digest())
+	signature = base64.encodestring(hmac.new(AWS_SECRET_KEY, put_request.encode('utf8'), sha1).digest())
 
 	signature = urllib.quote_plus(signature.strip())
 	print signature
@@ -42,7 +43,7 @@ def sign_s3(request):
 	print url
 	
 	return json.dumps({
-		'signed_request' : '%s?AWSAccessKeyId=%s&Expires=%d&Signature=%s' % (url, AWS_SECRET_KEY, expires, signature),
+		'signed_request' : '%s?AWSAccessKeyId=%s&Expires=%s&Signature=%s' % (url, AWS_ACCESS_KEY, expires, signature),
 		'url' : url
 		})
 
@@ -53,13 +54,17 @@ def submit_form(request):
 	print 'Esto es c.update : '
 	print c
 
-	username = request.GET.get("username")
-	full_name = request.GET.get("full_name")
-	avatar_url = request.GET.get("avatar_url")
+	#username = request.GET.get("username")
+	#full_name = request.GET.get("full_name")
+	#avatar_url = request.GET.get("avatar_url")
+	username = request.form["username"]
+	full_name = request.form["full_name"]
+	avatar_url = request.form["avatar_url"]
 
 	print username
 	print full_name
 	print avatar_url
+	update_account(username, full_name, avatar_url)
 
 	return render_to_response("prueba.html", c)
 	
