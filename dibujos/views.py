@@ -91,12 +91,12 @@ def submit_form(request):
 	print c
 
 	username = request.GET["username"]
-	full_name = request.GET.get["full_name"]
-	avatar_url = request.GET.get["avatar_url"]
+	full_name = request.GET["full_name"]
+	avatar_url = request.GET["avatar_url"]
 
 	print 'username : %s' % username
 	print 'full_name : %s' % full_name
-	print 'avatar_url : ' % avatar_url
+	print 'avatar_url : %s' % avatar_url
 
 	return render_to_response("prueba.html", c)
 	
