@@ -58,7 +58,7 @@ function get_signed_request(file){
     xhr.onreadystatechange = function(){
         alert(xhr.readyState)
         alert(xhr.status)
-        alert(xhr.responseText)
+        //alert(xhr.responseText)
         alert(JSON.parse(xhr.responseText))
         if(xhr.readyState === 4){
             if(xhr.status === 200){
