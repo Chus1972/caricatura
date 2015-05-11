@@ -34,13 +34,17 @@ def sign_s3(request):
 	mime_type = request.GET['file_type']
 	print 'mime_type'
 	print mime_type
-	expires = long(time.time()+60*60*24)
+	try:
+		expires = long(time.time()+60*60*24)
+	except Exception, e:
+		print 'excepcion en try '
+		print e
 	print 'expires'
 	print expires
 	amz_headers = "x-amz-acl:public-read"
 	print 'amz_headers'
 	print amz_headers
-	
+
 	put_request = "PUT\n\n%s\n%d\n%s\n/%s/%s" % (mime_type, expires, amz_headers, S3_BUCKET, object_name)
 	print 'put_request'
 	print put_request
