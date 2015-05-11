@@ -63,7 +63,7 @@ def sign_s3(request):
 	print 'signature'
 	print signature
 	try:
-		signature = urllib.quote_plus(signature.strip()
+		signature = urllib.quote_plus(signature.strip())
 	except Exception, e:
 		print 'excepcion en signature :' 
 		print e
