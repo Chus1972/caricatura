@@ -56,8 +56,8 @@ function get_signed_request(file){
     alert("GET    /sign_s3?file_name="+file.name+"&file_type="+file.type)
     xhr.open("GET", "/sign_s3?file_name="+file.name+"&file_type="+file.type);
     xhr.onreadystatechange = function(){
-        //alert(xhr.readyState)
-        //alert(xhr.status)
+        alert(xhr.readyState)
+        alert(xhr.status)
         alert(JSON.parse(xhr.responseText))
         if(xhr.readyState === 4){
             if(xhr.status === 200){
