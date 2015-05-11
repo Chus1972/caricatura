@@ -20,11 +20,11 @@ def sign_s3(request):
 	AWS_ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY')
 	AWS_SECRET_KEY = os.environ.get('AWS_SECRET_KEY')
 	S3_BUCKET = os.environ.get('S3_BUCKET')
-	print '------------'
+	print '------r------'
 	print AWS_ACCESS_KEY
 	print AWS_SECRET_KEY
 	print S3_BUCKET
-	print '------------'
+	print '------w------'
 	print request
 	print 'nombre ficher : %s' % request.GET['file_name']
 
@@ -50,6 +50,7 @@ def sign_s3(request):
 	print 'put_request'
 	print put_request
 
+	print 'signature ?? '
 	#signature = base64.encodestring(hmac.new(AWS_SECRET_KEY, put_request, sha1).digest())
 	signature = base64.encodestring(hmac.new(AWS_SECRET_KEY, put_request.encode('utf8'), sha1).digest())
 	print 'signature'
@@ -84,10 +85,9 @@ def submit_form(request):
 	full_name = request.GET.get("full_name")
 	avatar_url = request.GET.get("avatar_url")
 
-
-	print username
-	print full_name
-	print avatar_url
+	print 'username : %s' % username
+	print 'full_name : %s' % full_name
+	print 'avatar_url : ' % avatar_url
 
 	return render_to_response("prueba.html", c)
 	
