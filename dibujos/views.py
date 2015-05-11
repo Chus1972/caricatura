@@ -91,9 +91,9 @@ def submit_form(request):
 	print 'Esto es c.update : '
 	print c
 
-	username = request.GET.get("username")
-	full_name = request.GET.get("full_name")
-	avatar_url = request.GET.get("avatar_url")
+	username = request.GET["username"]
+	full_name = request.GET.get["full_name"]
+	avatar_url = request.GET.get["avatar_url"]
 
 	print 'username : %s' % username
 	print 'full_name : %s' % full_name
