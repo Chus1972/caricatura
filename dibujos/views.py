@@ -4,6 +4,7 @@ import json
 import os, base64, hmac, urllib
 from django.template.context_processors import csrf
 import time
+from hashlib import sha1
 
 
 def prueba(request):
