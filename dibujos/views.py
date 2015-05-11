@@ -66,7 +66,7 @@ def sign_s3(request):
 	#except Exception, e:
 	#	print 'excepcion en signature :' 
 	#	print e
-	print 'S3_BUCKET : %S ' % S3_BUCKET
+	print 'S3_BUCKET : %s ' % S3_BUCKET
 
 	url = 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, object_name)
 	print 'url'
