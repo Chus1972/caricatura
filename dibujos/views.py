@@ -3,6 +3,7 @@ from django.http import HttpResponse
 import json
 import os, base64, hmac, urllib
 from django.template.context_processors import csrf
+import time
 
 
 def prueba(request):
