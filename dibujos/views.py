@@ -27,10 +27,10 @@ def sign_s3(request):
 	print request
 	print 'nombre ficher : %s' % request.GET['file_name']
 
-	object_name = urllib.quote_plus(request.args.get('file_name'))
+	object_name = urllib.quote_plus(request.GET('file_name'))
 	print 'object_name: ' 
 	print object_name
-	mime_type = request.args.get('file_type')
+	mime_type = request.GET('file_type')
 	print 'mime_type'
 	print mime_type
 	expires = long(time.time()+60*60*24)
@@ -46,6 +46,7 @@ def sign_s3(request):
 	signature = urllib.quote_plus(signature.strip())
 	print 'signature'
 	print signature
+	print 'S3_BUCKET : %S ' % S3_BUCKET
 
 	url = 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, object_name)
 	print 'url'
