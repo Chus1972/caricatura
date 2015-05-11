@@ -60,14 +60,12 @@ def sign_s3(request):
 	except Exception, e:
 		print 'excepcion en try 2 '
 		print e
-	print 'signature'
-	print 
-	
-	try:
-		signature = urllib.quote_plus(signature.strip())
-	except Exception, e:
-		print 'excepcion en signature :' 
-		print e
+
+	#try:
+	#	signature = urllib.quote_plus(signature.strip())
+	#except Exception, e:
+	#	print 'excepcion en signature :' 
+	#	print e
 	print 'S3_BUCKET : %S ' % S3_BUCKET
 
 	url = 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, object_name)
