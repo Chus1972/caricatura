@@ -52,7 +52,13 @@ def sign_s3(request):
 
 	print 'signature ?? '
 	#signature = base64.encodestring(hmac.new(AWS_SECRET_KEY, put_request, sha1).digest())
-	signature = base64.encodestring(hmac.new(AWS_SECRET_KEY, put_request.encode('utf8'), sha1).digest())
+	try:
+		print 'entra en try - '
+		signature = base64.encodestring(hmac.new(AWS_SECRET_KEY, put_request.encode('utf8'), sha1).digest())
+		print signature
+	except Exception, e:
+		print 'excepcion en try 2 '
+		print e
 	print 'signature'
 	print signature
 	signature = urllib.quote_plus(signature.strip())
