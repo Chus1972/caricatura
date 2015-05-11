@@ -23,6 +23,7 @@ def sign_s3(request):
 	print AWS_SECRET_KEY
 	print S3_BUCKET
 
+	print 'nombre ficher : %s' % file_name
 
 	object_name = urllib.quote_plus(request.args.get('file_name'))
 	print 'object_name: ' 
