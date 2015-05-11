@@ -52,10 +52,10 @@ def sign_s3(request):
 
 	#signature = base64.encodestring(hmac.new(AWS_SECRET_KEY, put_request, sha1).digest())
 	signature = base64.encodestring(hmac.new(AWS_SECRET_KEY, put_request.encode('utf8'), sha1).digest())
-
-	signature = urllib.quote_plus(signature.strip())
 	print 'signature'
 	print signature
+	signature = urllib.quote_plus(signature.strip())
+	
 	print 'S3_BUCKET : %S ' % S3_BUCKET
 
 	url = 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, object_name)
