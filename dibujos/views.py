@@ -28,7 +28,7 @@ def sign_s3(request):
 	print 'nombre ficher : %s' % request.GET['file_name']
 
 	#object_name = urllib.quote_plus(request.GET('file_name'))
-	object_name = urllib(request.GET('file_name'))
+	object_name = request.GET('file_name')
 	print 'object_name: ' 
 	print object_name
 	mime_type = request.GET('file_type')
