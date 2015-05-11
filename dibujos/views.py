@@ -90,9 +90,9 @@ def submit_form(request):
 	print 'Esto es c.update : '
 	print c
 
-	username = request.GET["username"]
-	full_name = request.GET["full_name"]
-	avatar_url = request.GET["avatar_url"]
+	username = request.POST["username"]
+	full_name = request.POST["full_name"]
+	avatar_url = request.POST["avatar_url"]
 
 	print 'username : %s' % username
 	print 'full_name : %s' % full_name
