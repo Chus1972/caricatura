@@ -94,8 +94,10 @@ function init_upload(){
     if(file == null){
         alert("No file selected.");
         return;
-    }
-    get_signed_request(file);
+    } 
+    else {
+        get_signed_request(file);
+   } 
 }
 /*
    Bind listeners when the page loads.
