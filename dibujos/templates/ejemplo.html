@@ -9,7 +9,7 @@
 
 <input type="file" id="file_input"/>
 <p id="status">Please select a file</p>
-<img style="border:1px solid gray;width:300px;"  id="preview" src="dibujos/static/media/iconoApp.jpg" />
+<img style="border:1px solid gray;width:300px;"  id="preview" src="/static/media/iconoApp.jpg" />
 
 <h2>Your information</h2>
 
@@ -36,7 +36,7 @@ function upload_file(file, signed_request, url){
     alert(url)
     var xhr = new XMLHttpRequest();
     xhr.open("PUT", signed_request);
-    xhr.setRequestHeader('x-amz-acl:public-read');
+    xhr.setRequestHeader('x-amz-acl' ,'public-read');
     xhr.onload = function() {
         alert(xhr.status)
         if (xhr.status === 200) {
@@ -58,7 +58,7 @@ function upload_file(file, signed_request, url){
 function get_signed_request(file){
     alert("entra en get_signed_request")
     var xhr = new XMLHttpRequest();
-    alert("GET    /sign_s3?file_name="+file.name+"&file_type="+file.type)
+    alert("GET    /sign_s3?file_name="+file.name+"&file_type="+file.type);
     xhr.open("GET", "/sign_s3?file_name="+file.name+"&file_type="+file.type);
     xhr.onreadystatechange = function(){
         alert(xhr.readyState)
