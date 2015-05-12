@@ -63,7 +63,11 @@ function get_signed_request(file){
         alert(JSON.parse(xhr.responseText))
         if(xhr.readyState === 4){
             if(xhr.status === 200){
+                alert('por fin entra AQUIIIIIII')
                 var response = JSON.parse(xhr.responseText);
+                alert(file)
+                alert(response.signed_reques)
+                alert(response.url)
                 upload_file(file, response.signed_request, response.url);
             }
             else{

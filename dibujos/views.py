@@ -73,10 +73,10 @@ def sign_s3(request):
 	print url
 	
 	print 'json.dumps : '
-	print json.dumps({
+	print HttpResponse(json.dumps({
 		'signed_request' : '%s?AWSAccessKeyId=%s&Expires=%s&Signature=%s' % (url, AWS_ACCESS_KEY, expires, signature),
 		'url' : url
-		})
+		}))
 
 	return HttpResponse(json.dumps({
 		'signed_request' : '%s?AWSAccessKeyId=%s&Expires=%s&Signature=%s' % (url, AWS_ACCESS_KEY, expires, signature),
