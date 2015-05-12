@@ -56,8 +56,7 @@ def sign_s3(request):
 	try:
 		print 'entra en try - '
 		string_para_firmar = "PUT\n\n%s\n%d\n%s\n/%s/%s" % (mime_type, expires, amz_headers, S3_BUCKET, object_name)
-		signature = hmac.new(AWS_SECRET_KEY, string_para_firmar.encode('utf-8'), sha256).digest()
-		#signature = base64.encodestring(hmac.new(AWS_SECRET_KEY, string_para_firmar.encode('utf-8'), sha256).digest())
+		signature = base64.encodestring(hmac.new(AWS_SECRET_KEY, string_para_firmar.encode('utf-8'), sha256).digest())
 		print signature
 	except Exception, e:
 		print 'excepcion en try 2 '
@@ -83,7 +82,7 @@ def sign_s3(request):
 	return HttpResponse(json.dumps({
 		'signed_request' : '%s?AWSAccessKeyId=%s&Expires=%s&Signature=%s' % (url, AWS_ACCESS_KEY, expires, signature),
 		'url' : url,
-		}))
+		}), 'application/json')
 
 def submit_form(request):
 	print 'ENTRA SUBMIT_FORM'
