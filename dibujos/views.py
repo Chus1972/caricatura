@@ -57,10 +57,14 @@ def sign_s3(request):
  	algoritmo = 'AWS4-HMAC-SHA256'
  	credencial_scope = datestamp + '/' + region + '/' + service + '/' + 'aws4_request'
  	print 'credencial_scope : %s' % credencial_scope
- 	canonical_querystring =  'X-Amz-Algorithm=' + algoritmo
+ 	canonical_querystring =  'X-Amz-Algorithm=' + 
+ 	print canonical_querystring +' 1'
  	canonical_querystring += '&X-Amz-Credential=' + urllib.quote_plus(AWS_ACCESS_KEY + '/' + credencial_scope)
+ 	print canonical_querystring + ' 2 '
  	canonical_querystring += '&X-Amz-Date=' + amzdate
+ 	print canonical_querystring + ' 3'
  	canonical_querystring += '&X-Amz-Expires=30'
+ 	print canonical_querystring + ' 4'
  	canonical_querystring += '&X-Amz-SignedHeaders=' + signed_headers
  	print 'canonical_querystring : %s' % canonical_querystring
  	
