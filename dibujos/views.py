@@ -41,18 +41,21 @@ def sign_s3(request):
 	service = 's3'
 	host = 's3.amazonaws.com'
 	region = 'eu-central-1'
-	endpoint = 'https://s3.amazonaws.com'
+	endpoint = 'https://%s.%s-website.%s.amazonaws.com' % (S3_BUCKET, service)
+	print "endpoint : %s" % (endpoint)
 
 	#creo una fecha para la cabecera y el string de las credenciales
 	t = datetime.datetime.utcnow()
 	amzdate = t.strftime('%Y%m%dT%H%M%SZ')
 	datestamp = t.strftime('%Y%m%d')
+	print 'datestamp : %s' % (datestamp)
 
  	#------------------------------------------------------------------------------------------------
 	# Creo la respuesta canonica - PASO 1
 	canonical_uri = object_name
 	canonical_query_string = ""
 	canonical_headers = 'host:%s\nx-amz-date:%s\n' % (host, amzdate)
+	print 'canonical_header : %s ' % (canonical_headers)
 	signed_headers = 'host;x-amz-date'
 	payload_hash = hashlib.sha256('').hexdigest()
 
@@ -60,21 +63,22 @@ def sign_s3(request):
 
 	# Canonical Request
 	canonical_request = "%s\n%s\n%s\n%s\n%s\n%s" % (method, canonical_uri, canonical_query_string, canonical_headers, signed_headers, payload_hash) 
-
+	print 'canonical_request %s ' % (canonical_request)
  	#------------------------------------------------------------------------------------------------
 	# String para firmar - PASO 2
 	#------------------------------------------------------------------------------------------------
 	
 	algoritmo = 'AWS-HMAC-SHA256'
 	credencial_scope = "%s/%s/%s/aws4_request" % (datestamp, region, service)
+	print 'credencial_scope : %s' % (credencial_scope)
 	string_para_firmar = "%s\n%s\n%s\n%s" % (algoritmo, amzdate, credencial_scope, hashlib.sha256(canonical_request).hexdigest())
-
+	print 'string para firmar : %s' % (string_para_firmar)
 	#------------------------------------------------------------------------------------------------
 	# Calcula la firma - PASO 3
 	#------------------------------------------------------------------------------------------------
 	signing_key = get_signature_key(AWS_SECRET_KEY, datestamp, region, service)
 	firma = hmac.new(signing_key, (string_para_firmar).encode('utf-8'), hashlib.sha256).hexdigest()
-
+	print 'firma : %s' % (firma)
 	#------------------------------------------------------------------------------------------------
 	# Añade la informacion firmada al request - PASO 4
 	#------------------------------------------------------------------------------------------------
