@@ -52,7 +52,7 @@ def sign_s3(request):
 
  	canonical_headers = 'host:' + host + '\n'
  	print 'canonical_headers : %s' % canonical_headers
- 	signed_header = 'host'
+ 	signed_headers = 'host'
 
  	algoritmo = 'AWS4-HMAC-SHA256'
  	credencial_scope = datestamp + '/' + region + '/' + service + '/' + 'aws4_request'
