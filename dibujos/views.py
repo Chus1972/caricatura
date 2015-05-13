@@ -92,17 +92,17 @@ def sign_s3(request):
 	#------------------------------------------------------------------------------------------------
 	# Envio el request
 	request_url = "%s?%s" % (endpoint, canonical_query_string)
-	
+	print 'request_url: %s' % request_url
 	
 	print 'json.dumps : '
 	print HttpResponse(json.dumps({
-		'signed_request' : request_url,
-		'url' : url,
+		'signed_request' : firma,
+		'url' : request_url,
 		}))
 
 	return HttpResponse(json.dumps({
-		'signed_request' : request_url,
-		'url' : url,
+		'signed_request' : firma,
+		'url' : request_url,
 		}), 'application/json')
 
 def submit_form(request):
