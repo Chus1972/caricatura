@@ -59,9 +59,9 @@ def sign_s3(request):
 	print 'canonical_header : %s ' % (canonical_headers)
 	signed_headers = 'host;x-amz-date'
 	print "signed_headers: %s" % signed_headers
-	payload_hash = hashlib.sha256('').digest()
+	payload_hash = hashlib.sha256("").hexdigest()
 	print payload_hash
-	print 'payload_hash : %d' % payload_hash
+	print 'payload_hash : %s' % payload_hash
 
 	mime_type = request.GET['file_type']
 
