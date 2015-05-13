@@ -27,85 +27,147 @@ def get_signature_key(key, dateStamp, regionName, serviceName):
 	return kSigning
 
 def sign_s3(request):
-	print 'Entra en sign_s3'
-	AWS_ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY')
-	AWS_SECRET_KEY = os.environ.get('AWS_SECRET_KEY')
-	S3_BUCKET = os.environ.get('S3_BUCKET')
-
 	method = 'GET'
 	service = 's3'
 	host = 's3.amazonaws.com'
 	region = 'eu-central-1'
-	#endpoint = 'https://%s.%s-website.%s.amazonaws.com' % (S3_BUCKET, service, region)
-	endpoint = 'https://%s.amazonaws.com' % service
+	endpoint = 's3.eu-central-1.amazonaws.com'
 
-	print 'endpoint : %s' % endpoint
+	AWS_ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY')
+ 	AWS_SECRET_KEY = os.environ.get('AWS_SECRET_KEY')
+ 	S3_BUCKET = os.environ.get('S3_BUCKET')
+
+ 	t = datetime.datetime.utcnow()
+ 	amzdate = t.strftime('%Y%m%dT%H%M%SZ')
+ 	datestamp = t.strftime('%Y%m%d')
+
+ 	#-------------------------------------------------
+ 	# PASO 1 : Creacion de request canonico
+ 	#-------------------------------------------------
+
+ 	canonical_uri = '/'
+
+ 	canonical_headers = 'host:' + host + '\n'
+ 	signed_header = 'host'
+
+ 	algoritmo = 'AWS4-HMAC-SHA256'
+ 	credencial_scope = datestamp + '/' + region + '/' + service + '/' + 'aws4_request'
+
+ 	canonical_querystring =  'X-Amz-Algorithm=' + algoritmo
+ 	canonical_querystring += '&X-Amz-Credential=' + urllib.quote_plus(AWS_ACCESS_KEY + '/' + credencial_scope)
+ 	canonical_querystring += '&X-Amz-Date=' + amzdate
+ 	canonical_querystring += '&X-Amz-Expires=30'
+ 	canonical_querystring += '&X-Amz-SignedHeaders=' + signed_headers
+ 	print 'canonical_querystring : %s' % canonical_querystring
+ 	
+ 	payload_hash = hashlib.sha256('').hexdigest()
+
+ 	canonical_request = method + '\n' + canonical_uri + '\n' + canonical_querystring + '\n' + canonical_headers + '\n' + signed_headers + '\n' + payload_hash
+
+	#-------------------------------------------------
+ 	# PASO  2: Creacion del string de la firma
+ 	#-------------------------------------------------
+ 	string_to_sign = algoritmo + '\n' + amzdate + '\n' + credencial_scope + '\n' + hashlib.sha256(canonical_request).hexdigest()
+
+ 	#-------------------------------------------------
+ 	# PASO 3 : Calculo de la firma
+ 	#-------------------------------------------------
+ 	signing_key = get_signature_key(AWS_SECRET_KEY, datestamp, region, service)
+
+ 	signature = hmac.new(signing_key, (string_to_sign).encode('utf-8'), hashlib.sha256).hexdigest()
+
+ 	#-------------------------------------------------
+ 	# PASO 4 : Añade la firma al request
+ 	#-------------------------------------------------
+ 	canonical_querystring += '&X-Amz-Signarure=' + signature
+
+ 	#-------------------------------------------------
+ 	# PASO 5 : Envio del request
+ 	#-------------------------------------------------
+ 	request_url = endpoint + '?' + canonical_querystring
+
+ 	return HttpResponse(json.dumps({'url' : request_url, 'signed_request' : signature}))
+
+# def sign_s3(request):
+# 	print 'Entra en sign_s3'
+# 	AWS_ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY')
+# 	AWS_SECRET_KEY = os.environ.get('AWS_SECRET_KEY')
+# 	S3_BUCKET = os.environ.get('S3_BUCKET')
+
+# 	method = 'GET'
+# 	service = 's3'
+# 	host = 's3.amazonaws.com'
+# 	region = 'eu-central-1'
+# 	#endpoint = 'https://%s.%s-website.%s.amazonaws.com' % (S3_BUCKET, service, region)
+# 	endpoint = 'https://%s.amazonaws.com' % service
+
+# 	print 'endpoint : %s' % endpoint
 
 
-	object_name = request.GET['file_name']
-	print 'object_name: %s' % object_name
+# 	object_name = request.GET['file_name']
+# 	print 'object_name: %s' % object_name
 
 	
 
-	#creo una fecha para la cabecera y el string de las credenciales
-	t = datetime.datetime.utcnow()
-	amzdate = t.strftime('%Y%m%dT%H%M%SZ')
-	print 'amzdate : %s' % amzdate
-	datestamp = t.strftime('%Y%m%d')
-	print 'datestamp : %s' % datestamp
- 	#------------------------------------------------------------------------------------------------
-	# Creo la respuesta canonica - PASO 1
-	canonical_uri = object_name
-	canonical_query_string = ""
-	canonical_headers = 'host:%s\nx-amz-date:%s\n' % (host, amzdate)
-	print 'canonical_header : %s ' % (canonical_headers)
-	signed_headers = 'host;x-amz-date'
-	print "signed_headers: %s" % signed_headers
-	payload_hash = hashlib.sha256("").hexdigest()
-	print payload_hash
-	print 'payload_hash : %s' % payload_hash
+# 	#creo una fecha para la cabecera y el string de las credenciales
+# 	t = datetime.datetime.utcnow()
+# 	amzdate = t.strftime('%Y%m%dT%H%M%SZ')
+# 	print 'amzdate : %s' % amzdate
+# 	datestamp = t.strftime('%Y%m%d')
+# 	print 'datestamp : %s' % datestamp
+#  	#------------------------------------------------------------------------------------------------
+# 	# Creo la respuesta canonica - PASO 1
+# 	canonical_uri = object_name
+# 	canonical_query_string = ""
+# 	canonical_headers = 'host:%s\nx-amz-date:%s\n' % (host, amzdate)
+# 	print 'canonical_header : %s ' % (canonical_headers)
+# 	signed_headers = 'host;x-amz-date'
+# 	print "signed_headers: %s" % signed_headers
+# 	payload_hash = hashlib.sha256("").hexdigest()
+# 	print payload_hash
+# 	print 'payload_hash : %s' % payload_hash
 
-	mime_type = request.GET['file_type']
+# 	mime_type = request.GET['file_type']
 
-	# Canonical Request
-	canonical_request = "%s\n%s\n%s\n%s\n%s\n%s" % (method, canonical_uri, canonical_query_string, canonical_headers, signed_headers, payload_hash) 
-	print 'canonical_request : %s ' % canonical_request
- 	#------------------------------------------------------------------------------------------------
-	# String para firmar - PASO 2
-	#------------------------------------------------------------------------------------------------
+# 	# Canonical Request
+# 	canonical_request = "%s\n%s\n%s\n%s\n%s\n%s" % (method, canonical_uri, canonical_query_string, canonical_headers, signed_headers, payload_hash) 
+# 	print 'canonical_request : %s ' % canonical_request
+#  	#------------------------------------------------------------------------------------------------
+# 	# String para firmar - PASO 2
+# 	#------------------------------------------------------------------------------------------------
 	
-	algoritmo = 'AWS4-HMAC-SHA256'
-	credencial_scope = "%s/%s/%s/aws4_request" % (datestamp, region, service)
-	print 'credencial_scope : %s' % (credencial_scope)
-	string_para_firmar = "%s\n%s\n%s\n%s" % (algoritmo, amzdate, credencial_scope, hashlib.sha256(canonical_request).hexdigest())
-	print 'string para firmar : %s' % (string_para_firmar)
-	#------------------------------------------------------------------------------------------------
-	# Calcula la firma - PASO 3
-	#------------------------------------------------------------------------------------------------
-	signing_key = get_signature_key(AWS_SECRET_KEY, datestamp, region, service)
-	firma = hmac.new(signing_key, (string_para_firmar).encode('utf-8'), hashlib.sha256).hexdigest()
-	print 'firma : %s' % (firma)
-	#------------------------------------------------------------------------------------------------
-	# Anade la informacion firmada al request - PASO 4
-	#------------------------------------------------------------------------------------------------
-	autorizacion_header = "%s Credential=%s/%s, SignedHeaders=%s, Signature=%s" % (algoritmo, AWS_ACCESS_KEY, credencial_scope, signed_headers, firma)
-	headers = {'x-amz-date':amzdate, 'Authorization':autorizacion_header}
+# 	algoritmo = 'AWS4-HMAC-SHA256'
+# 	credencial_scope = "%s/%s/%s/aws4_request" % (datestamp, region, service)
+# 	print 'credencial_scope : %s' % (credencial_scope)
+# 	string_para_firmar = "%s\n%s\n%s\n%s" % (algoritmo, amzdate, credencial_scope, hashlib.sha256(canonical_request).hexdigest())
+# 	print 'string para firmar : %s' % (string_para_firmar)
+# 	#------------------------------------------------------------------------------------------------
+# 	# Calcula la firma - PASO 3
+# 	#------------------------------------------------------------------------------------------------
+# 	signing_key = get_signature_key(AWS_SECRET_KEY, datestamp, region, service)
+# 	firma = hmac.new(signing_key, (string_para_firmar).encode('utf-8'), hashlib.sha256).hexdigest()
+# 	print 'firma : %s' % (firma)
+# 	#------------------------------------------------------------------------------------------------
+# 	# Anade la informacion firmada al request - PASO 4
+# 	#------------------------------------------------------------------------------------------------
+# 	autorizacion_header = "%s Credential=%s/%s, SignedHeaders=%s, Signature=%s" % (algoritmo, AWS_ACCESS_KEY, credencial_scope, signed_headers, firma)
+# 	headers = {'x-amz-date':amzdate, 'Authorization':autorizacion_header}
 
-	#------------------------------------------------------------------------------------------------
-	# Envio el request
-	request_url = "%s?%s" % (endpoint, canonical_query_string)
-	print 'request_url: %s' % request_url
+# 	#------------------------------------------------------------------------------------------------
+# 	# Envio el request
+# 	request_url = "%s?%s" % (endpoint, canonical_query_string)
+# 	print 'request_url: %s' % request_url
 	
-	print 'json.dumps : '
-	print HttpResponse(json.dumps({
-		'signed_request' : firma,
-		'url' : request_url,
-		}))
+# 	print 'json.dumps : '
+# 	print HttpResponse(json.dumps({
+# 		'signed_request' : firma,
+# 		'url' : request_url,
+# 		}))
 
-	return HttpResponse(json.dumps({
-		'signed_request' : firma,
-		'url' : request_url,
-		}), 'application/json')
+# 	return HttpResponse(json.dumps({
+# 		'signed_request' : firma,
+# 		'url' : request_url,
+# 		}), 'application/json')
 
 def submit_form(request):
 	print 'ENTRA SUBMIT_FORM'
