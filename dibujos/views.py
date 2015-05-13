@@ -77,7 +77,7 @@ def sign_s3(request):
  	signature = hmac.new(signing_key, (string_to_sign).encode('utf-8'), hashlib.sha256).hexdigest()
 
  	#-------------------------------------------------
- 	# PASO 4 : Añade la firma al request
+ 	# PASO 4 : Anade la firma al request
  	#-------------------------------------------------
  	canonical_querystring += '&X-Amz-Signarure=' + signature
 
