@@ -80,7 +80,7 @@ def sign_s3(request):
 	firma = hmac.new(signing_key, (string_para_firmar).encode('utf-8'), hashlib.sha256).hexdigest()
 	print 'firma : %s' % (firma)
 	#------------------------------------------------------------------------------------------------
-	# Añade la informacion firmada al request - PASO 4
+	# Anade la informacion firmada al request - PASO 4
 	#------------------------------------------------------------------------------------------------
 	autorizacion_header = "%s Credential=%s/%s, SignedHeaders=%s, Signature=%s" % (algoritmo, AWS_ACCESS_KEY, credencial_scope, signed_headers, firma)
 	headers = {'x-amz-date':amzdate, 'Authorization':autorizacion_header}
