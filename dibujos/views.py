@@ -1,10 +1,9 @@
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponse
 import json
-import os, base64, hmac, urllib
+import sys,os, base64, hmac, urllib, hashlib
 from django.template.context_processors import csrf
 import time
-from hashlib import sha256
 import datetime
 
 
