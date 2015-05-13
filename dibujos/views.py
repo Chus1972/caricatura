@@ -27,19 +27,22 @@ def get_signature_key(key, dateStamp, regionName, serviceName):
 	return kSigning
 
 def sign_s3(request):
+	print 'entra en sign_s3'
 	method = 'GET'
 	service = 's3'
 	host = 's3.amazonaws.com'
 	region = 'eu-central-1'
 	endpoint = 's3.eu-central-1.amazonaws.com'
-
+	print '11111111111111111'
 	AWS_ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY')
  	AWS_SECRET_KEY = os.environ.get('AWS_SECRET_KEY')
  	S3_BUCKET = os.environ.get('S3_BUCKET')
+ 	print '22222222222222222'
 
  	t = datetime.datetime.utcnow()
  	amzdate = t.strftime('%Y%m%dT%H%M%SZ')
  	datestamp = t.strftime('%Y%m%d')
+ 	print '333333333333333333'
 
  	#-------------------------------------------------
  	# PASO 1 : Creacion de request canonico
@@ -48,11 +51,12 @@ def sign_s3(request):
  	canonical_uri = '/'
 
  	canonical_headers = 'host:' + host + '\n'
+ 	print 'canonical_headers : %s' % canonical_headers
  	signed_header = 'host'
 
  	algoritmo = 'AWS4-HMAC-SHA256'
  	credencial_scope = datestamp + '/' + region + '/' + service + '/' + 'aws4_request'
-
+ 	print 'credencial_scope : %s' % credencial_scope
  	canonical_querystring =  'X-Amz-Algorithm=' + algoritmo
  	canonical_querystring += '&X-Amz-Credential=' + urllib.quote_plus(AWS_ACCESS_KEY + '/' + credencial_scope)
  	canonical_querystring += '&X-Amz-Date=' + amzdate
