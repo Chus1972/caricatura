@@ -61,30 +61,32 @@ def sign_s3(request):
  	print 'canonical_querystring : %s' % canonical_querystring
  	
  	payload_hash = hashlib.sha256('').hexdigest()
+ 	print 'payload_hash %s' % payload_hash
 
  	canonical_request = method + '\n' + canonical_uri + '\n' + canonical_querystring + '\n' + canonical_headers + '\n' + signed_headers + '\n' + payload_hash
-
+ 	print 'canonical_request %s' % canonical_request
 	#-------------------------------------------------
  	# PASO  2: Creacion del string de la firma
  	#-------------------------------------------------
  	string_to_sign = algoritmo + '\n' + amzdate + '\n' + credencial_scope + '\n' + hashlib.sha256(canonical_request).hexdigest()
-
+ 	print 'string_to_sign : %s' % string_to_sign
  	#-------------------------------------------------
  	# PASO 3 : Calculo de la firma
  	#-------------------------------------------------
  	signing_key = get_signature_key(AWS_SECRET_KEY, datestamp, region, service)
-
+ 	print 'signing_key : %s' % signing_key
  	signature = hmac.new(signing_key, (string_to_sign).encode('utf-8'), hashlib.sha256).hexdigest()
-
+ 	print 'signature : %s' % signature
  	#-------------------------------------------------
  	# PASO 4 : Anade la firma al request
  	#-------------------------------------------------
  	canonical_querystring += '&X-Amz-Signarure=' + signature
-
+ 	print 'canonical_querystring2 : %s' % canonical_querystring
  	#-------------------------------------------------
  	# PASO 5 : Envio del request
  	#-------------------------------------------------
  	request_url = endpoint + '?' + canonical_querystring
+ 	print 'request_url : %s' % request_url
 
  	return HttpResponse(json.dumps({'url' : request_url, 'signed_request' : signature}))
 
