@@ -33,15 +33,18 @@ def sign_s3(request):
 	AWS_SECRET_KEY = os.environ.get('AWS_SECRET_KEY')
 	S3_BUCKET = os.environ.get('S3_BUCKET')
 
-	object_name = request.GET['file_name']
-	print 'object_name: %s' % object_name
-
 	method = 'PUT'
 	service = 's3'
 	host = 's3.amazonaws.com'
 	region = 'eu-central-1'
 	endpoint = 'https://%s.%s-website.%s.amazonaws.com' % (S3_BUCKET, service)
-	print "endpoint : %s" % (endpoint)
+	print 'endpoint : %s' % endpoint
+
+
+	object_name = request.GET['file_name']
+	print 'object_name: %s' % object_name
+
+	
 
 	#creo una fecha para la cabecera y el string de las credenciales
 	t = datetime.datetime.utcnow()
