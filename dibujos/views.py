@@ -97,7 +97,7 @@ def sign_s3(request):
 		}))
 
 	return HttpResponse(json.dumps({
-		'signed_request' : request_url
+		'signed_request' : request_url,
 		'url' : url,
 		}), 'application/json')
 
