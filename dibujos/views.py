@@ -74,7 +74,7 @@ def sign_s3(request):
 	# String para firmar - PASO 2
 	#------------------------------------------------------------------------------------------------
 	
-	algoritmo = 'AWS-HMAC-SHA256'
+	algoritmo = 'AWS4-HMAC-SHA256'
 	credencial_scope = "%s/%s/%s/aws4_request" % (datestamp, region, service)
 	print 'credencial_scope : %s' % (credencial_scope)
 	string_para_firmar = "%s\n%s\n%s\n%s" % (algoritmo, amzdate, credencial_scope, hashlib.sha256(canonical_request).hexdigest())
