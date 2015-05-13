@@ -32,13 +32,13 @@ def sign_s3(request):
 	AWS_SECRET_KEY = os.environ.get('AWS_SECRET_KEY')
 	S3_BUCKET = os.environ.get('S3_BUCKET')
 
-	method = 'PUT'
+	method = 'GET'
 	service = 's3'
 	host = 's3.amazonaws.com'
 	region = 'eu-central-1'
 	#endpoint = 'https://%s.%s-website.%s.amazonaws.com' % (S3_BUCKET, service, region)
 	endpoint = 'https://%s.amazonaws.com' % service
-	
+
 	print 'endpoint : %s' % endpoint
 
 
