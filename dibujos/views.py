@@ -49,8 +49,9 @@ def sign_s3(request):
 	#creo una fecha para la cabecera y el string de las credenciales
 	t = datetime.datetime.utcnow()
 	amzdate = t.strftime('%Y%m%dT%H%M%SZ')
+	print 'amzdate : %s' % amzdate
 	datestamp = t.strftime('%Y%m%d')
-	print 'datestamp : %s' % (datestamp)
+	print 'datestamp : %s' % datestamp
  	#------------------------------------------------------------------------------------------------
 	# Creo la respuesta canonica - PASO 1
 	canonical_uri = object_name
@@ -64,7 +65,7 @@ def sign_s3(request):
 
 	# Canonical Request
 	canonical_request = "%s\n%s\n%s\n%s\n%s\n%s" % (method, canonical_uri, canonical_query_string, canonical_headers, signed_headers, payload_hash) 
-	print 'canonical_request %s ' % (canonical_request)
+	print 'canonical_request : %s ' % canonical_request
  	#------------------------------------------------------------------------------------------------
 	# String para firmar - PASO 2
 	#------------------------------------------------------------------------------------------------
