@@ -37,7 +37,7 @@ def sign_s3(request):
 	service = 's3'
 	host = 's3.amazonaws.com'
 	region = 'eu-central-1'
-	endpoint = 'https://%s.%s-website.%s.amazonaws.com' % (S3_BUCKET, service)
+	endpoint = 'https://%s.%s-website.%s.amazonaws.com' % (S3_BUCKET, service, region)
 	print 'endpoint : %s' % endpoint
 
 
