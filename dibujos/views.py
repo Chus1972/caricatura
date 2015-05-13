@@ -5,6 +5,8 @@ import os, base64, hmac, urllib
 from django.template.context_processors import csrf
 import time
 from hashlib import sha256
+import datetime, requests
+from datetime import strftime
 
 
 def prueba(request):
@@ -16,71 +18,82 @@ def prueba(request):
 def ejemplo(request):
 	return render(request, 'ejemplo.html')
 
+def sign(key, msg):
+	return hmac.new(key, msg.encode("utf-8"), hashlib.sha256).digest()
+
+def get_signature_key(key, dateStamp, regionName, serviceName):
+	kDate = sign(("AWS4" + key).encode("utf-8"), dateStamp)
+	kRegion = sign(kDate, regionName)
+	kService = sign(kRegion, serviceName)
+	kSigning = sign(kService, "aws4_request")
+	return kSigning
+
 def sign_s3(request):
 	print 'Entra en sign_s3'
 	AWS_ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY')
 	AWS_SECRET_KEY = os.environ.get('AWS_SECRET_KEY')
 	S3_BUCKET = os.environ.get('S3_BUCKET')
-	print '------r------'
-	print AWS_ACCESS_KEY
-	print AWS_SECRET_KEY
-	print S3_BUCKET
-	print '------w------'
-	print request
-	print 'nombre ficher : %s' % request.GET['file_name']
 
-	#object_name = urllib.quote_plus(request.GET('file_name'))
 	object_name = request.GET['file_name']
-	print 'object_name: ' 
-	print object_name
+	print 'object_name: %s' % object_name
+
+	method = 'PUT'
+	service = 's3'
+	host = 's3.amazonaws.com'
+	region = 'eu-central-1'
+	endpoint = 'https://s3.amazonaws.com'
+
+	#creo una fecha para la cabecera y el string de las credenciales
+	t = datetime.datetime.utcnow()
+	amzdate = t.strftime('%Y%m%dT%H%M%SZ')
+	datestamp = t.strftime('%Y%m%d')
+
+ 	#------------------------------------------------------------------------------------------------
+	# Creo la respuesta canónica - PASO 1
+	canonical_uri = object_name
+	canonical_query_string = ""
+	canonical_headers = 'host:%s\nx-amz-date:%s\n' % (host, amzdate)
+	signed_headers = 'host;x-amz-date'
+	payload_hash = hashlib.sha256('').hexdigest()
+
 	mime_type = request.GET['file_type']
-	print 'mime_type'
-	print mime_type
-	try:
-		expires = int(time.time()+60*60*24)
-	except Exception, e:
-		print 'excepcion en try '
-		print e
-	print 'expires'
-	print expires
-	amz_headers = "x-amz-acl:public-read"
-	print 'amz_headers'
-	print amz_headers
 
-	#put_request = "PUT\n\n%s\n%d\n%s\n/%s/%s" % (mime_type, expires, amz_headers, S3_BUCKET, object_name)
-	#print 'put_request'
-	#print put_request
+	# Canonical Request
+	canonical_request = "%s\n%s\n%s\n%s\n%s\n%s" % (method, canonical_uri, canonical_query_string, canonical_headers, signed_headers, payload_hash) 
 
-	print 'signature ?? '
-	#signature = base64.encodestring(hmac.new(AWS_SECRET_KEY, put_request, sha1).digest())
-	try:
-		print 'entra en try - '
-		string_para_firmar = "PUT\n\n%s\n%d\n%s\n/%s/%s" % (mime_type, expires, amz_headers, S3_BUCKET, object_name)
-		signature = base64.encodestring(hmac.new(AWS_SECRET_KEY, string_para_firmar.encode('utf-8'), sha256).digest())
-		print signature
-	except Exception, e:
-		print 'excepcion en try 2 '
-		print e
+ 	#------------------------------------------------------------------------------------------------
+	# String para firmar - PASO 2
+	#------------------------------------------------------------------------------------------------
+	
+	algoritmo = 'AWS-HMAC-SHA256'
+	credencial_scope = "%s/%s/%s/aws4_request" % (datestamp, region, service)
+	string_para_firmar = "%s\n%s\n%s\n%s" % (algoritmo, amzdate, credencial_scope, hashlib.sha256(canonical_request).hexdigest())
 
-	#try:
-	#	signature = urllib.quote_plus(signature.strip())
-	#except Exception, e:
-	#	print 'excepcion en signature :' 
-	#	print e
-	print 'S3_BUCKET : %s ' % S3_BUCKET
+	#------------------------------------------------------------------------------------------------
+	# Calcula la firma - PASO 3
+	#------------------------------------------------------------------------------------------------
+	signing_key = get_signature_key(AWS_SECRET_KEY, datestamp, region, service)
+	firma = hmac.new(signing_key, (string_para_firmar).encode('utf-8'), hashlib.sha256).hexdigest()
 
-	url = 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, object_name)
-	print 'url'
-	print url
+	#------------------------------------------------------------------------------------------------
+	# Añade la informacion firmada al request - PASO 4
+	#------------------------------------------------------------------------------------------------
+	autorizacion_header = "%s Credential=%s/%s, SignedHeaders=%s, Signature=%s" % (algoritmo, AWS_ACCESS_KEY, credencial_scope, signed_headers, firma)
+	headers = {'x-amz-date':amzdate, 'Authorization':autorizacion_header}
+
+	#------------------------------------------------------------------------------------------------
+	# Envio el request
+	request_url = "%s?%s" % (endpoint, canonical_query_string)
+	
 	
 	print 'json.dumps : '
 	print HttpResponse(json.dumps({
-		'signed_request' : '%s?AWSAccessKeyId=%s&Expires=%s&Signature=%s' % (url, AWS_ACCESS_KEY, expires, signature),
+		'signed_request' : request_url,
 		'url' : url,
 		}))
 
 	return HttpResponse(json.dumps({
-		'signed_request' : '%s?AWSAccessKeyId=%s&Expires=%s&Signature=%s' % (url, AWS_ACCESS_KEY, expires, signature),
+		'signed_request' : request_url
 		'url' : url,
 		}), 'application/json')
 
