@@ -6,7 +6,6 @@ from django.template.context_processors import csrf
 import time
 from hashlib import sha256
 import datetime
-import requests
 from datetime import strftime
 
 
