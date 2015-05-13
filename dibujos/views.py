@@ -49,7 +49,7 @@ def sign_s3(request):
 	datestamp = t.strftime('%Y%m%d')
 
  	#------------------------------------------------------------------------------------------------
-	# Creo la respuesta canónica - PASO 1
+	# Creo la respuesta canonica - PASO 1
 	canonical_uri = object_name
 	canonical_query_string = ""
 	canonical_headers = 'host:%s\nx-amz-date:%s\n' % (host, amzdate)
