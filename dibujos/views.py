@@ -6,7 +6,6 @@ from django.template.context_processors import csrf
 import time
 from hashlib import sha256
 import datetime
-from datetime import strftime
 
 
 def prueba(request):
@@ -49,7 +48,6 @@ def sign_s3(request):
 	amzdate = t.strftime('%Y%m%dT%H%M%SZ')
 	datestamp = t.strftime('%Y%m%d')
 	print 'datestamp : %s' % (datestamp)
-
  	#------------------------------------------------------------------------------------------------
 	# Creo la respuesta canonica - PASO 1
 	canonical_uri = object_name
