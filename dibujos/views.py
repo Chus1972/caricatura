@@ -30,7 +30,7 @@ def sign_s3(request):
 	print 'entra en sign_s3'
 	method = 'GET'
 	service = 's3'
-	host = 's3.amazonaws.com'
+	host = 'imagenesprueba.s3.amazonaws.com'
 	region = 'eu-central-1'
 	endpoint = 's3.eu-central-1.amazonaws.com'
 	print '11111111111111111'
