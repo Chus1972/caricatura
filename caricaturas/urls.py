@@ -2,7 +2,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from dibujos.views import prueba, ejemplo, sign_s3, submit_form
 
-urlpatterns = [
+urlpatterns = patters(
     # Examples:
     # url(r'^$', 'caricaturas.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
@@ -12,9 +12,9 @@ urlpatterns = [
     url(r'^ejemplo/', ejemplo),
     url(r'^sign_s3/', sign_s3),
     url(r'^submit_form/', submit_form),
-]
+)
 
-urlpatterns += patterns['',
+urlpatterns += patterns('',
         (r'^media/(?P<path>.*)$', 'django.views.static.serve',{'document_root': settings.MEDIA_ROOT}),
         (r'^static/(?P<path>.*)$', 'django.views.static.serve',{'document_root': settings.STATIC_ROOT}),
-]
+)
