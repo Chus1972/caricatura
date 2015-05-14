@@ -32,7 +32,7 @@ def sign_s3(request):
 	service = 's3'
 	host = 's3.amazonaws.com'
 	region = 'eu-central-1'
-	endpoint = 'imagenesprueba.s3-website.eu-central-1.amazonaws.com'
+	endpoint = 's3.eu-central-1.amazonaws.com'
 	print '11111111111111111'
 	AWS_ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY')
  	AWS_SECRET_KEY = os.environ.get('AWS_SECRET_KEY')
@@ -57,7 +57,8 @@ def sign_s3(request):
  	algoritmo = 'AWS4-HMAC-SHA256'
  	credencial_scope = datestamp + '/' + region + '/' + service + '/' + 'aws4_request'
  	print 'credencial_scope : %s' % credencial_scope
- 	canonical_querystring =  'X-Amz-Algorithm=' + algoritmo
+ 	canonical_querystring = 'Action=Upload&Version=2015-05-14'
+ 	canonical_querystring +=  '&X-Amz-Algorithm=' + algoritmo
  	print canonical_querystring +' 1'
  	canonical_querystring += '&X-Amz-Credential=' + urllib.quote_plus(AWS_ACCESS_KEY + '/' + credencial_scope)
  	print canonical_querystring + ' 2 '
