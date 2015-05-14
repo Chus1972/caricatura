@@ -48,7 +48,7 @@ def sign_s3(request):
  	# PASO 1 : Creacion de request canonico
  	#-------------------------------------------------
 
- 	canonical_uri = '/'
+ 	canonical_uri = '/imagenesprueba'
 
  	canonical_headers = 'host:' + host + '\n'
  	print 'canonical_headers : %s' % canonical_headers
