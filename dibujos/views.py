@@ -57,7 +57,7 @@ def sign_s3(request):
  	algoritmo = 'AWS4-HMAC-SHA256'
  	credencial_scope = datestamp + '/' + region + '/' + service + '/' + 'aws4_request'
  	print 'credencial_scope : %s' % credencial_scope
- 	canonical_querystring = 'Action=Upload&Version=2015-05-14'
+ 	canonical_querystring = 'Action=s3:PutObject&Version=2012-10-17'
  	canonical_querystring +=  '&X-Amz-Algorithm=' + algoritmo
  	print canonical_querystring +' 1'
  	canonical_querystring += '&X-Amz-Credential=' + urllib.quote_plus(AWS_ACCESS_KEY + '/' + credencial_scope)
