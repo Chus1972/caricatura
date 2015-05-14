@@ -2,7 +2,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from dibujos.views import prueba, ejemplo, sign_s3, submit_form
 
-urlpatterns = patterns(
+urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'caricaturas.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
