@@ -32,7 +32,7 @@ def sign_s3(request):
 	service = 's3'
 	host = 's3.amazonaws.com'
 	region = 'eu-central-1'
-	endpoint = 's3.eu-central-1.amazonaws.com'
+	endpoint = 'imagenesprueba.s3-website.eu-central-1.amazonaws.com'
 	print '11111111111111111'
 	AWS_ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY')
  	AWS_SECRET_KEY = os.environ.get('AWS_SECRET_KEY')
