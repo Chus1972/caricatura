@@ -32,7 +32,7 @@ def sign_s3(request):
 	service = 's3'
 	host = 'imagenesprueba.s3.amazonaws.com'
 	region = 'eu-central-1'
-	endpoint = 's3.eu-central-1.amazonaws.com'
+	endpoint = 'imagenesprueba.s3-website.eu-central-1.amazonaws.com'
 	print '11111111111111111'
 	AWS_ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY')
  	AWS_SECRET_KEY = os.environ.get('AWS_SECRET_KEY')
@@ -48,7 +48,7 @@ def sign_s3(request):
  	# PASO 1 : Creacion de request canonico
  	#-------------------------------------------------
 
- 	canonical_uri = '/imagenesprueba'
+ 	canonical_uri = '/imagenesprueba/'
 
  	canonical_headers = 'host:' + host + '\n'
  	print 'canonical_headers : %s' % canonical_headers
