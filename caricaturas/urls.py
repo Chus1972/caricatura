@@ -1,4 +1,5 @@
-from django.conf.urls import include, url, patterns
+from django.conf.urls import include, url
+from django.conf.urls.defaults import *
 from django.conf import settings
 from django.contrib import admin
 from dibujos.views import prueba, ejemplo, sign_s3, submit_form

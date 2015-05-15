@@ -98,12 +98,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-STATIC_ROOT = '/dibujos/static'
-STATIC_URL = '/static/'
+STATIC_ROOT = 'home/dibujos/static'
+STATIC_URL = '/home/dibujos/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
-MEDIA_ROOT = 'dibujos/static/media'
-MEDIA_URL = 'https://lit-woodland-9635.herokuapp.com/dibujos/static/media/'
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+MEDIA_ROOT = 'home/dibujos/static/media'
+MEDIA_URL = '/home/dibujos/static/media/'
+#STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
