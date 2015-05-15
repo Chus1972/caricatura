@@ -15,7 +15,7 @@ def prueba(request):
 # Create your views here
 
 def ejemplo(request):
-	return render(request, 'ejemplo.html')
+	return render(request, 'templates/ejemplo.html')
 
 def sign(key, msg):
 	return hmac.new(key, msg.encode("utf-8"), hashlib.sha256).digest()
