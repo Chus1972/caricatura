@@ -27,6 +27,7 @@ def get_signature_key(key, dateStamp, regionName, serviceName):
 	return kSigning
 
 def sign_s3(request):
+        # esto no chuta
 	print 'entra en sign_s3'
 	method = 'GET'
 	service = 's3'
