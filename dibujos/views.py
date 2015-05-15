@@ -5,6 +5,7 @@ import sys,os, base64, hmac, urllib, hashlib
 from django.template.context_processors import csrf
 import time
 import datetime
+from django.template import RequestContext
 
 
 def prueba(request):
@@ -196,5 +197,5 @@ def submit_form(request):
 	print 'full_name : %s' % full_name
 	print 'avatar_url : %s' % avatar_url
 
-	return render_to_response("prueba.html", c)
+	return render_to_response("prueba.html", c, context_instance=RequestContext(request))
 	
