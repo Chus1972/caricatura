@@ -66,7 +66,7 @@ def sign_s3(request):
  	print canonical_querystring + ' 2 '
  	canonical_querystring += '&X-Amz-Date=' + amzdate
  	print canonical_querystring + ' 3'
- 	canonical_querystring += '&X-Amz-Expires=30'
+ 	canonical_querystring += '&X-Amz-Expires=100'
  	print canonical_querystring + ' 4'
  	canonical_querystring += '&X-Amz-SignedHeaders=' + signed_headers
  	print 'canonical_querystring : %s' % canonical_querystring
