@@ -103,7 +103,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
-MEDIA_ROOT = '/Users/caricaturas/proyectos/caricaturas/lit-woodland-9635/dibujos/static/media/'
+MEDIA_ROOT = 'dibujos/static/media'
 MEDIA_URL = 'https://lit-woodland-9635.herokuapp.com/dibujos/static/media/'
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
