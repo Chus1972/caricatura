@@ -56,7 +56,7 @@ ROOT_URLCONF = 'caricaturas.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': os.path.join('dibujos/templates'),
+        'DIRS': os.path.join(os.path.abspath(__file__)),
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -103,9 +103,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join('/Users/caricaturas/proyectos/caricaturas/lit-woodland-9635/dibujos/', 'static'),
 )
-MEDIA_ROOT = '/static/media'
-
+MEDIA_ROOT = '/Users/caricaturas/proyectos/caricaturas/lit-woodland-9635/dibujos/static/media/'
+MEDIA_URL = 'https://lit-woodland-9635.herokuapp.com/dibujos/static/media/'
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
