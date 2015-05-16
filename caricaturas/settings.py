@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.8/ref/settings/
 """
 import os
+import datetime
+from datetime import timedelta
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
 # Quick-start development settings - unsuitable for production
@@ -123,7 +125,7 @@ AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_KEY')
 AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
 
-tenyrs = date.today() + timedelta(days=365*10)
+tenyrs = datetime.datetime.now() + timedelta(days=365*10)
 AWS_HEADERS = {
     'Expires' : tenyrs.strftime('%a, %d %b %Y 20:00:00 GMT')
 }
