@@ -21,7 +21,7 @@ SECRET_KEY = 'r+ra2!l8*$2lb7p8kgt1&vlvtr_4q$)up(((6w#-=@m4w&s*t2'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 
@@ -35,6 +35,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'dibujos',
+    's3_folder_storage',
     #'storages',
 )
 
@@ -98,16 +99,34 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-STATIC_ROOT = 'dibujos/static'
-STATIC_URL = '/static/'
+
+#STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.CachedStaticFilesStorage'
+
+#STATIC_URL = '/static/'
+
+#STATIC_ROOT = ('content',)
+
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
-    'dibujos/static/media/',
-    'dibujos/static/js/',
-    'dibujos/static/templates',
+    
 
 )
-MEDIA_ROOT = '/Usuarios/caricaturas/proyectos/caricaturas/lit-woodland-9635/dibujos/static/media/'
-MEDIA_URL = '/media/'
-#STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
+
+# Configuracion AWS
+AWS_QUERYSTRING_AUTH = False
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_KEY')
+AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+
+tenyrs = date.today() + timedelta(days=365*10)
+AWS_HEADERS = {
+    'Expires' : tenyrs.strftime('%a, %d %b %Y 20:00:00 GMT')
+}
+STATICFILES_STORAGE = 's3_folder_storage.s3.StaticStorage'
+STATIC_URL = 'http://%s.s3.amazonaws.com/static/' % AWS_STORAGE_BUCKET_NAME
+STATIC_S3_PATH = 'static/'

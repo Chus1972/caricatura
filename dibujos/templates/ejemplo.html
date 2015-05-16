@@ -1,4 +1,4 @@
-{% load staticfiles %}
+{% load static from staticfiles %}
 <html>
 <body>
 
@@ -10,12 +10,12 @@
 
 <input type="file" id="file_input"/>
 <p id="status">Please select a file</p>
-<img style="border:1px solid gray;width:300px;"  id="preview" src="{% static "media/iconoApp.jpg" %}" />
+<img style="border:1px solid gray;width:300px;"  id="preview" src="{% static "iconoApp.jpg" %}" />
 
 <h2>Your information</h2>
 
 <form method="POST" enctype='multipart/form-data' action="/submit_form/"> {% csrf_token %}
-    <input type="hidden" id="avatar_url" name="avatar_url" value="{{STATIC_URL}}media/iconoApp.jpg" />
+    <input type="hidden" id="avatar_url" name="avatar_url" value="{{STATIC_URL}}iconoApp.jpg" />
     <input type="text" name="username" placeholder="Username" /><br />
     <input type="text" name="full_name" placeholder="Full name" /><br /><br />
     
