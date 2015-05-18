@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.8/ref/settings/
 """
 import os
+import psycopg2
+import dj_database_url
 import datetime
 from datetime import timedelta
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -75,13 +77,16 @@ WSGI_APPLICATION = 'caricaturas.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-
-#DATABASES = {
-#   'default': {
-#       'ENGINE': 'django.db.backends.sqlite3',
-#       'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#    }
-#}
+DATABASES = {
+    'default' : {
+    'ENGINE' : 'django.db.backends.mysql',
+    'NAME' : 'heroku_890a2281d54fb25',
+    'USER' : 'ba53bc3c2a0b70',
+    'PASSWORD' : '00d224fb',
+    'HOST' : 'us-cdbr-iron-east-02.cleardb.net',
+    'PORT' : '3306',
+    }
+}
 
 
 # Internationalization
@@ -102,12 +107,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-#STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.CachedStaticFilesStorage'
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.CachedStaticFilesStorage'
 
-#STATIC_URL = '/static/'
+STATIC_URL = '/static/'
 
-#STATIC_ROOT = ('content',)
-
+MEDIA_ROOT = os.sep.join(os.path.abspath(__file__).split(os.sep)[:-2] + ['media'])
+MEDIA_URL = '/media/'
 #STATICFILES_DIRS = (
  #   os.path.join(BASE_DIR, 'static'),
  #   
@@ -120,15 +125,15 @@ STATICFILES_FINDERS = (
 )
 
 # Configuracion AWS
-AWS_QUERYSTRING_AUTH = False
-AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY')
-AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_KEY')
-AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+#AWS_QUERYSTRING_AUTH = False
+#AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY')
+#AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_KEY')
+#AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
 
-tenyrs = datetime.datetime.now() + timedelta(days=365*10)
-AWS_HEADERS = {
-    'Expires' : tenyrs.strftime('%a, %d %b %Y 20:00:00 GMT')
-}
-STATICFILES_STORAGE = 's3_folder_storage.s3.StaticStorage'
-STATIC_URL = 'http://%s.s3.amazonaws.com/static/' % AWS_STORAGE_BUCKET_NAME
-STATIC_S3_PATH = 'static/'
+#tenyrs = datetime.datetime.now() + timedelta(days=365*10)
+#AWS_HEADERS = {
+#    'Expires' : tenyrs.strftime('%a, %d %b %Y 20:00:00 GMT')
+#}
+#STATICFILES_STORAGE = 's3_folder_storage.s3.StaticStorage'
+#STATIC_URL = 'http://%s.s3.amazonaws.com/static/' % AWS_STORAGE_BUCKET_NAME
+#STATIC_S3_PATH = 'static/'
