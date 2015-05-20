@@ -1,12 +1,15 @@
 from django.shortcuts import render
 from .forms import CreacionUsuario, AutenticacionEmail
 from django.contrib.auth import login
+from dibujos.models import Usuario
 
 def signup(request):
 	form = CreacionUsuario(request.POST or None) # El formulario se crea con los datos. Si no hay nada esta vacio
 
 	if form.is_valid(): # Esto valida que todo este correcto
 		form.save() # Esto crea el usuario. Toma los datos y crea un usuario
+
+		#guardaUsuarioBDD(request)
 
 		# Aqui tambien se debe loguer al usuario
 		# crear usuario aqui en la tabla usuarios
@@ -25,3 +28,17 @@ def signin(request):
 		return render(request, 'subir_caricatura.html', {'form' : form})
 
 	return render(request, 'signin.html', {'form' : form})
+
+def guardaUsuarioBDD(request):
+	nombre = request.POST['username']
+	pas = request.POST['password']
+
+	usuario = Usuario(username = nombre,
+					  password = pas,
+					  connect = True,
+					  sesion = 'activa',
+					  ultimoaccesoip = '123.456.789.012',
+					  ultimoaccesofecha = datetime.datetime.now(),
+					  sesionactiva = 'si')
+	usuario.save()
+
