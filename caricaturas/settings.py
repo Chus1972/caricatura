@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'dibujos',
     's3_folder_storage',
+    'usuarios',
     #'storages',
 )
 
@@ -123,6 +124,14 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
+
+#Backends:
+AUTHENTICATION_BACKENDS = (
+    'usuarios.backends.EmailBackend',
+)
+
+
+
 
 # Configuracion AWS
 #AWS_QUERYSTRING_AUTH = False

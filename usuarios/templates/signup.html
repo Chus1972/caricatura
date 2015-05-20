@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<title>Alta Usuario</title>
+</head>
+
+<body>
+	<section>
+		<form action="" method="post">  <!-- action="" porque los datos se envian al mismo formulario-->
+			{% csrf_token %} <!-- Esto hace que verifique que la pagina es correcta -->
+			{{form.as_p}} <!-- esto quiere decir que los campos estan separados por <p> -->
+			<input type="submit" value="Submit">
+		</form>
+	</section>
+</body>
+</html>

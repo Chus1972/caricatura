@@ -1,105 +1,135 @@
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponse
 import json
-import sys,os, base64, hmac, urllib, hashlib
+import os
+#import sys,os, base64, hmac, urllib, hashlib
 from django.template.context_processors import csrf
-import time
-import datetime
+import time, datetime
 from django.template import RequestContext
+from django.contrib.auth.models import User
+import boto
+from boto.s3.connection import S3Connection
+from boto.s3.key import Key
 
 
 def prueba(request):
-	data = {'hola' : 'adios'}
+ 	data = {'hola' : 'adios'}
 
-	return HttpResponse(json.dumps(data), "application/json")
-# Create your views here
+ 	return HttpResponse(json.dumps(data), "application/json")
 
-def ejemplo(request):
-	return render(request, 'ejemplo.html', context_instance=RequestContext(request))
 
-def sign(key, msg):
-	return hmac.new(key, msg.encode("utf-8"), hashlib.sha256).digest()
+def subir_s3(request):
+	print 'Entra subir_s3: %s' % request.POST
+	if request.POST: # Esto quiere decir que se han llenado los datos del formulario
+		nombre_fichero = request.POST['file_input']
+		print 'entra en if : %s' % nombre_fichero
 
-def get_signature_key(key, dateStamp, regionName, serviceName):
-	kDate = sign(("AWS4" + key).encode("utf-8"), dateStamp)
-	kRegion = sign(kDate, regionName)
-	kService = sign(kRegion, serviceName)
-	kSigning = sign(kService, "aws4_request")
-	return kSigning
+		# Hace la subida del fichero a s3
+		con_s3 = boto.connect_s3()
+		# Creamos un bucket con el nombre del artista
+		# Si el bucket ya existe 
+		# Se recoge los datos de la base de datos
+		nombre_bucket = "ejevjofjkhn"
 
-def sign_s3(request):
-        # esto no chuta
-	print 'entra en sign_s3'
-	method = 'GET'
-	service = 's3'
-	host = 'imagenesprueba.s3.amazonaws.com'
-	region = 'eu-central-1'
-	endpoint = 'imagenesprueba.s3-website.eu-central-1.amazonaws.com'
-	print '11111111111111111'
-	AWS_ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY')
- 	AWS_SECRET_KEY = os.environ.get('AWS_SECRET_KEY')
- 	S3_BUCKET = os.environ.get('S3_BUCKET')
- 	print '22222222222222222'
+		bucket = con_s3.create_bucket(nombre_bucket)
+		k = Key(bucket)
+		k.key = nombre_fichero # Nombre de la caricatura a subir
+		k.set_contents_from_string('nombreArtista_' + nombre_fichero)
+		
 
- 	t = datetime.datetime.utcnow()
- 	amzdate = t.strftime('%Y%m%dT%H%M%SZ')
- 	datestamp = t.strftime('%Y%m%d')
- 	print '333333333333333333'
 
- 	#-------------------------------------------------
- 	# PASO 1 : Creacion de request canonico
- 	#-------------------------------------------------
+	return render(request, 'signup.html', {'form' : form})
 
- 	canonical_uri = '/imagenesprueba/'
 
- 	canonical_headers = 'host:' + host + '\n'
- 	print 'canonical_headers : %s' % canonical_headers
- 	signed_headers = 'host'
 
- 	algoritmo = 'AWS4-HMAC-SHA256'
- 	credencial_scope = datestamp + '/' + region + '/' + service + '/' + 'aws4_request'
- 	print 'credencial_scope : %s' % credencial_scope
- 	canonical_querystring = 'Action=s3:PutObject&Version=2012-10-17'
- 	canonical_querystring +=  '&X-Amz-Algorithm=' + algoritmo
- 	print canonical_querystring +' 1'
- 	canonical_querystring += '&X-Amz-Credential=' + urllib.quote_plus(AWS_ACCESS_KEY + '/' + credencial_scope)
- 	print canonical_querystring + ' 2 '
- 	canonical_querystring += '&X-Amz-Date=' + amzdate
- 	print canonical_querystring + ' 3'
- 	canonical_querystring += '&X-Amz-Expires=100'
- 	print canonical_querystring + ' 4'
- 	canonical_querystring += '&X-Amz-SignedHeaders=' + signed_headers
- 	print 'canonical_querystring : %s' % canonical_querystring
+
+
+# def ejemplo(request):
+# 	return render(request, 'ejemplo.html', context_instance=RequestContext(request))
+
+# def sign(key, msg):
+# 	return hmac.new(key, msg.encode("utf-8"), hashlib.sha256).digest()
+
+# def get_signature_key(key, dateStamp, regionName, serviceName):
+# 	kDate = sign(("AWS4" + key).encode("utf-8"), dateStamp)
+# 	kRegion = sign(kDate, regionName)
+# 	kService = sign(kRegion, serviceName)
+# 	kSigning = sign(kService, "aws4_request")
+# 	return kSigning
+
+# def sign_s3(request):
+#         # esto no chuta
+# 	print 'entra en sign_s3'
+# 	method = 'GET'
+# 	service = 's3'
+# 	host = 'imagenesprueba.s3.amazonaws.com'
+# 	region = 'eu-central-1'
+# 	endpoint = 'imagenesprueba.s3-website.eu-central-1.amazonaws.com'
+# 	print '11111111111111111'
+# 	AWS_ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY')
+#  	AWS_SECRET_KEY = os.environ.get('AWS_SECRET_KEY')
+#  	S3_BUCKET = os.environ.get('S3_BUCKET')
+#  	print '22222222222222222'
+
+#  	t = datetime.datetime.utcnow()
+#  	amzdate = t.strftime('%Y%m%dT%H%M%SZ')
+#  	datestamp = t.strftime('%Y%m%d')
+#  	print '333333333333333333'
+
+#  	#-------------------------------------------------
+#  	# PASO 1 : Creacion de request canonico
+#  	#-------------------------------------------------
+
+#  	canonical_uri = '/imagenesprueba/'
+
+#  	canonical_headers = 'host:' + host + '\n'
+#  	print 'canonical_headers : %s' % canonical_headers
+#  	signed_headers = 'host'
+
+#  	algoritmo = 'AWS4-HMAC-SHA256'
+#  	credencial_scope = datestamp + '/' + region + '/' + service + '/' + 'aws4_request'
+#  	print 'credencial_scope : %s' % credencial_scope
+#  	canonical_querystring = 'Action=s3:PutObject&Version=2012-10-17'
+#  	canonical_querystring +=  '&X-Amz-Algorithm=' + algoritmo
+#  	print canonical_querystring +' 1'
+#  	canonical_querystring += '&X-Amz-Credential=' + urllib.quote_plus(AWS_ACCESS_KEY + '/' + credencial_scope)
+#  	print canonical_querystring + ' 2 '
+#  	canonical_querystring += '&X-Amz-Date=' + amzdate
+#  	print canonical_querystring + ' 3'
+#  	canonical_querystring += '&X-Amz-Expires=100'
+#  	print canonical_querystring + ' 4'
+#  	canonical_querystring += '&X-Amz-SignedHeaders=' + signed_headers
+#  	print 'canonical_querystring : %s' % canonical_querystring
  	
- 	payload_hash = hashlib.sha256('').hexdigest()
- 	print 'payload_hash %s' % payload_hash
+#  	payload_hash = hashlib.sha256('').hexdigest()
+#  	print 'payload_hash %s' % payload_hash
 
- 	canonical_request = method + '\n' + canonical_uri + '\n' + canonical_querystring + '\n' + canonical_headers + '\n' + signed_headers + '\n' + payload_hash
- 	print 'canonical_request %s' % canonical_request
-	#-------------------------------------------------
- 	# PASO  2: Creacion del string de la firma
- 	#-------------------------------------------------
- 	string_to_sign = algoritmo + '\n' + amzdate + '\n' + credencial_scope + '\n' + hashlib.sha256(canonical_request).hexdigest()
- 	print 'string_to_sign : %s' % string_to_sign
- 	#-------------------------------------------------
- 	# PASO 3 : Calculo de la firma
- 	#-------------------------------------------------
- 	signing_key = get_signature_key(AWS_SECRET_KEY, datestamp, region, service)
- 	print 'signing_key : %s' % signing_key
- 	signature = hmac.new(signing_key, (string_to_sign).encode('utf-8'), hashlib.sha256).hexdigest()
- 	print 'signature : %s' % signature
- 	#-------------------------------------------------
- 	# PASO 4 : Anade la firma al request
- 	#-------------------------------------------------
- 	canonical_querystring += '&X-Amz-Signarure=' + signature
- 	print 'canonical_querystring2 : %s' % canonical_querystring
- 	#-------------------------------------------------
- 	# PASO 5 : Envio del request
- 	#-------------------------------------------------
- 	request_url = endpoint + '?' + canonical_querystring
- 	print 'request_url : %s' % request_url
+#  	canonical_request = method + '\n' + canonical_uri + '\n' + canonical_querystring + '\n' + canonical_headers + '\n' + signed_headers + '\n' + payload_hash
+#  	print 'canonical_request %s' % canonical_request
+# 	#-------------------------------------------------
+#  	# PASO  2: Creacion del string de la firma
+#  	#-------------------------------------------------
+#  	string_to_sign = algoritmo + '\n' + amzdate + '\n' + credencial_scope + '\n' + hashlib.sha256(canonical_request).hexdigest()
+#  	print 'string_to_sign : %s' % string_to_sign
+#  	#-------------------------------------------------
+#  	# PASO 3 : Calculo de la firma
+#  	#-------------------------------------------------
+#  	signing_key = get_signature_key(AWS_SECRET_KEY, datestamp, region, service)
+#  	print 'signing_key : %s' % signing_key
+#  	signature = hmac.new(signing_key, (string_to_sign).encode('utf-8'), hashlib.sha256).hexdigest()
+#  	print 'signature : %s' % signature
+#  	#-------------------------------------------------
+#  	# PASO 4 : Anade la firma al request
+#  	#-------------------------------------------------
+#  	canonical_querystring += '&X-Amz-Signarure=' + signature
+#  	print 'canonical_querystring2 : %s' % canonical_querystring
+#  	#-------------------------------------------------
+#  	# PASO 5 : Envio del request
+#  	#-------------------------------------------------
+#  	request_url = endpoint + '?' + canonical_querystring
+#  	print 'request_url : %s' % request_url
 
- 	return HttpResponse(json.dumps({'url' : request_url, 'signed_request' : signature}))
+#  	return HttpResponse(json.dumps({'url' : request_url, 'signed_request' : signature}))
 
 # def sign_s3(request):
 # 	print 'Entra en sign_s3'
@@ -182,20 +212,20 @@ def sign_s3(request):
 # 		'url' : request_url,
 # 		}), 'application/json')
 
-def submit_form(request):
-	print 'ENTRA SUBMIT_FORM'
-	c = {}
-	c.update(csrf(request))
-	print 'Esto es c.update : '
-	print c
+# def submit_form(request):
+# 	print 'ENTRA SUBMIT_FORM'
+# 	c = {}
+# 	c.update(csrf(request))
+# 	print 'Esto es c.update : '
+# 	print c
 
-	username = request.POST["username"]
-	full_name = request.POST["full_name"]
-	avatar_url = request.POST["avatar_url"]
+# 	username = request.POST["username"]
+# 	full_name = request.POST["full_name"]
+# 	avatar_url = request.POST["avatar_url"]
 
-	print 'username : %s' % username
-	print 'full_name : %s' % full_name
-	print 'avatar_url : %s' % avatar_url
+# 	print 'username : %s' % username
+# 	print 'full_name : %s' % full_name
+# 	print 'avatar_url : %s' % avatar_url
 
-	return render_to_response("prueba.html", c, context_instance=RequestContext(request))
+# 	return render_to_response("prueba.html", c, context_instance=RequestContext(request))
 	
