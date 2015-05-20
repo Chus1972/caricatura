@@ -33,7 +33,7 @@ def subir_s3(request):
 
 		bucket = con_s3.create_bucket(nombre_bucket)
 		k = Key(bucket)
-		k.key = 'nombreArtista' + nombre_fichero # Nombre con que será guardado el fichero
+		k.key = 'nombreArtista' + nombre_fichero # Nombre con que sera guardado el fichero
 		k.set_contents_from_string(nombre_fichero) # Nombre del fichero a subir
 
 	return render(request, 'signup.html', {'form' : form})
