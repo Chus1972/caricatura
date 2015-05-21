@@ -1,7 +1,7 @@
 from django.conf.urls import include, url, patterns
 from django.conf import settings
 from django.contrib import admin
-from dibujos.views import prueba, subir_s3 #, ejemplo, sign_s3, 
+from dibujos.views import prueba, subir_s3, signup, signin #, ejemplo, sign_s3, 
 from django.conf.urls.static import static
 
 urlpatterns = patterns('',
@@ -13,10 +13,10 @@ urlpatterns = patterns('',
     #url(r'^ejemplo/', ejemplo),
     #url(r'^sign_s3/', sign_s3),
     #url(r'^submit_form/', submit_form),
-    url(r'^signup/', 'usuarios.views.signup', name = 'signup'),
-    url(r'^signin/', 'usuarios.views.signin', name = 'signin'),
+    url(r'^signup/(\w+)/(password)', signup, name = 'signup'),
+    url(r'^signin/', signin, name = 'signin'),
     url(r'^subir_caricatura/', subir_s3),
-    url(r'^subir_s3/', 'dibujos.views.subir_s3', name = 'subir_s3'),
+    url(r'^subir_s3/', subir_s3, name = 'subir_s3'),
 )
 
 urlpatterns += patterns('',
