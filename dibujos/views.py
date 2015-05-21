@@ -18,6 +18,11 @@ def prueba(request):
  	return HttpResponse(json.dumps(data), "application/json")
 
 
+def signin(request):
+
+def signup(request):
+
+
 def subir_s3(request):
 	print 'Entra subir_s3: %s' % request.POST
 	if request.POST: # Esto quiere decir que se han llenado los datos del formulario

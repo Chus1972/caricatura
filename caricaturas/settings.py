@@ -40,7 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'dibujos',
     's3_folder_storage',
-    'usuarios',
+    #'usuarios',
     #'storages',
 )
 
