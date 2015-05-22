@@ -1,15 +1,16 @@
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponse
-import json
-import os
+import json,os
+from dibujos.models import *
 #import sys,os, base64, hmac, urllib, hashlib
 from django.template.context_processors import csrf
 import time, datetime
 from django.template import RequestContext
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
 import boto
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
+from django.core.exceptions import ObjectDoesNotExist
 
 
 def prueba(request):
@@ -18,10 +19,44 @@ def prueba(request):
  	return HttpResponse(json.dumps(data), "application/json")
 
 
-def signin(request):
+def login_usuario(request, user, password):
+	dicc = {}
+	try:
+		usuario = Usuario.objects.get(username = user, password = password)
+		dicc = {'content' : 'OK', 'mensaje' : { 'usuario' : usuario.username, 'conectado' : usuario.connect, 
+		        'sesion' : usuario.sesion, 'ultimoaccesoip' : usuario.ultimoaccesoip,
+		        'ultimoaccesofecha' : usuario.ultimoaccesofecha, 
+		        'sesionactiva' : usuario.sesionactiva}}
 
-def signup(request):
+	except Usuario.DoesNotExist:
+		dicc = {'content' : 'KO'}
+	
+	return HttpResponse(json.dumps(dicc), 'application/json')
 
+def alta_usuario(request, user, password):
+	return 0
+
+def login_artista(request, user, password):
+	dicc = {}
+	try:
+		artista = Artista.objects.get(username = user, password = password)
+		dicc = {'content' : 'OK', 'mensaje' : {'nombre' : artista.nombre, 'apellidos' : artista.apellidos,
+			    'username' : artista.username, 'pais' : artista.pais, 
+		        'codigopostal' : artista.codigopostal, 'telefono' : artista.telefono,
+		        'direccion' : artista.direccion, 'ciudad' : artista.ciudad, 
+		        'sesion' : artista.sesion, 'codartista' : artista.codartista,
+		        'connect' : artista.connect, 'ultimoaccesoip' : artista.ultimoaccesoip,
+		        'ultimoaccesofecha' : artista.ultimoaccesofecha,
+		        'estadosuscripcion' : artista.estadosuscripcion,
+		        'sesionactiva' : artista.sesionactiva, 'activo' : artista.activo}}
+
+	except Artista.DoesNotExist:
+		dicc = {'content' : 'KO'}
+	
+	return HttpResponse(json.dumps(dicc), 'application/json')
+
+def alta_artista(request, user, password):
+	return 0
 
 def subir_s3(request):
 	print 'Entra subir_s3: %s' % request.POST

@@ -10,8 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.8/ref/settings/
 """
 import os
-import psycopg2
-import dj_database_url
+#import psycopg2
+#import dj_database_url
 import datetime
 from datetime import timedelta
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
