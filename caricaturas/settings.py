@@ -126,9 +126,9 @@ STATICFILES_FINDERS = (
 )
 
 #Backends:
-AUTHENTICATION_BACKENDS = (
-    'usuarios.backends.EmailBackend',
-)
+#AUTHENTICATION_BACKENDS = (
+ #   'usuarios.backends.EmailBackend',
+#)
 
 
 
