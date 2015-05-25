@@ -3,7 +3,7 @@ from django.contrib import admin
 
 class Usuario(models.Model):
 	username 			= models.CharField(max_length = 100)
-	password 			= models.CharField(max_length = 20)
+	password 			= models.CharField(max_length = 100)
 	connect  			= models.BooleanField(default = False)
 	sesion				= models.CharField(max_length = 20, default="")
 	ultimoaccesoip		= models.CharField(max_length = 32, default = "")
