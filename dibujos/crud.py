@@ -1,3 +1,5 @@
+from dibujos.models import *
+
 def alta_artista(request, user, password, nombre, apellidos, correoe, pais, direccion, ciudad, codigopostal, telefono):
 	dicc = {}
 	try:
@@ -23,6 +25,7 @@ def borrar_artista(request, user):
 		artista = Artista.objects.get(username = user)
 		artista.delete()
 		dicc = {'content' : 'OK'}
+
 	except Artista.DoesNotExist: # Artista no existe y no puede ser borrado
 		dicc = {'content' : 'KO', 'mensaje' :  'El artista %s no existe.' % user}
 
