@@ -1,4 +1,5 @@
 from dibujos.models import *
+from django.http import HttpResponse
 
 def alta_artista(request, user, password, nombre, apellidos, correoe, pais, direccion, ciudad, codigopostal, telefono):
 	dicc = {}
