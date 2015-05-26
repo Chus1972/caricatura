@@ -83,13 +83,37 @@ def alta_artista(request, user, password, nombre, apellidos, correoe, pais, dire
 		dicc = {'content' : 'KO', 'mensaje' : {'error' : 'Este artista ya existe'}}
 	return HttpResponse(json.dumps(dicc), 'application/json')
 
+def borrar_artista(request, user):
+	dicc = {}
+	try:
+		artista = Artista.objects.get(username = user)
+		artista.delete()
+		dicc = {'content' : 'OK'}
+	except Artista.DoesNotExist: # Artista no existe y no puede ser borrado
+		dicc = {'content' : 'KO', 'mensaje' :  'El artista %s no existe.' % user}
+
+	return HttpResponse(json.dumps(dicc), 'application/json')
+
+def borrar_usuario(request, user):
+	dicc = {}
+	try:
+		usuario = Usuario.objects.get(username = user)
+		usuario.delete()
+		dicc = {'content' : 'OK'}
+	except Usuario.DoesNotExist: # Usuario no existe y no puede ser borrado
+		dicc = {'content' : 'KO', 'mensaje' :  'El usuario %s no existe.' % user}
+
+	return HttpResponse(json.dumps(dicc), 'application/json')
+
 def usuarios(request):
 	dicc = {}
 	listaUsuarios = []
 	try:
 		usuarios = Usuario.objects.all()
 		for usuario in usuarios:
-			listaUsuarios.append({'username' : usuario.username, 'conectado' : usuario.connect})
+			listaUsuarios.append({'username' : usuario.username, 'sesion' : usuario.sesion, 'conectado' : usuario.connect, 
+							      'ultimo acceso ip' : usuario.ultimoaccesoip, 'ultimo acceso fecha' : usuario.ultimoaccesofecha.isoformat(),
+							      'sesion activa' : usuario.sesionactiva})
 		dicc = {'content' : 'OK', 'mensaje' : listaUsuarios}
 	except Exception as e:
 		dicc = {'content' : 'KO', 'error' : e}
@@ -102,12 +126,58 @@ def artistas(request):
 	try:
 		artistas = Artista.objects.all()
 		for artista in artistas:
-			listaArtistas.append({'username' : artista.username, 'conectado' : artista.connect})
+			listaArtistas.append({'nombre' : artista.nombre, 'apellidos' : artista.apellidos, 'username' : artista.username, 
+							      'pais' : artista.pais, 'codigo postal' : artista.codigopostal, 'telefono' : artista.telefono,  
+							      'telefono' : artista.telefono, 'direccion' : artista.direccion, 'ciudad' : artista.ciudad, 
+							      'sesion' : artista.sesion, 'codigo artista' : artista.codartista,  'conectado' : artista.connect, 
+							      'ultimo acceso ip' : artista.ultimoaccesoip, 'ultimo acceso fecha' : artista.ultimoaccesofecha.isoformat(),
+							      'estado suscripcion' : artista.estadosuscripcion, 'sesion activa' : artista.sesionactiva,
+							      'activo' : artista.activo, 'correo electronico' : artista.correoe, 'ultima accion fecha' : artista.ultimaaccionfecha.isoformat(),
+							      'fecha creacion' : artista.fechacreacion.isoformat(), 'fecha activacion' : artista.fechaactivacion.isoformat()})
 		dicc = {'content' : 'OK', 'mensaje' : listaArtistas}
 	except Exception as e:
 		dicc = {'content' : 'KO', 'error' : e}
 
 	return HttpResponse(json.dumps(dicc), 'application/json')
+
+def update_usuario(request, user_antiguo, user_nuevo, password):
+	dicc = {}
+	try:
+		usuario = Usuario.objects.get(username = user_antiguo)
+		usuario.username = user_nuevo
+		usuario.password = password
+		usuario.save()
+		dicc = {'content' : 'OK'}
+
+	except Usuario.DoesNotExist: # Usuario no existe
+		dicc = {'content' : 'KO', 'mensaje' : 'Usuario no existe'}
+	
+	return HttpResponse(json.dumps(dicc), 'application/json')
+
+def update_artista(request, user_antiguo, user_nuevo, password, nombre, apellidos, pais, codigopostal, telefono, 
+				   direccion, ciudad, codartista, correoe):
+	dicc = {}
+	try:
+		artista = Artista.objects.get(username = user_antiguo)
+		artista.user = user_nuevo
+		artista.password = password
+		artista.nombre = nombre
+		artista.apellidos = apellidos
+		artista.pais = pais
+		artista.codigopostal = codigopostal
+		artista.telefono = telefono
+		artista.direccion = direccion
+		artista.ciudad = ciudad
+		artista.correoe = correoe
+
+		artista.save()
+		dicc = {'content' : 'OK'}
+
+	except Artista.DoesNotExist:
+		dicc = {'content' : 'KO', 'mensaje' : 'Artista no existe'}
+
+	return HttpResponse(json.dumps(dicc), 'application/json')
+
 
 def subir_s3(request):
 	print 'Entra subir_s3: %s' % request.POST

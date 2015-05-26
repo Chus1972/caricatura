@@ -2,7 +2,7 @@
 from django.conf.urls import include, url, patterns
 from django.conf import settings
 from django.contrib import admin
-from dibujos.views import prueba, subir_s3, alta_usuario, login_usuario, login_artista, alta_artista, usuarios, artistas #, ejemplo, sign_s3, 
+from dibujos.views import prueba, subir_s3, alta_usuario, login_usuario, login_artista, alta_artista, usuarios, artistas, update_artista, update_usuario  #, ejemplo, sign_s3, 
 from django.conf.urls.static import static
 
 urlpatterns = patterns('',
@@ -20,6 +20,8 @@ urlpatterns = patterns('',
     url(r'^login_artista/(\w+)/(\S{5,})', login_artista, name = 'login_artista'),
     url(r'^usuarios/$', usuarios, name = 'usuarios'),
     url(r'^artistas/$', artistas, name = 'artistas'),
+    url(r'^update_artista/(\w+)/(\w+)/(\S{5,})/(\w+)/(\w+)/(\w+)/(\w+)/(\w+)/(\w+)/(\w+)/(\w+)/', update_artista, name = 'update_artista'),
+    url(r'^update_usuario/(\w+)/(\w+)/(\S{5,})', update_usuario, name = 'update_usuario'),
     url(r'^subir_caricatura/', subir_s3),
     url(r'^subir_s3/', subir_s3, name = 'subir_s3'),
 )
