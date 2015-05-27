@@ -3,7 +3,7 @@ from django.conf.urls import include, url, patterns
 from django.conf import settings
 from django.contrib import admin
 from dibujos.crud import alta_usuario, alta_artista, update_artista, update_usuario , borrar_artista, borrar_usuario
-from dibujos.views import prueba, subir_s3, login_usuario, login_artista, usuarios, artistas  #, ejemplo, sign_s3, 
+from dibujos.views import prueba, subir_s3, login_usuario, login_artista, usuarios, artistas, usuarioss  #, ejemplo, sign_s3, 
 from django.conf.urls.static import static
 
 urlpatterns = patterns('',
