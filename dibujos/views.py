@@ -60,8 +60,8 @@ def usuarios(request):
 			listaUsuarios.append({'username' : usuario.username, 'sesion' : usuario.sesion, 'conectado' : usuario.connect, 
 							      'ultimo acceso ip' : usuario.ultimoaccesoip, 'ultimo acceso fecha' : usuario.ultimoaccesofecha.isoformat(),
 							      'sesion activa' : usuario.sesionactiva})
-		#dicc = 'callback(%s)' % {'content' : 'OK', 'mensaje' : listaUsuarios}
-		dicc = {'content' : 'OK', 'mensaje' : listaUsuarios}
+		dicc = 'callback(%s)' % {'content' : 'OK', 'mensaje' : listaUsuarios}
+		#dicc = {'content' : 'OK', 'mensaje' : listaUsuarios}
 	except Exception as e:
 		#dicc = 'callback(%s)' % {'content' : 'KO', 'error' : e}
 		dicc = {'content' : 'KO', 'error' : e}
