@@ -50,7 +50,6 @@ def login_artista(request, user, password):
 		dicc = {'content' : 'KO'}
 	return HttpResponse(json.dumps(dicc), 'application/json')
 
-
 def usuarios(request):
 	dicc = {}
 	listaUsuarios = []
@@ -60,13 +59,46 @@ def usuarios(request):
 			listaUsuarios.append({'username' : usuario.username, 'sesion' : usuario.sesion, 'conectado' : usuario.connect, 
 							      'ultimo acceso ip' : usuario.ultimoaccesoip, 'ultimo acceso fecha' : usuario.ultimoaccesofecha.isoformat(),
 							      'sesion activa' : usuario.sesionactiva})
+
+		#if request.GET['callback']:
+		#	respuesta = "%s(%s)" % (request.GET['callback'],{'content' : 'OK', 'mensaje' : listaUsuarios})
 		dicc = 'callback(%s)' % {'content' : 'OK', 'mensaje' : listaUsuarios}
 		#dicc = {'content' : 'OK', 'mensaje' : listaUsuarios}
 	except Exception as e:
 		#dicc = 'callback(%s)' % {'content' : 'KO', 'error' : e}
 		dicc = {'content' : 'KO', 'error' : e}
 
+	#if request.method == 'OPTIONS':
+	#	respuesta = HttpResponse(json.dumps(dicc), 'application/json')
+	#	respuesta["Access-Control-Allow-Origin"] = '*'
+	#	respuesta["Access-Control-Allow-Methods"] = 'GET, OPTIONS, POST, '
+	#	respuesta["Access-Control-Allow-Headers"] = "X-Requested-With"
 	respuesta = HttpResponse(json.dumps(dicc), 'application/json')
+	return respuesta
+
+def usuarioss(request):
+	dicc = {}
+	listaUsuarios = []
+	try:
+		usuarios = Usuario.objects.all()
+		for usuario in usuarios:
+			listaUsuarios.append({'username' : usuario.username, 'sesion' : usuario.sesion, 'conectado' : usuario.connect, 
+							      'ultimo acceso ip' : usuario.ultimoaccesoip, 'ultimo acceso fecha' : usuario.ultimoaccesofecha.isoformat(),
+							      'sesion activa' : usuario.sesionactiva})
+
+		#if request.GET['callback']:
+		#	respuesta = "%s(%s)" % (request.GET['callback'],{'content' : 'OK', 'mensaje' : listaUsuarios})
+		#dicc = 'callback(%s)' % {'content' : 'OK', 'mensaje' : listaUsuarios}
+		dicc = {'content' : 'OK', 'mensaje' : listaUsuarios}
+	except Exception as e:
+		#dicc = 'callback(%s)' % {'content' : 'KO', 'error' : e}
+		dicc = {'content' : 'KO', 'error' : e}
+
+	if request.method == 'OPTIONS':
+		respuesta = HttpResponse(json.dumps(dicc), 'application/json')
+		respuesta["Access-Control-Allow-Origin"] = '*'
+		respuesta["Access-Control-Allow-Methods"] = 'GET, OPTIONS, POST, '
+		respuesta["Access-Control-Allow-Headers"] = "X-Requested-With"
 	return respuesta
 
 def artistas(request):
