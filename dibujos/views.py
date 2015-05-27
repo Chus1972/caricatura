@@ -12,7 +12,6 @@ from boto.s3.connection import S3Connection
 from boto.s3.key import Key
 from django.core.exceptions import ObjectDoesNotExist
 
-
 def prueba(request):
  	data = {'hola' : 'adios'}
 
@@ -31,7 +30,7 @@ def login_usuario(request, user, password):
 	except Usuario.DoesNotExist:
 		dicc = {'content' : 'KO'}
 	
-	return HttpResponse(json.dumps(dicc), 'application/json')
+	return HttpResponse('callback(' + json.dumps(dicc), 'application/json') + ')'
 
 
 def login_artista(request, user, password):
@@ -61,11 +60,13 @@ def usuarios(request):
 			listaUsuarios.append({'username' : usuario.username, 'sesion' : usuario.sesion, 'conectado' : usuario.connect, 
 							      'ultimo acceso ip' : usuario.ultimoaccesoip, 'ultimo acceso fecha' : usuario.ultimoaccesofecha.isoformat(),
 							      'sesion activa' : usuario.sesionactiva})
-		dicc = {'content' : 'OK', 'mensaje' : listaUsuarios}
+		dicc = 'callback(%s)' % {'content' : 'OK', 'mensaje' : listaUsuarios}
+		
 	except Exception as e:
-		dicc = {'content' : 'KO', 'error' : e}
+		dicc = 'callback(%s)' % {'content' : 'KO', 'error' : e}
 
-	return HttpResponse(json.dumps(dicc), 'application/json')
+	respuesta = HttpResponse(json.dumps(dicc), 'application/json')
+	return respuesta
 
 def artistas(request):
 	dicc = {}
