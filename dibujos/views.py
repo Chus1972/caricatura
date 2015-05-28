@@ -11,6 +11,7 @@ import boto
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.context_processors import csrf
 
 def prueba(request):
  	data = {'hola' : 'adios'}
@@ -18,7 +19,10 @@ def prueba(request):
  	return HttpResponse(json.dumps(data), "application/json")
 
 def prueba_ejemplo(request):
-	return render(request, 'ejemplo_prueba.html')
+	c={}
+	c.update(csrf(request))
+
+	return render_to_response( 'ejemplo_prueba.html', c)
 
 def login_usuario(request, user, password):
 	dicc = {}

@@ -11,7 +11,7 @@
         //artistas: lit-woodland-9635.herokuapp.com/artistas
         //usuarios: lit-woodland-9635.herokuapp.com/usuarios
         type: 'OPTIONS',
-        url: 'http://127.0.0.1:8000/usuarioss',
+        url: 'http://127.0.0.1:8000/usuarios',
         jsonpCallback: 'callback',
         contentType: "application/json",
         //data: {user: sessvars.iduser, funcion: '1', opcion: '2'},
@@ -43,8 +43,7 @@
 
 </head>
 <body>
-<form method="OPTIONS"> 
-       {% csrf_token %}
+<form method="OPTIONS">{% csrf_token %}
 
     <imput type = 'button' name='btn' id='btn' value='apreta' />
    
