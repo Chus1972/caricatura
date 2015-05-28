@@ -66,8 +66,8 @@ def usuarios(request):
 
 		#if request.GET['callback']:
 		#	respuesta = "%s(%s)" % (request.GET['callback'],{'content' : 'OK', 'mensaje' : listaUsuarios})
-		dicc = 'callback(%s)' % {'content' : 'OK', 'mensaje' : listaUsuarios}
-		#dicc = {'content' : 'OK', 'mensaje' : listaUsuarios}
+		#dicc = 'callback(%s)' % {'content' : 'OK', 'mensaje' : listaUsuarios}
+		dicc = {'content' : 'OK', 'mensaje' : listaUsuarios}
 	except Exception as e:
 		#dicc = 'callback(%s)' % {'content' : 'KO', 'error' : e}
 		dicc = {'content' : 'KO', 'error' : e}
