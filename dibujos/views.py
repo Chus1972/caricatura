@@ -19,10 +19,8 @@ def prueba(request):
  	return HttpResponse(json.dumps(data), "application/json")
 
 def prueba_ejemplo(request):
-	c={}
-	c.update(csrf(request))
 
-	return render_to_response( 'ejemplo_prueba.html', c)
+	return render('ejemplo_prueba.html')
 
 def login_usuario(request, user, password):
 	dicc = {}
