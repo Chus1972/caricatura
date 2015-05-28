@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+<title>Prueba</title>
+    
+<script type="text/javascript">
+    function loadArtistas() {
+        $.ajax({
+        //artistas: lit-woodland-9635.herokuapp.com/artistas
+        //usuarios: lit-woodland-9635.herokuapp.com/usuarios
+        type: 'OPTIONS',
+        url: 'http://lit-woodland-9635.herokuapp.com/usuarios',
+        jsonpCallback: 'callback',
+        contentType: "application/json",
+        //data: {user: sessvars.iduser, funcion: '1', opcion: '2'},
+        dataType: 'json',
+        crossDomain: true,
+        success: function (json) {
+            var content = json.content;
+            if (json.status == 'OK') {
+
+                if(content.length == 0 ){
+
+                    //$("#clientesactivos").replaceWith('<div id="clientesactivos">Actualmente no existen clientes activos.</div>');
+
+                } 
+
+            } 
+        },
+        error: function (jqXHR, status, error) {
+            console.log(status + ' ' + error)
+        }
+    });
+
+}
+
+(function() {
+    document.getElementById("btn").onchange = loadArtistas;
+})();
+</script>
+
+</head>
+<body>
+<form method="post" action=''> 
+    <button id="btn" name="btn" value="apreta"></button>
+
+</form>
+
+</body>
+</html>
+

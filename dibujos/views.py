@@ -17,6 +17,8 @@ def prueba(request):
 
  	return HttpResponse(json.dumps(data), "application/json")
 
+def prueba_ejemplo(request):
+	return render(request, 'ejemplo_prueba.html')
 
 def login_usuario(request, user, password):
 	dicc = {}
@@ -77,6 +79,7 @@ def usuarios(request):
 	return respuesta
 
 def usuarioss(request):
+	print 'entra a usuarioss'
 	dicc = {}
 	listaUsuarios = []
 	try:
@@ -85,19 +88,21 @@ def usuarioss(request):
 			listaUsuarios.append({'username' : usuario.username, 'sesion' : usuario.sesion, 'conectado' : usuario.connect, 
 							      'ultimo acceso ip' : usuario.ultimoaccesoip, 'ultimo acceso fecha' : usuario.ultimoaccesofecha.isoformat(),
 							      'sesion activa' : usuario.sesionactiva})
-
+		print 'sale for'
 		#if request.GET['callback']:
 		#	respuesta = "%s(%s)" % (request.GET['callback'],{'content' : 'OK', 'mensaje' : listaUsuarios})
 		#dicc = 'callback(%s)' % {'content' : 'OK', 'mensaje' : listaUsuarios}
 		dicc = {'content' : 'OK', 'mensaje' : listaUsuarios}
 	except Exception as e:
+		print 'pasa exepcion'
 		#dicc = 'callback(%s)' % {'content' : 'KO', 'error' : e}
 		dicc = {'content' : 'KO', 'error' : e}
 
 	if request.method == 'OPTIONS':
+		print 'entra'
 		respuesta = HttpResponse(json.dumps(dicc), 'application/json')
 		respuesta["Access-Control-Allow-Origin"] = '*'
-		respuesta["Access-Control-Allow-Methods"] = 'GET, OPTIONS, POST, '
+		respuesta["Access-Control-Allow-Methods"] = 'GET, OPTIONS, POST'
 		respuesta["Access-Control-Allow-Headers"] = "X-Requested-With"
 	return respuesta
 
