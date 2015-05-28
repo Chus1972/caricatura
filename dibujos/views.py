@@ -20,7 +20,7 @@ def prueba(request):
 
 def prueba_ejemplo(request):
 
-	return render('ejemplo_prueba.html')
+	return render(request, 'ejemplo_prueba.html')
 
 def login_usuario(request, user, password):
 	dicc = {}
