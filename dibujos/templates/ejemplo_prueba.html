@@ -10,12 +10,12 @@
         $.ajax({
         //artistas: lit-woodland-9635.herokuapp.com/artistas
         //usuarios: lit-woodland-9635.herokuapp.com/usuarios
-        type: 'text/json',
+        type: 'GET',
         url: 'lit-woodland-9635.herokuapp.com/usuarios',
         jsonpCallback: 'callback',
         contentType: "application/json",
         //data: {user: sessvars.iduser, funcion: '1', opcion: '2'},
-        dataType: 'json',
+        dataType: 'jsonp',
         crossDomain: true,
         success: function (json) {
             var content = json.content;
