@@ -98,6 +98,8 @@ def usuarioss(request):
 		#dicc = 'callback(%s)' % {'content' : 'KO', 'error' : e}
 		dicc = {'content' : 'KO', 'error' : e}
 
+	respuesta = HttpResponse()
+	print 'request.method : %s' % request.method
 	if request.method == 'OPTIONS':
 		print 'entra'
 		respuesta = HttpResponse(json.dumps(dicc), 'application/json')

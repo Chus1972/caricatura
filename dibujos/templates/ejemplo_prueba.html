@@ -2,15 +2,16 @@
 <html>
 <head>
     
-<title>Prueba</title>
+<title>Pruebart</title>
     
 <script type="text/javascript">
     function loadArtistas() {
+        alert("ENTRo")
         $.ajax({
         //artistas: lit-woodland-9635.herokuapp.com/artistas
         //usuarios: lit-woodland-9635.herokuapp.com/usuarios
         type: 'OPTIONS',
-        url: 'http://lit-woodland-9635.herokuapp.com/usuarioss',
+        url: 'http://127.0.0.1:8000/usuarioss',
         jsonpCallback: 'callback',
         contentType: "application/json",
         //data: {user: sessvars.iduser, funcion: '1', opcion: '2'},
@@ -42,9 +43,11 @@
 
 </head>
 <body>
-<form method="post" action=''> 
+<form method="OPTIONS"> 
        {% csrf_token %}
-    <button id="btn" name="btn" value="apreta"></button>
+
+    <imput type = 'button' name='btn' id='btn' value='apreta' />
+   
 
 </form>
 

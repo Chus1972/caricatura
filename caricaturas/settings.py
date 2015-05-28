@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'dibujos',
     's3_folder_storage',
     #'usuarios',
@@ -43,9 +44,10 @@ INSTALLED_APPS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -123,6 +125,35 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
+
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+# Permisos de acceso de los servidores. No funciona, uso la linea de arriba
+#CORS_ORIGIN_WHITELIST = (
+#    '127.0.0.1',
+#    '127.0.0.1:8000',
+#    'lit-woodland-9635',
+#    'lit-woodland-9635.herokuapp.com',
+#)
+
+CORS_ALLOW_METHODS = (
+    'GET',
+    'POST',
+    'PUT',
+    'OPTIONS'
+)
+
+CORS_ALLOW_HEADERS = (
+    'x-requested-with',
+    'content-type',
+    'accept',
+    'origin',
+    'authorization',
+    'x-csrftoken'
+)
+
+CSRF_COOKIE_SECURE = False
 #Backends:
 #AUTHENTICATION_BACKENDS = (
  #   'usuarios.backends.EmailBackend',
