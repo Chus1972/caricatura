@@ -37,13 +37,13 @@
 }
 
 (function() {
-    document.getElementById("btn").onClick = loadArtistas;
+    document.getElementById("btn").onclick = loadArtistas();
 })();
 </script>
 
 </head>
 <body>
-<form method="POST" action="loadArtistas()">{% csrf_token %}
+<form method="POST" action=".">{% csrf_token %}
 
     <imput type = 'submit' name='btn' id='btn' value='apreta' />
    
