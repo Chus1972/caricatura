@@ -104,7 +104,7 @@ def usuarioss(request):
 
 	respuesta = HttpResponse()
 	print 'request.method : %s' % request.method
-	if request.method == 'OPTIONS':
+	if request.method == 'GET':
 		print 'entra'
 		respuesta = HttpResponse(json.dumps(dicc), 'application/json')
 		respuesta["Access-Control-Allow-Origin"] = '*'
