@@ -3,21 +3,25 @@
 <head>
     
 <title>Pruebart</title>
-    
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 <script type="text/javascript">
-    function loadArtistas() {
-        alert("ENTRo")
+    function f() { //function loadArtistas() {
+        alert("ENTRo");
         $.ajax({
         //artistas: lit-woodland-9635.herokuapp.com/artistas
         //usuarios: lit-woodland-9635.herokuapp.com/usuarios
-        type: 'GET',
-        url: 'lit-woodland-9635.herokuapp.com/usuarios',
-        jsonpCallback: 'callback',
+        type: "GET",
+        url: "127.0.0.1:8000/usuarios",
+        async: true,
+        jsonpCallback : "callback",
+        jsonp: "callback",
         contentType: "application/json",
+        //data: { csrfmiddlewaretoken: '{{ csrf_token }}' },
         //data: {user: sessvars.iduser, funcion: '1', opcion: '2'},
-        dataType: 'jsonp',
+        dataType: "text json",
         crossDomain: true,
         success: function (json) {
+            alert("hepp")
             var content = json.content;
             if (json.status == 'OK') {
 
@@ -30,25 +34,22 @@
             } 
         },
         error: function (jqXHR, status, error) {
+            alert(status + ' ' + error)
             console.log(status + ' ' + error)
         }
     });
 
-}
+};
 
-(function() {
-    document.getElementById("btn").onclick = loadArtistas;
-})();
+
+// (function() {
+//     document.getElementById("btn").onClick = loadArtistas();
+// })();
 </script>
 
 </head>
 <body>
-<form method="POST" action=".">{% csrf_token %}
-
-    <input type="submit" value="apreta" id='btn' name='btn' />
-   
-
-</form>
+    <a href="javascript:f()" >hola</a>
 
 </body>
 </html>

@@ -5,7 +5,7 @@ from dibujos.models import *
 #import sys,os, base64, hmac, urllib, hashlib
 from django.template.context_processors import csrf
 import time, datetime
-from django.template import RequestContext
+from django.template import *
 #from django.contrib.auth.models import User
 import boto
 from boto.s3.connection import S3Connection
@@ -19,7 +19,7 @@ def prueba(request):
  	return HttpResponse(json.dumps(data), "application/json")
 
 def prueba_ejemplo(request):
-
+	print 'passsaaaaaaa'
 	return render(request, 'ejemplo_prueba.html')
 
 def login_usuario(request, user, password):
@@ -55,6 +55,11 @@ def login_artista(request, user, password):
 	return HttpResponse(json.dumps(dicc), 'application/json')
 
 def usuarios(request):
+	print 'entra usuarios'
+	print request.GET.get['callback']
+	#print request.GET['callback']
+	if 'callback' in request.REQUEST:
+		print 'yes'
 	dicc = {}
 	listaUsuarios = []
 	try:
@@ -63,22 +68,15 @@ def usuarios(request):
 			listaUsuarios.append({'username' : usuario.username, 'sesion' : usuario.sesion, 'conectado' : usuario.connect, 
 							      'ultimo acceso ip' : usuario.ultimoaccesoip, 'ultimo acceso fecha' : usuario.ultimoaccesofecha.isoformat(),
 							      'sesion activa' : usuario.sesionactiva})
-
-		#if request.GET['callback']:
-		#	respuesta = "%s(%s)" % (request.GET['callback'],{'content' : 'OK', 'mensaje' : listaUsuarios})
-		#dicc = 'callback(%s)' % {'content' : 'OK', 'mensaje' : listaUsuarios}
-		dicc = {'content' : 'OK', 'mensaje' : listaUsuarios}
+		print 'sale for'
+		dicc = {"content" : "OK", "mensaje" : listaUsuarios}
 	except Exception as e:
-		#dicc = 'callback(%s)' % {'content' : 'KO', 'error' : e}
-		dicc = {'content' : 'KO', 'error' : e}
+		dicc = {"content" : "KO", "error" : e}
+	print 'llega'
+	data = '%s(%s);' % (request.REQUEST['callback'], dicc)           
+   	response = HttpResponse(json.dumps(data),'application(json')
+   	return HttpResponse( callback )
 
-	#if request.method == 'OPTIONS':
-	#	respuesta = HttpResponse(json.dumps(dicc), 'application/json')
-	#	respuesta["Access-Control-Allow-Origin"] = '*'
-	#	respuesta["Access-Control-Allow-Methods"] = 'GET, OPTIONS, POST, '
-	#	respuesta["Access-Control-Allow-Headers"] = "X-Requested-With"
-	respuesta = HttpResponse(json.dumps(dicc), 'application/json')
-	return respuesta
 
 def usuarioss(request):
 	print 'entra a usuarioss'

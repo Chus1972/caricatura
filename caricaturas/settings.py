@@ -74,6 +74,10 @@ TEMPLATES = [
     },
 ]
 
+TEMPLATE_CONTEXT_PROCESSOR = (
+    'django.core.context_processors.csrf',
+)
+
 WSGI_APPLICATION = 'caricaturas.wsgi.application'
 
 
