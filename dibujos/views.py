@@ -55,11 +55,9 @@ def login_artista(request, user, password):
 	return HttpResponse(json.dumps(dicc), 'application/json')
 
 def usuarios(request):
-	print 'entra usuarios'
-	print request.GET.get['callback']
-	#print request.GET['callback']
-	if 'callback' in request.REQUEST:
-		print 'yes'
+	# print 'entra usuarios %s' % request.GET
+	# if 'callback' in request.GET:
+	# 	print 'yes'
 	dicc = {}
 	listaUsuarios = []
 	try:
@@ -68,45 +66,13 @@ def usuarios(request):
 			listaUsuarios.append({'username' : usuario.username, 'sesion' : usuario.sesion, 'conectado' : usuario.connect, 
 							      'ultimo acceso ip' : usuario.ultimoaccesoip, 'ultimo acceso fecha' : usuario.ultimoaccesofecha.isoformat(),
 							      'sesion activa' : usuario.sesionactiva})
-		print 'sale for'
 		dicc = {"content" : "OK", "mensaje" : listaUsuarios}
 	except Exception as e:
 		dicc = {"content" : "KO", "error" : e}
-	print 'llega'
-	data = '%s(%s);' % (request.REQUEST['callback'], dicc)           
-   	response = HttpResponse(json.dumps(data),'application(json')
-   	return HttpResponse( callback )
-
-
-def usuarioss(request):
-	print 'entra a usuarioss'
-	dicc = {}
-	listaUsuarios = []
-	try:
-		usuarios = Usuario.objects.all()
-		for usuario in usuarios:
-			listaUsuarios.append({'username' : usuario.username, 'sesion' : usuario.sesion, 'conectado' : usuario.connect, 
-							      'ultimo acceso ip' : usuario.ultimoaccesoip, 'ultimo acceso fecha' : usuario.ultimoaccesofecha.isoformat(),
-							      'sesion activa' : usuario.sesionactiva})
-		print 'sale for'
-		#if request.GET['callback']:
-		#	respuesta = "%s(%s)" % (request.GET['callback'],{'content' : 'OK', 'mensaje' : listaUsuarios})
-		#dicc = 'callback(%s)' % {'content' : 'OK', 'mensaje' : listaUsuarios}
-		dicc = {'content' : 'OK', 'mensaje' : listaUsuarios}
-	except Exception as e:
-		print 'pasa exepcion'
-		#dicc = 'callback(%s)' % {'content' : 'KO', 'error' : e}
-		dicc = {'content' : 'KO', 'error' : e}
-
-	respuesta = HttpResponse()
-	print 'request.method : %s' % request.method
-	if request.method == 'GET':
-		print 'entra'
-		respuesta = HttpResponse(json.dumps(dicc), 'application/json')
-		respuesta["Access-Control-Allow-Origin"] = '*'
-		respuesta["Access-Control-Allow-Methods"] = 'GET, OPTIONS, POST'
-		respuesta["Access-Control-Allow-Headers"] = "X-Requested-With"
-	return respuesta
+	#print 'llega con dicc : %s y GET : %s' % (dicc, request.GET.get('callback'))
+	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
+	#print 'data: %s\n\n\n' % data           
+   	return HttpResponse(data)
 
 def artistas(request):
 	dicc = {}

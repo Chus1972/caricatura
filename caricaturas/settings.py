@@ -135,12 +135,12 @@ STATICFILES_FINDERS = (
 CORS_ORIGIN_ALLOW_ALL = True
 
 # Permisos de acceso de los servidores. No funciona, uso la linea de arriba
-#CORS_ORIGIN_WHITELIST = (
-#    '127.0.0.1',
-#    '127.0.0.1:8000',
-#    'lit-woodland-9635',
-#    'lit-woodland-9635.herokuapp.com',
-#)
+CORS_ORIGIN_WHITELIST = (
+    '127.0.0.1',
+    '127.0.0.1:8000',
+    'lit-woodland-9635',
+    'lit-woodland-9635.herokuapp.com',
+)
 
 CORS_ALLOW_METHODS = (
     'GET',
@@ -158,7 +158,7 @@ CORS_ALLOW_HEADERS = (
     'x-csrftoken'
 )
 
-CSRF_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = True
 #Backends:
 #AUTHENTICATION_BACKENDS = (
  #   'usuarios.backends.EmailBackend',

@@ -2,54 +2,36 @@
 <html>
 <head>
     
-<title>Pruebart</title>
-<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <title>Pruebart</title>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+
+<body>
+
+<input id="click" type="button" value="Cliqueame" />
 <script type="text/javascript">
-    function f() { //function loadArtistas() {
-        alert("ENTRo");
-        $.ajax({
-        //artistas: lit-woodland-9635.herokuapp.com/artistas
-        //usuarios: lit-woodland-9635.herokuapp.com/usuarios
-        type: "GET",
-        url: "127.0.0.1:8000/usuarios",
-        async: true,
-        jsonpCallback : "callback",
-        jsonp: "callback",
-        contentType: "application/json",
-        //data: { csrfmiddlewaretoken: '{{ csrf_token }}' },
-        //data: {user: sessvars.iduser, funcion: '1', opcion: '2'},
-        dataType: "text json",
-        crossDomain: true,
-        success: function (json) {
-            alert("hepp")
-            var content = json.content;
-            if (json.status == 'OK') {
-
-                if(content.length == 0 ){
-
-                    //$("#clientesactivos").replaceWith('<div id="clientesactivos">Actualmente no existen clientes activos.</div>');
-
-                } 
-
-            } 
-        },
-        error: function (jqXHR, status, error) {
-            alert(status + ' ' + error)
-            console.log(status + ' ' + error)
-        }
+    $(document).ready(function() {
+        $("#click").click(function(){
+            alert("entra");
+            $.ajax({
+                url: 'http://lit-woodland-9635.herokuapp.com/usuarios/',
+                type: "GET",
+                dataType: "jsonp",
+                crossDomain: true,
+                success: function(response) {
+                    alert(response.responseText);
+                },
+                error: function() {
+                    alert("fail");
+                },
+            });
+        });
     });
 
-};
-
-
-// (function() {
-//     document.getElementById("btn").onClick = loadArtistas();
-// })();
 </script>
 
-</head>
-<body>
-    <a href="javascript:f()" >hola</a>
+
+  <!--  <a href="javascript:f()" >hola</a> -->
 
 </body>
 </html>
