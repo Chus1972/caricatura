@@ -19,7 +19,6 @@ def prueba(request):
  	return HttpResponse(json.dumps(data), "application/json")
 
 def usuarios(request):
-	print 'passsaaaaaaa'
 	return render(request, 'usuarios.html')
 
 def login_usuario(request, user, password):
@@ -71,8 +70,8 @@ def usuarios_crossdomain(request):
 		dicc = {"content" : "KO", "error" : e}
 	#print 'llega con dicc : %s y GET : %s' % (dicc, request.GET.get('callback'))
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
-	#print 'data: %s\n\n\n' % data           
-   	return HttpResponse(data)
+	print 'HttpResponse : %s' % data        
+   	return HttpResponse(data, 'application/json')
 
 def artistas(request):
 	dicc = {}

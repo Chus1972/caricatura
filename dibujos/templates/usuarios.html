@@ -12,14 +12,13 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $("#click").click(function(){
-            alert("entra");
             $.ajax({
-                url: 'http://lit-woodland-9635.herokuapp.com/usuarios_crossdomain/',
+                url: 'http://127.0.0.1:8000/usuarios_crossdomain/',
                 type: "GET",
                 dataType: "jsonp",
                 crossDomain: true,
                 success: function(response) {
-                    alert(response.responseText);
+                    alert("exito");
                 },
                 error: function() {
                     alert("fail");
