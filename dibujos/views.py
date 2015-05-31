@@ -54,7 +54,7 @@ def login_artista(request, user, password):
 		dicc = {'content' : 'KO'}
 	return HttpResponse(json.dumps(dicc), 'application/json')
 
-def usuarios(request):
+def usuarios_crossdomain(request):
 	# print 'entra usuarios %s' % request.GET
 	# if 'callback' in request.GET:
 	# 	print 'yes'
