@@ -18,9 +18,9 @@ def prueba(request):
 
  	return HttpResponse(json.dumps(data), "application/json")
 
-def prueba_ejemplo(request):
+def usuarios(request):
 	print 'passsaaaaaaa'
-	return render(request, 'ejemplo_prueba.html')
+	return render(request, 'usuarios.html')
 
 def login_usuario(request, user, password):
 	dicc = {}
