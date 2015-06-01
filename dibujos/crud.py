@@ -19,7 +19,8 @@ def alta_artista(request, user, password, nombre, apellidos, correoe, pais, dire
 		dicc = {'content' : 'OK', 'mensaje' : {'username' : user}}
 	else: # el usuario ya existe
 		dicc = {'content' : 'KO', 'mensaje' : {'error' : 'Este artista ya existe'}}
-	return HttpResponse(json.dumps(dicc), 'application/json')
+	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
+	return HttpResponse(data, 'application/json')
 
 def borrar_artista(request, user):
 	dicc = {}
@@ -31,7 +32,8 @@ def borrar_artista(request, user):
 	except Artista.DoesNotExist: # Artista no existe y no puede ser borrado
 		dicc = {'content' : 'KO', 'mensaje' :  'El artista %s no existe.' % user}
 
-	return HttpResponse(json.dumps(dicc), 'application/json')
+	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
+	return HttpResponse(data, 'application/json')
 
 def update_artista(request, user_antiguo, user_nuevo, password, nombre, apellidos, pais, codigopostal, telefono, 
 				   direccion, ciudad, codartista, correoe):
@@ -55,7 +57,8 @@ def update_artista(request, user_antiguo, user_nuevo, password, nombre, apellido
 	except Artista.DoesNotExist:
 		dicc = {'content' : 'KO', 'mensaje' : 'Artista no existe'}
 
-	return HttpResponse(json.dumps(dicc), 'application/json')
+	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
+	return HttpResponse(data, 'application/json')
 
 def borrar_usuario(request, user):
 	dicc = {}
@@ -66,7 +69,8 @@ def borrar_usuario(request, user):
 	except Usuario.DoesNotExist: # Usuario no existe y no puede ser borrado
 		dicc = {'content' : 'KO', 'mensaje' :  'El usuario %s no existe.' % user}
 
-	return HttpResponse(json.dumps(dicc), 'application/json')
+	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
+	return HttpResponse(data, 'application/json')
 
 def update_usuario(request, user_antiguo, user_nuevo, password):
 	dicc = {}
@@ -80,7 +84,8 @@ def update_usuario(request, user_antiguo, user_nuevo, password):
 	except Usuario.DoesNotExist: # Usuario no existe
 		dicc = {'content' : 'KO', 'mensaje' : 'Usuario no existe'}
 	
-	return HttpResponse(json.dumps(dicc), 'application/json')
+	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
+	return HttpResponse(data, 'application/json')
 
 
 def alta_usuario(request, user, password):
@@ -95,4 +100,6 @@ def alta_usuario(request, user, password):
 		dicc = {'content' : 'OK', 'mensaje' : {'username' : user}}
 	else: # el usuario ya existe
 		dicc = {'content' : 'KO', 'mensaje' : {'error' : 'Este usuario ya existe'}}
-	return HttpResponse(json.dumps(dicc), 'application/json')
+	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
+	
+	return HttpResponse(data, 'application/json')

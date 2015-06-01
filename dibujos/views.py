@@ -20,8 +20,14 @@ def prueba(request):
 
 def usuarios(request):
 	return render(request, 'usuarios.html')
-
+def artistas(request):
+	return render(request, 'artistas.html')
 def login_usuario(request, user, password):
+	return render(request, 'login_usuario.html')
+def login_artista(request, user, password):
+	return render(request, 'login_artista.html')
+
+def login_usuario_crossdomain(request, user, password):
 	dicc = {}
 	try:
 		usuario = Usuario.objects.get(username = user, password = password)
@@ -32,11 +38,12 @@ def login_usuario(request, user, password):
 
 	except Usuario.DoesNotExist:
 		dicc = {'content' : 'KO'}
-	
-	return HttpResponse('callback(' + json.dumps(dicc), 'application/json') + ')'
+
+	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
+	return HttpResponse(data, 'application/json')
 
 
-def login_artista(request, user, password):
+def login_artista_crossdomain(request, user, password):
 	dicc = {}
 	try:
 		artista = Artista.objects.get(username = user, password = password)
@@ -51,12 +58,12 @@ def login_artista(request, user, password):
 		        'sesionactiva' : artista.sesionactiva, 'activo' : artista.activo}}
 	except Artista.DoesNotExist, e:
 		dicc = {'content' : 'KO'}
-	return HttpResponse(json.dumps(dicc), 'application/json')
+
+	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
+	return HttpResponse(data, 'application/json')
 
 def usuarios_crossdomain(request):
-	# print 'entra usuarios %s' % request.GET
-	# if 'callback' in request.GET:
-	# 	print 'yes'
+
 	dicc = {}
 	listaUsuarios = []
 	try:
@@ -68,12 +75,12 @@ def usuarios_crossdomain(request):
 		dicc = {"content" : "OK", "mensaje" : listaUsuarios}
 	except Exception as e:
 		dicc = {"content" : "KO", "error" : e}
-	#print 'llega con dicc : %s y GET : %s' % (dicc, request.GET.get('callback'))
+	
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
 	print 'HttpResponse : %s' % data        
    	return HttpResponse(data, 'application/json')
 
-def artistas(request):
+def artistas_crossdomain(request):
 	dicc = {}
 	listaArtistas = []
 	try:
@@ -91,7 +98,9 @@ def artistas(request):
 	except Exception as e:
 		dicc = {'content' : 'KO', 'error' : e}
 
-	return HttpResponse(json.dumps(dicc), 'application/json')
+	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
+	print 'HttpResponse : %s' % data
+	return HttpResponse(data, 'application/json')
 
 
 def subir_s3(request):
