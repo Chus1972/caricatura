@@ -18,16 +18,16 @@ def prueba(request):
 
  	return HttpResponse(json.dumps(data), "application/json")
 
-def usuarios(request):
+def usuarios_crossdomain(request):
 	return render(request, 'usuarios.html')
-def artistas(request):
+def artistas_crossdomain(request):
 	return render(request, 'artistas.html')
-def login_usuario(request, user, password):
+def login_usuario_crossdomain(request, user, password):
 	return render(request, 'login_usuario.html')
-def login_artista(request, user, password):
+def login_artista_crossdomain(request, user, password):
 	return render(request, 'login_artista.html')
 
-def login_usuario_crossdomain(request, user, password):
+def login_usuario(request, user, password):
 	dicc = {}
 	try:
 		usuario = Usuario.objects.get(username = user, password = password)
@@ -43,7 +43,7 @@ def login_usuario_crossdomain(request, user, password):
 	return HttpResponse(data, 'application/json')
 
 
-def login_artista_crossdomain(request, user, password):
+def login_artista(request, user, password):
 	dicc = {}
 	try:
 		artista = Artista.objects.get(username = user, password = password)
@@ -62,7 +62,7 @@ def login_artista_crossdomain(request, user, password):
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
 	return HttpResponse(data, 'application/json')
 
-def usuarios_crossdomain(request):
+def usuarios(request):
 
 	dicc = {}
 	listaUsuarios = []
@@ -80,7 +80,7 @@ def usuarios_crossdomain(request):
 	print 'HttpResponse : %s' % data        
    	return HttpResponse(data, 'application/json')
 
-def artistas_crossdomain(request):
+def artistas(request):
 	dicc = {}
 	listaArtistas = []
 	try:

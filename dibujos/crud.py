@@ -100,6 +100,6 @@ def alta_usuario(request, user, password):
 		dicc = {'content' : 'OK', 'mensaje' : {'username' : user}}
 	else: # el usuario ya existe
 		dicc = {'content' : 'KO', 'mensaje' : {'error' : 'Este usuario ya existe'}}
-	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
 	
+	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
 	return HttpResponse(data, 'application/json')
