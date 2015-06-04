@@ -27,11 +27,14 @@ def login_usuario_crossdomain(request, user, password):
 def login_artista_crossdomain(request, user, password):
 	return render(request, 'login_artista.html')
 
+def subir_imagen(request):
+	return render(request, 'subir_imagen.html')
+
 def login_usuario(request, user, password):
 	dicc = {}
 	try:
 		usuario = Usuario.objects.get(username = user, password = password)
-		dicc = {'content' : 'OK', 'mensaje' : { 'usuario' : usuario.username, 'conectado' : usuario.connect, 
+		dicc = {'content' : 'OK', 'mensaje' : {'id' : usuario.id, 'usuario' : usuario.username, 'conectado' : usuario.connect, 
 		        'sesion' : usuario.sesion, 'ultimoaccesoip' : usuario.ultimoaccesoip,
 		        'ultimoaccesofecha' : usuario.ultimoaccesofecha.isoformat(), 
 		        'sesionactiva' : usuario.sesionactiva}}
@@ -47,7 +50,7 @@ def login_artista(request, user, password):
 	dicc = {}
 	try:
 		artista = Artista.objects.get(username = user, password = password)
-		dicc = {'content' : 'OK', 'mensaje' : {'nombre' : artista.nombre, 'apellidos' : artista.apellidos,
+		dicc = {'content' : 'OK', 'mensaje' : {'id' : artista.id, 'nombre' : artista.nombre, 'apellidos' : artista.apellidos,
 			    'username' : artista.username, 'pais' : artista.pais, 
 		        'codigopostal' : artista.codigopostal, 'telefono' : artista.telefono,
 		        'direccion' : artista.direccion, 'ciudad' : artista.ciudad, 
@@ -69,7 +72,7 @@ def usuarios(request):
 	try:
 		usuarios = Usuario.objects.all()
 		for usuario in usuarios:
-			listaUsuarios.append({'username' : usuario.username, 'sesion' : usuario.sesion, 'conectado' : usuario.connect, 
+			listaUsuarios.append({'id' : usuario.id, 'username' : usuario.username, 'sesion' : usuario.sesion, 'conectado' : usuario.connect, 
 							      'ultimo acceso ip' : usuario.ultimoaccesoip, 'ultimo acceso fecha' : usuario.ultimoaccesofecha.isoformat(),
 							      'sesion activa' : usuario.sesionactiva})
 		dicc = {"content" : "OK", "mensaje" : listaUsuarios}
@@ -86,7 +89,7 @@ def artistas(request):
 	try:
 		artistas = Artista.objects.all()
 		for artista in artistas:
-			listaArtistas.append({'nombre' : artista.nombre, 'apellidos' : artista.apellidos, 'username' : artista.username, 
+			listaArtistas.append({'id' : artista.id, 'nombre' : artista.nombre, 'apellidos' : artista.apellidos, 'username' : artista.username, 
 							      'pais' : artista.pais, 'codigo postal' : artista.codigopostal, 'telefono' : artista.telefono,  
 							      'telefono' : artista.telefono, 'direccion' : artista.direccion, 'ciudad' : artista.ciudad, 
 							      'sesion' : artista.sesion, 'codigo artista' : artista.codartista,  'conectado' : artista.connect, 
@@ -104,9 +107,9 @@ def artistas(request):
 
 
 def subir_s3(request):
-	print 'Entra subir_s3: %s' % request.POST
-	if request.POST: # Esto quiere decir que se han llenado los datos del formulario
-		nombre_fichero = request.POST['file_input']
+	print 'Entra subir_s3: %s' % request.GET
+	if request.GET: # Esto quiere decir que se han llenado los datos del formulario
+		nombre_fichero = request.GET['file_input']
 		print 'entra en if : %s' % nombre_fichero
 
 		# Hace la subida del fichero a s3
@@ -120,8 +123,12 @@ def subir_s3(request):
 		k = Key(bucket)
 		k.key = 'nombreArtista' + nombre_fichero # Nombre con que sera guardado el fichero
 		k.set_contents_from_filename(nombre_fichero) # Nombre del fichero a subir
+		dicc = {'content' : 'OK', 'mensaje' : 'Fichero subido'}
+	else:
+		dicc = {'content' : 'KO', 'mensaje' : 'No ha sido posible subir el fichero'}
 
-	return render(request, 'signup.html')
+	print 'HttpResponse : %s' % data
+	return HttpResponse(data, 'application/json')
 
 
 # Funcion que devuelve la ip del cliente

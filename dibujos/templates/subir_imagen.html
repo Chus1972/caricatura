@@ -2,19 +2,22 @@
 <html>
 <head>
     
-    <title>Pruebart</title>
+    <title>Subir imagen</title>
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
 
 <body>
-
-<input id="click" type="button" value="Cliqueame" />
+<input id="fichero" type="file" />
+<button id="click_button" value="Click" name="click_button"></button>
 <script type="text/javascript">
+    var datos_ajax = {"fichero" : $("#fichero").file}
     $(document).ready(function() {
-        $("#click").click(function(){
+        $("#click_button").click(function(){
+            alert("pasa");
             $.ajax({
-                url: 'http://lit-woodland-9635.herokuapp.com/artistas/',
+                url: 'http://127.0.0.1:8000/subir_s3?fichero=%s' % $("#fichero"),
                 type: "GET",
+                data: datos_ajax,
                 dataType: "jsonp",
                 crossDomain: true,
                 success: function(jsonp) {
@@ -25,6 +28,7 @@
                     alert("fail");
                 },
             });
+
         });
     });
 
