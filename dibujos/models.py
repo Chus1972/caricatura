@@ -34,7 +34,7 @@ class Artista(models.Model):
 	 ultimaaccionfecha	= models.DateTimeField(default = None)
 	 sesionactiva		= models.BooleanField(default = False)
 
-class caricaturas(models.Model):
+class Caricaturas(models.Model):
 	idartista			= models.ForeignKey(Artista)
 	titulo				= models.CharField(max_length = 200)
 	tag					= models.CharField(max_length = 200)
