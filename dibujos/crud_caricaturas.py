@@ -2,104 +2,35 @@ from dibujos.models import *
 from django.http import HttpResponse
 import json, os
 
-def alta_caricatura(request, titulo, tag, imgAlta, imgBaja, facebook, twitter, googleplus):
+def alta_caricatura(request, idArtista, titulo, tag, imgAlta, imgBaja, facebook, twitter, googleplus):
 	dicc = {}
 	try:
-		artista = Caricaturas.objects.get( = user)
-	except Artista.DoesNotExist: # Artista no existe y se puede crear
-		artista = Artista(username = user, password = password, nombre = nombre,
-						  apellidos = apellidos, correoe = correoe, pais = pais, direccion = direccion,
-						  codigopostal = codigopostal, telefono = telefono, ciudad = ciudad, activo = 1, 
-						  fechacreacion = datetime.datetime.now() + datetime.timedelta(hours = 2),
-						  fechaactivacion = datetime.datetime.now() + datetime.timedelta(hours = 2),
-						  ultimaaccionfecha = datetime.datetime.now() + datetime.timedelta(hours = 2),
-					      ultimoaccesofecha = datetime.datetime.now() + datetime.timedelta(hours = 2),
-					      ultimoaccesoip = get_client_ip(request), connect = 1, sesionactiva = 1)
-		artista.save()
-		dicc = {'content' : 'OK', 'mensaje' : {'username' : user}}
+		caricatura = Caricaturas.objects.get(idArtista = idArtista, titulo = titulo)
+	except Caricaturas.DoesNotExist: # Caricatura no existe y se puede crear
+		print 'entra en except'
+		caricatura = Caricaturas(idartista = idartista, titulo = titulo, tag = tag, img_alta = imgAlta, img_miniatura = imgBaja,
+								 fecha_subida = datetime.datetime.now() + datetime.timedelta(hours = 2),
+						 	     facebook = facebook, twitter = twitter, googleplus = googleplus, visualizaciones = 0)
+		caricatura.save()
+		print 'grabado'
+		dicc = {'content' : 'OK', 'mensaje' : {'idArtista' : idartista, 'titulo' : titulo, 'imgAlta' : imgAlta, 'imgBaja' : imgBaja}}
 	else: # el usuario ya existe
-		dicc = {'content' : 'KO', 'mensaje' : {'error' : 'Este artista ya existe'}}
+		dicc = {'content' : 'KO', 'mensaje' : {'error' : 'Esta caricatura ya existe'}}
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
 	return HttpResponse(data, 'application/json')
 
-def borrar_artista(request, user):
+def borrar_caricatura(request, idArtista, titulo):
 	dicc = {}
 	try:
-		artista = Artista.objects.get(username = user)
-		artista.delete()
+		caricatura = Caricaturas.objects.get(idArtista = idArtista, titulo = titulo)
+		caricatura.delete()
 		dicc = {'content' : 'OK'}
 
-	except Artista.DoesNotExist: # Artista no existe y no puede ser borrado
-		dicc = {'content' : 'KO', 'mensaje' :  'El artista %s no existe.' % user}
+	except Caricaturas.DoesNotExist: # Caricatura no existe y no puede ser borrada
+		dicc = {'content' : 'KO', 'mensaje' :  'La caricatura %s del artista %s no existe.' % (titulo, idArtista))}
 
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
 	return HttpResponse(data, 'application/json')
 
-def update_artista(request, user_antiguo, user_nuevo, password, nombre, apellidos, pais, codigopostal, telefono, 
-				   direccion, ciudad, codartista, correoe):
-	dicc = {}
-	try:
-		artista = Artista.objects.get(username = user_antiguo)
-		artista.user = user_nuevo
-		artista.password = password
-		artista.nombre = nombre
-		artista.apellidos = apellidos
-		artista.pais = pais
-		artista.codigopostal = codigopostal
-		artista.telefono = telefono
-		artista.direccion = direccion
-		artista.ciudad = ciudad
-		artista.correoe = correoe
-
-		artista.save()
-		dicc = {'content' : 'OK'}
-
-	except Artista.DoesNotExist:
-		dicc = {'content' : 'KO', 'mensaje' : 'Artista no existe'}
-
-	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
-	return HttpResponse(data, 'application/json')
-
-def borrar_usuario(request, user):
-	dicc = {}
-	try:
-		usuario = Usuario.objects.get(username = user)
-		usuario.delete()
-		dicc = {'content' : 'OK'}
-	except Usuario.DoesNotExist: # Usuario no existe y no puede ser borrado
-		dicc = {'content' : 'KO', 'mensaje' :  'El usuario %s no existe.' % user}
-
-	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
-	return HttpResponse(data, 'application/json')
-
-def update_usuario(request, user_antiguo, user_nuevo, password):
-	dicc = {}
-	try:
-		usuario = Usuario.objects.get(username = user_antiguo)
-		usuario.username = user_nuevo
-		usuario.password = password
-		usuario.save()
-		dicc = {'content' : 'OK'}
-
-	except Usuario.DoesNotExist: # Usuario no existe
-		dicc = {'content' : 'KO', 'mensaje' : 'Usuario no existe'}
-	
-	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
-	return HttpResponse(data, 'application/json')
 
 
-def alta_usuario(request, user, password):
-	dicc = {}
-	try:
-		usuario = Usuario.objects.get(username = user)
-	except Usuario.DoesNotExist: # Usuario no existe y se puede crear
-		usuario = Usuario(username = user, password = password, 
-					      ultimoaccesofecha = datetime.datetime.now() + datetime.timedelta(hours = 2),
-					      ultimoaccesoip = get_client_ip(request), connect = 1, sesionactiva = 1)
-		usuario.save()
-		dicc = {'content' : 'OK', 'mensaje' : {'username' : user}}
-	else: # el usuario ya existe
-		dicc = {'content' : 'KO', 'mensaje' : {'error' : 'Este usuario ya existe'}}
-	
-	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
-	return HttpResponse(data, 'application/json')

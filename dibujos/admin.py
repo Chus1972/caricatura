@@ -12,5 +12,5 @@ from .models import *
 #admin.site.register(Cliente, ClienteAdmin)
 admin.site.register(Usuario)
 admin.site.register(Artista)
-admin.site.register(caricaturas)
+admin.site.register(Caricaturas)
 # Register your models here.
