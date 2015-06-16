@@ -73,8 +73,8 @@ def usuarios(request):
 		usuarios = Usuario.objects.all()
 		for usuario in usuarios:
 			listaUsuarios.append({'id' : usuario.id, 'username' : usuario.username, 'sesion' : usuario.sesion, 'conectado' : usuario.connect, 
-							      'ultimo acceso ip' : usuario.ultimoaccesoip, 'ultimo acceso fecha' : usuario.ultimoaccesofecha.isoformat(),
-							      'sesion activa' : usuario.sesionactiva})
+							      'ultimoacceso_ip' : usuario.ultimoaccesoip, 'ultimoaccesofecha' : usuario.ultimoaccesofecha.isoformat(),
+							      'sesionactiva' : usuario.sesionactiva})
 		dicc = {"content" : "OK", "mensaje" : listaUsuarios}
 	except Exception as e:
 		dicc = {"content" : "KO", "error" : e}
@@ -90,13 +90,13 @@ def artistas(request):
 		artistas = Artista.objects.all()
 		for artista in artistas:
 			listaArtistas.append({'id' : artista.id, 'nombre' : artista.nombre, 'apellidos' : artista.apellidos, 'username' : artista.username, 
-							      'pais' : artista.pais, 'codigo postal' : artista.codigopostal, 'telefono' : artista.telefono,  
+							      'pais' : artista.pais, 'codigopostal' : artista.codigopostal, 'telefono' : artista.telefono,  
 							      'telefono' : artista.telefono, 'direccion' : artista.direccion, 'ciudad' : artista.ciudad, 
-							      'sesion' : artista.sesion, 'codigo artista' : artista.codartista,  'conectado' : artista.connect, 
-							      'ultimo acceso ip' : artista.ultimoaccesoip, 'ultimo acceso fecha' : artista.ultimoaccesofecha.isoformat(),
-							      'estado suscripcion' : artista.estadosuscripcion, 'sesion activa' : artista.sesionactiva,
-							      'activo' : artista.activo, 'correo electronico' : artista.correoe, 'ultima accion fecha' : artista.ultimaaccionfecha.isoformat(),
-							      'fecha creacion' : artista.fechacreacion.isoformat(), 'fecha activacion' : artista.fechaactivacion.isoformat()})
+							      'sesion' : artista.sesion, 'codigoartista' : artista.codartista,  'conectado' : artista.connect, 
+							      'ultimoaccesoip' : artista.ultimoaccesoip, 'ultimoaccesofecha' : artista.ultimoaccesofecha.isoformat(),
+							      'estadosuscripcion' : artista.estadosuscripcion, 'sesionactiva' : artista.sesionactiva,
+							      'activo' : artista.activo, 'correoelectronico' : artista.correoe, 'ultimaaccionfecha' : artista.ultimaaccionfecha.isoformat(),
+							      'fechacreacion' : artista.fechacreacion.isoformat(), 'fechaactivacion' : artista.fechaactivacion.isoformat()})
 		dicc = {'content' : 'OK', 'mensaje' : listaArtistas}
 	except Exception as e:
 		dicc = {'content' : 'KO', 'error' : e}
