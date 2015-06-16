@@ -27,7 +27,7 @@ def borrar_caricatura(request, idArtista, titulo):
 		dicc = {'content' : 'OK'}
 
 	except Caricaturas.DoesNotExist: # Caricatura no existe y no puede ser borrada
-		dicc = {'content' : 'KO', 'mensaje' :  'La caricatura %s del artista %s no existe.' % (titulo, idArtista))}
+		dicc = {'content' : 'KO', 'mensaje' :  'La caricatura %s del artista %s no existe.' % (titulo, idArtista)}
 
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
 	return HttpResponse(data, 'application/json')
