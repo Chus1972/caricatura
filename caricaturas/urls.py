@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib import admin
 from dibujos.crud import alta_usuario, alta_artista, update_artista, update_usuario , borrar_artista, borrar_usuario
 from dibujos.views import  prueba, subir_s3, subir_imagen, login_usuario, login_usuario_crossdomain, login_artista, login_artista_crossdomain, usuarios, artistas, usuarios_crossdomain, artistas_crossdomain  #, ejemplo, sign_s3, 
+from dibujos.crud_caricaturas import alta_caricatura, borrar_caricatura, update_caricatura
 from django.conf.urls.static import static
 
 urlpatterns = patterns('',
@@ -29,6 +30,9 @@ urlpatterns = patterns('',
     url(r'^update_usuario/(\w+)/(\w+)/(\S{5,})', update_usuario, name = 'update_usuario'),
     url(r'^borrar_artista/(\w+)/', borrar_artista, name = 'borrar_artista'),
     url(r'^borrar_usuario/(\w+)/', borrar_usuario, name = 'borrar_usuario'),
+    url(r'^alta_caricatura/([0-9]+)/(\w+)/(\w+)/(\w+)/(\w+)/', alta_caricatura, name = 'alta_caricatura'),
+    url(r'^borrar_caricatura/(\w+)/(\w+)/', borrar_caricatura, name = 'borrar_caricatura'),
+    url(r'^update_caricatura/(\w+)/(\w+)/(\w+)/(\w+)/(\w+)/(\w+)/', update_caricatura, name = 'update_caricatura'),
     url(r'^subir_imagen/', subir_imagen),
     url(r'^subir_s3/(\w+)/', subir_s3, name = 'subir_s3'),
 )
