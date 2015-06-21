@@ -8,7 +8,7 @@ def alta_caricatura(request, idArtista, titulo, tag, imgAlta, imgBaja):
 	try:
 		caricatura = Caricaturas.objects.get(idartista = idArtista, titulo = titulo)
 	except Caricaturas.DoesNotExist: # Caricatura no existe y se puede crear
-		print 'entra'
+
 		artista = Artista.objects.get(id = idArtista)
 		caricatura = Caricaturas(idartista = artista, titulo = titulo, tag = tag, img_alta = imgAlta, 
 								 img_miniatura = imgBaja, 
@@ -35,6 +35,9 @@ def borrar_caricatura(request, idartista, titulo):
 	except Caricaturas.DoesNotExist: # Caricatura no existe y no puede ser borrado
 		artista = Artista.objects.get(id = idartista)
 		dicc = {'content' : 'KO', 'mensaje' :  'La caricatura %s del artista %s %s no existe.' % (titulo, artista.nombre, artista.apellidos )}
+
+	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
+	return HttpResponse(data, 'application/json')
 
 def update_caricatura(request, idartista, titulo, nuevo_titulo, tag, img_alta, img_miniatura):
 	dicc = {}

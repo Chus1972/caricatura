@@ -40,7 +40,7 @@ class Caricaturas(models.Model):
 	tag					= models.CharField(max_length = 200)
 	img_alta			= models.CharField(max_length = 500)
 	img_miniatura		= models.CharField(max_length = 200)
-	fecha_subida		= models.DateTimeField()
+	fechasubida		    = models.DateTimeField()
 	facebook			= models.IntegerField(default = 0)
 	twitter				= models.IntegerField(default = 0)
 	googleplus			= models.IntegerField(default = 0)
