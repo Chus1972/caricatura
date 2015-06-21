@@ -3,7 +3,6 @@ from django.http import HttpResponse
 import json, os
 import datetime
 
-<<<<<<< HEAD
 def alta_caricatura(request, idArtista, titulo, tag, imgAlta, imgBaja):
 	dicc = {}
 	try:
