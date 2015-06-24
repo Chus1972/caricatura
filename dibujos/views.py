@@ -51,7 +51,7 @@ def login_artista(request, user, password):
 	try:
 		artista = Artista.objects.get(username = user, password = password)
 		dicc = {'content' : 'OK', 'mensaje' : {'id' : artista.id, 'nombre' : artista.nombre, 'apellidos' : artista.apellidos,
-			    'username' : artista.username, 'pais' : artista.pais, 
+			    'username' : artista.username, 'correoe' : artista.correoe, 'pais' : artista.pais, 
 		        'codigopostal' : artista.codigopostal, 'telefono' : artista.telefono,
 		        'direccion' : artista.direccion, 'ciudad' : artista.ciudad, 
 		        'sesion' : artista.sesion, 'codartista' : artista.codartista,
@@ -79,8 +79,7 @@ def usuarios(request):
 	except Exception as e:
 		dicc = {"content" : "KO", "error" : e}
 	
-	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
-	print 'HttpResponse : %s' % data        
+	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))     
    	return HttpResponse(data, 'application/json')
 
 def artistas(request):
@@ -102,15 +101,12 @@ def artistas(request):
 		dicc = {'content' : 'KO', 'error' : e}
 
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
-	print 'HttpResponse : %s' % data
 	return HttpResponse(data, 'application/json')
 
 
 def subir_s3(request):
-	print 'Entra subir_s3: %s' % request.GET
 	if request.GET: # Esto quiere decir que se han llenado los datos del formulario
 		nombre_fichero = request.GET['file_input']
-		print 'entra en if : %s' % nombre_fichero
 
 		# Hace la subida del fichero a s3
 		con_s3 = boto.connect_s3()
@@ -127,10 +123,30 @@ def subir_s3(request):
 	else:
 		dicc = {'content' : 'KO', 'mensaje' : 'No ha sido posible subir el fichero'}
 
-	print 'HttpResponse : %s' % data
 	return HttpResponse(data, 'application/json')
 
 
+# Devuelve las caricaturas hechas por un artista. Se le pasa el id del artista y
+def caricaturas_artista(request, idartista):
+	lista_caricaturas = []
+	try:
+		artista = Artista.objects.get(id = idartista)
+	except Artista.DoesNotExist:
+		dicc = {'content' : 'KO', 'mensaje' : 'No hay ningun artista con este ID'}
+
+	caricaturas = Caricaturas.objects.filter(idartista = artista)
+	for caricatura in caricaturas:
+		lista_caricaturas.append({'idartista' : idartista, 'titulo' : caricatura.titulo, 'tag' : caricatura.tag,
+								 'imgAlta' : caricatura.img_alta, 'imgMiniatura' : caricatura.img_miniatura, 
+								 'fechasubida' : caricatura.fechasubida.isoformat(), 'facebook' : caricatura.facebook, 
+								 'twitter' : caricatura.twitter, 'googleplus' : caricatura.googleplus, 
+								 'visualizaciones' : caricatura.visualizaciones})
+	dicc = {'content' : 'OK', 'mensaje' : lista_caricaturas}
+
+	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
+	return HttpResponse(data, 'application/json')
+
+	
 # Funcion que devuelve la ip del cliente
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')

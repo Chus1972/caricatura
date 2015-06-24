@@ -35,12 +35,12 @@ def borrar_artista(request, user):
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
 	return HttpResponse(data, 'application/json')
 
-def update_artista(request, user_antiguo, user_nuevo, password, nombre, apellidos, pais, codigopostal, telefono, 
+def update_artista(request, id, usuario, password, nombre, apellidos, pais, codigopostal, telefono, 
 				   direccion, ciudad, codartista, correoe):
 	dicc = {}
 	try:
-		artista = Artista.objects.get(username = user_antiguo)
-		artista.user = user_nuevo
+		artista = Artista.objects.get(id = id)
+		artista.user = usuario
 		artista.password = password
 		artista.nombre = nombre
 		artista.apellidos = apellidos
@@ -60,10 +60,10 @@ def update_artista(request, user_antiguo, user_nuevo, password, nombre, apellido
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
 	return HttpResponse(data, 'application/json')
 
-def borrar_usuario(request, user):
+def borrar_usuario(request, id):
 	dicc = {}
 	try:
-		usuario = Usuario.objects.get(username = user)
+		usuario = Usuario.objects.get(id = id)
 		usuario.delete()
 		dicc = {'content' : 'OK'}
 	except Usuario.DoesNotExist: # Usuario no existe y no puede ser borrado
@@ -72,14 +72,14 @@ def borrar_usuario(request, user):
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
 	return HttpResponse(data, 'application/json')
 
-def update_usuario(request, user_antiguo, user_nuevo, password):
+def update_usuario(request, idusuario, user, password):
 	dicc = {}
 	try:
-		usuario = Usuario.objects.get(username = user_antiguo)
-		usuario.username = user_nuevo
+		usuario = Usuario.objects.get(id = idusuario)
+		usuario.username = user
 		usuario.password = password
 		usuario.save()
-		dicc = {'content' : 'OK'}
+		dicc = {'content' : 'OK', 'mensaje' : usuario.username}
 
 	except Usuario.DoesNotExist: # Usuario no existe
 		dicc = {'content' : 'KO', 'mensaje' : 'Usuario no existe'}
