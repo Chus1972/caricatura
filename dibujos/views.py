@@ -129,7 +129,7 @@ def subir_s3(request):
 	else:
 		datos = {'prueba' : 'no hay post'}
 
-	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
+	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(datos))
 	return HttpResponse(datos, 'application/json')
 
 # Devuelve las caricaturas hechas por un artista. Se le pasa el id del artista y
