@@ -103,10 +103,15 @@ def artistas(request):
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
 	return HttpResponse(data, 'application/json')
 
+#def signin(request):
+
+#def signup(request):
 
 def subir_s3(request):
-	if request.GET: # Esto quiere decir que se han llenado los datos del formulario
-		nombre_fichero = request.GET['file_input']
+	print 'Entra subir_s3: %s' % request.POST
+	if request.POST: # Esto quiere decir que se han llenado los datos del formulario
+		nombre_fichero = request.POST['file_input']
+		print 'entra en if : %s' % nombre_fichero
 
 		# Hace la subida del fichero a s3
 		con_s3 = boto.connect_s3()
@@ -119,12 +124,8 @@ def subir_s3(request):
 		k = Key(bucket)
 		k.key = 'nombreArtista' + nombre_fichero # Nombre con que sera guardado el fichero
 		k.set_contents_from_filename(nombre_fichero) # Nombre del fichero a subir
-		dicc = {'content' : 'OK', 'mensaje' : 'Fichero subido'}
-	else:
-		dicc = {'content' : 'KO', 'mensaje' : 'No ha sido posible subir el fichero'}
 
-	return HttpResponse(data, 'application/json')
-
+	return render(request, 'signup.html')
 
 # Devuelve las caricaturas hechas por un artista. Se le pasa el id del artista y
 def caricaturas_artista(request, idartista):
