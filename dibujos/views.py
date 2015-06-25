@@ -125,7 +125,11 @@ def subir_s3(request):
 		k.key = 'nombreArtista' + nombre_fichero # Nombre con que sera guardado el fichero
 		k.set_contents_from_filename(nombre_fichero) # Nombre del fichero a subir
 
-	return HttpResponse({"prueba" : "????"}, 'application/json')
+		datos = {"prueba" : "hay post"}
+	else:
+		datos = {"prueba" : "no hay post"}
+
+	return HttpResponse(datos, 'application/json')
 
 # Devuelve las caricaturas hechas por un artista. Se le pasa el id del artista y
 def caricaturas_artista(request, idartista):
