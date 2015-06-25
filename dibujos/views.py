@@ -14,9 +14,9 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.context_processors import csrf
 
 def prueba(request):
- 	data = {'hola' : 'adios'}
+ 	
 
- 	return HttpResponse(json.dumps(data), "application/json")
+ 	return render(request, 'prueba.html')
 
 def usuarios_crossdomain(request):
 	return render(request, 'usuarios.html')
