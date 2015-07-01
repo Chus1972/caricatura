@@ -110,8 +110,6 @@ def artistas(request):
 def subir_s3(request):
 	print "request.GET" 
 	print request.GET
-	print "request.FILES"
-	print request.FILES
 	print 'Entra subir_s3: %s %s' % request.method % request.GET.get('file_input')
 	if request.method == 'GET': # Esto quiere decir que se han llenado los datos del formulario
 		nombre_fichero = request.GET['file_input']
