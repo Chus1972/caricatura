@@ -10,11 +10,11 @@
 
             $.ajax({
                 url: ruta,
-                type: "POST",
+                type: "GET",
                 data: formData,
                 contentType: false,
                 processData: false,
-                crossdomain: true,
+                crossDomain: true,
                 dataType: "jsonp", 
                 success: function(datos)
                 {
