@@ -108,8 +108,11 @@ def artistas(request):
 #def signup(request):
 
 def subir_s3(request):
+	print request.GET
+	print request.POST
+	print request.
 	print 'Entra subir_s3: %s' % request.POST
-	if request.POST: # Esto quiere decir que se han llenado los datos del formulario
+	if request.method == 'GET': # Esto quiere decir que se han llenado los datos del formulario
 		nombre_fichero = request.POST['file_input']
 		print 'entra en if : %s' % nombre_fichero
 
