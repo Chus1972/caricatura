@@ -111,7 +111,7 @@ def subir_s3(request):
 	print request.GET
 	print request.POST
 	print request.OPTIONS
-	print 'Entra subir_s3: %s' % request.POST
+	print 'Entra subir_s3: %s' % request.method
 	if request.method == 'GET': # Esto quiere decir que se han llenado los datos del formulario
 		nombre_fichero = request.POST['file_input']
 		print 'entra en if : %s' % nombre_fichero
