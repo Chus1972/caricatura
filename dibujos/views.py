@@ -16,7 +16,7 @@ from django.core.context_processors import csrf
 def prueba(request):
  	
 
- 	return render(request, 'prueba.html')
+ 	return render(request, 'ejemploAntonio.html')
 
 def usuarios_crossdomain(request):
 	return render(request, 'usuarios.html')
