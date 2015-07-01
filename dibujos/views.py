@@ -1,4 +1,5 @@
 from django.shortcuts import render, render_to_response
+from django.template import RequestContext
 from django.http import HttpResponse
 import json,os
 from dibujos.models import *
@@ -14,9 +15,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.context_processors import csrf
 
 def prueba(request):
- 	
-
- 	return render(request, 'ejemploAntonio.html', {})
+ 	return render_to_response('ejemploAntonio.html', context_instance=RequestContext(request))
 
 def usuarios_crossdomain(request):
 	return render(request, 'usuarios.html')
