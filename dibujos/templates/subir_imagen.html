@@ -11,6 +11,7 @@
 <button id="click_button" value="Click" name="click_button"></button>
 <script type="text/javascript">
     var datos_ajax = {"fichero" : $("#fichero").file}
+    alert($("fichero").file)
     $(document).ready(function() {
         $("#click_button").click(function(){
             alert("pasa");
