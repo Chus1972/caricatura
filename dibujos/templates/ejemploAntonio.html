@@ -6,18 +6,17 @@
      $(function(){
         $("input[name='file']").on("change", function(){
             var formData = new FormData($("#formulario")[0]);
+            alert($("#file"))
             var ruta = "http://lit-woodland-9635.herokuapp.com/subir_s3/";
-            alert($("formulario")[0])
 
             $.ajax({
                 url: ruta,
-                type: "GET",
+                type: "POST",
                 data: formData,
                 contentType: false,
                 processData: false,
-                crossDomain: true,
                 dataType: "jsonp",
-                cache: false, 
+                cache: false,
                 success: function(datos)
                 {
                     $("#respuesta").html(datos);
@@ -28,9 +27,8 @@
     </script>
  </head>
  <body>
- <form method="post" id="formulario" enctype="multipart/form-data">{% csrf_token %} <!-- Esto hace que verifique que la pagina es correcta -->
-  {{form.as_p}} <!-- esto quiere decir que los campos estan separados por <p> -->
-    Subir imagen: <input type="file" name="file">
+ <form method="post" id="formulario" enctype="multipart/form-data">{% csrf_token %}
+    Subir imagen: <input type="file" id="file" name="file">
  </form>
   <div id="respuesta"></div>
  </body>

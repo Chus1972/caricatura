@@ -16,7 +16,7 @@ from django.core.context_processors import csrf
 def prueba(request):
  	
 
- 	return render(request, 'ejemploAntonio.html')
+ 	return render(request, 'ejemploAntonio.html', {})
 
 def usuarios_crossdomain(request):
 	return render(request, 'usuarios.html')
@@ -108,11 +108,11 @@ def artistas(request):
 #def signup(request):
 
 def subir_s3(request):
-	print "request.GET" 
-	print request.GET
-	print 'Entra subir_s3: %s %s' % request.method % request.GET.get('file_input')
-	if request.method == 'GET': # Esto quiere decir que se han llenado los datos del formulario
-		nombre_fichero = request.GET['file_input']
+	print "request.POST" 
+	print request.POST
+	print 'Entra subir_s3: ' 
+	if request.method == 'POST': # Esto quiere decir que se han llenado los datos del formulario
+		nombre_fichero = request.FILES
 		print 'entra en if : %s' % nombre_fichero
 
 		# Hace la subida del fichero a s3
