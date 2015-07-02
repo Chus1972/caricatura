@@ -6,7 +6,7 @@
      $(function(){
         $("input[name='file']").on("change", function(){
             var formData = new FormData($("#formulario")[0]);
-            alert($("#file"));
+            alert($("#formulario")[0]);
             var ruta = "http://lit-woodland-9635.herokuapp.com/subir_s3/";
 
             $.ajax({
@@ -15,6 +15,7 @@
                 data: formData,
                 //contentType: false,
                 //processData: false,
+                cache: false,
                 dataType: "jsonp",
                 crossDomain: true,
                 success: function(datos)
