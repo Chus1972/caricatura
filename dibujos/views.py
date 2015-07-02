@@ -13,7 +13,6 @@ from boto.s3.connection import S3Connection
 from boto.s3.key import Key
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.context_processors import csrf
-from django.views.decorators.csrf import csrf_protect
 
 def prueba(request):
  	return render_to_response('ejemploAntonio.html', context_instance=RequestContext(request))
@@ -27,7 +26,6 @@ def login_usuario_crossdomain(request, user, password):
 def login_artista_crossdomain(request, user, password):
 	return render(request, 'login_artista.html')
 
-@csrf_protect
 def subir_imagen(request):
 	return render(request, 'subir_imagen.html')
 

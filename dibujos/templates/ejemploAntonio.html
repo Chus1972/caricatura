@@ -6,21 +6,24 @@
      $(function(){
         $("input[name='file']").on("change", function(){
             var formData = new FormData($("#formulario")[0]);
-            alert($("#file"))
+            alert($("#file"));
             var ruta = "http://lit-woodland-9635.herokuapp.com/subir_s3/";
 
             $.ajax({
                 url: ruta,
                 type: "POST",
                 data: formData,
-                contentType: false,
-                processData: false,
+                //contentType: false,
+                //processData: false,
                 dataType: "jsonp",
                 crossDomain: true,
                 success: function(datos)
                 {
                     $("#respuesta").html(datos);
-                }
+                },
+                error: function() {
+                    alert("fail");
+                },
             });
         });
      });
