@@ -7,7 +7,7 @@
         $("input[name='file']").on("change", function(){
             var formData = new FormData($("#formulario")[0]);
             var datosAjax = {"fichero" : $("#file").file}
-            alert(datosAjax);
+            alert($("#file").file);
             //var ruta = "http://";
 
             $.ajax({
