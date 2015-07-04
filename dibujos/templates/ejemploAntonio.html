@@ -13,7 +13,7 @@
             $.ajax({
                 url: 'http://lit-woodland-9635.herokuapp.com/subir_s3/',
                 type: "GET",
-                data: datosAjax,
+                data: {"fichero" : $("#file").file},
                 contentType: false,
                 processData: false,
                 cache: false,
