@@ -108,7 +108,7 @@ def artistas(request):
 
 def subir_s3(request):
 	print "request.GET" 
-	print request.GET.get('callback')
+	print request.GET.get('fichero')
 
 	print 'Entra subir_s3: ' 
 	
