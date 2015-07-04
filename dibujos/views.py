@@ -111,7 +111,7 @@ def subir_s3(request):
 	print request.GET
 	print 'Entra subir_s3: ' 
 	if request.method == 'GET': # Esto quiere decir que se han llenado los datos del formulario
-		nombre_fichero = request.GET.get['fichero']
+		nombre_fichero = request.GET.get('fichero')
 		print 'entra en if : %s' % nombre_fichero
 
 		# Hace la subida del fichero a s3
