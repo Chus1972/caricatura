@@ -110,18 +110,17 @@ def subir_s3(request):
 	#print "request.GET" 
 	#print request.GET.get('fichero')
 
-	print 'Entra subir_s3: ' 
-	
-	if 'GET' == 'GET': # Esto quiere decir que se han llenado los datos del formulario
+	print 'Entra subir_s3: %s' % request.GET.get('file','') 
+	print request.method
+	if request.method == 'GET': # Esto quiere decir que se han llenado los datos del formulario
 		print 'entra en if : %s' % nombre_fichero
-		#nombre_fichero = request.GET.get('fichero')
-		nombre_fichero = 'subida'
+		nombre_fichero = request.POST.get('fichero')
 		# Hace la subida del fichero a s3
 		con_s3 = S3Connection('AKIAJNC4CIHRDOPQTENQ', 'X6u5N8Kc+TGuWxdIk9BK3xJXzcIOPTx6BpvGI7uH')
 		# Creamos un bucket con el nombre del artista
 		# Si el bucket ya existe 
 		# Se recoge los datos de la base de datos
-		nombre_bucket = "nuevo_buckettt"
+		nombre_bucket = "ejemnuevo_buckettt"
 
 		bucket = con_s3.create_bucket(nombre_bucket)
 		k = Key(bucket)

@@ -11,9 +11,9 @@
             //var ruta = "http://";
 
             $.ajax({
-                url: 'http://lit-woodland-9635.herokuapp.com/subir_s3/',
-                type: "GET",
-                data: {"fichero" : $("#file").file},
+                url: 'http://127.0.0.1:8000/subir_s3/',
+                type: "POST",
+                data: $("#formulario").serialize(),
                 contentType: false,
                 processData: false,
                 cache: false,
