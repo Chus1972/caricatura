@@ -1,19 +1,21 @@
 <!DOCTYPE HTML>
 <html>
  <head>
+    <meta charset="UTF-8">
   <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
    <script>
      $(function(){
         $("input[name='file']").on("change", function(){
-            var formData = new FormData($("#formulario")[0]);
+            var formData = new FormData($("#formulario"));
+            alert($(this)[0].files[0].name);
+            formData.append("filename":$(this)[0].files[0]);
             var datosAjax = {"fichero" : $("#file").file}
-            alert($("#file").file);
             //var ruta = "http://";
 
             $.ajax({
-                url: 'http://lit-woodland-9635.herokuapp.com/subir_s3/',
-                type: "POST",
-                data: $("#formulario").serialize(),
+                url: 'http://lit_woodland-9635.herokuapp.com/subir_s3/',
+                type: 'PUT',
+                data: formData,
                 contentType: false,
                 processData: false,
                 cache: false,
@@ -32,7 +34,7 @@
     </script>
  </head>
  <body>
- <form method="post" id="formulario" enctype="multipart/form-data">
+ <form method="GET" id="formulario" enctype="multipart/form-data">
   {% csrf_token %}
        {{form.as_p}}
     Subir imagen: <input type="file" id="file" name="file">
