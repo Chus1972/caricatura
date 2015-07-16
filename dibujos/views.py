@@ -107,8 +107,6 @@ def artistas(request):
 #def signup(request):
 
 def subir_s3(request):
-	#print "request.GET" 
-	#print request.GET.get('fichero')
 
 	print 'Entra subir_s3'
 	print 'POST'
