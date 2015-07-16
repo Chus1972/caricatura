@@ -5,12 +5,11 @@
   <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
    <script>
      $(function(){
-        $("input[name='file']").on("change", function(){
-            var formElement = document.getElementById("formulario");
-            var formData = new FormData(formElement);
-            alert($(this)[0].files[0].name);
-            formData.append("filename", $(this)[0].files[0]);
-            var datosAjax = {"fichero" : $("#file").file}
+        $("input[name='file']").on("change", function() {
+            
+            var formData = new FormData($("#formulario")[0]);
+            //formData.append("filename", $(this)[0].files[0]);
+            //var datosAjax = {"fichero" : $("#file").file}
             //var ruta = "http://";
 
             $.ajax({
@@ -35,7 +34,7 @@
     </script>
  </head>
  <body>
- <form method="GET" id="formulario" name="formulario" enctype="multipart/form-data">
+ <form method="POST" id="formulario" name="formulario" enctype="multipart/form-data">
   {% csrf_token %}
        {{form.as_p}}
     Subir imagen: <input type="file" id="file" name="file">
