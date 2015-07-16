@@ -114,26 +114,25 @@ def subir_s3(request):
 	print 'POST'
 	print 'fichero'
 	print request.POST['filename']
-	#if request.method == 'POST': # Esto quiere decir que se han llenado los datos del formulario
+	if request.method == 'POST': # Esto quiere decir que se han llenado los datos del formulario
 		
-		#nombre_fichero = request.POST.get('filename')
-	nombre_fichero = "test.py"
+		nombre_fichero = request.POST.get('filename')
 		# Hace la subida del fichero a s3
-	con_s3 = S3Connection('AKIAJNC4CIHRDOPQTENQ', 'X6u5N8Kc+TGuWxdIk9BK3xJXzcIOPTx6BpvGI7uH')
+		con_s3 = S3Connection('AKIAJNC4CIHRDOPQTENQ', 'X6u5N8Kc+TGuWxdIk9BK3xJXzcIOPTx6BpvGI7uH')
 		# Creamos un bucket con el nombre del artista
 		# Si el bucket ya existe 
 		# Se recoge los datos de la base de datos
-	nombre_bucket = "ejemnuevo_buckettt"
+		nombre_bucket = "imagenesprueba"
 
-	bucket = con_s3.create_bucket(nombre_bucket)
-	k = Key(bucket)
-	k.key = 'nombreArtista' + nombre_fichero # Nombre con que sera guardado el fichero
-	k.set_metadata('Content-Type', mime)
-	k.set_contents_from_filename(nombre_fichero) # Nombre del fichero a subir
-	k.set_acl('public_read') # cambia los permisos para hacerlo accesible a todo el publico
-	dicc = {'content' : 'OK', 'mensaje' : 'Hay POST'}
-	#else:
-#		dicc = {'content' : 'KO', 'mensaje' : 'No hay POST'}
+		bucket = con_s3.create_bucket(nombre_bucket)
+		k = Key(bucket)
+		k.key = 'nombreArtista' + nombre_fichero # Nombre con que sera guardado el fichero
+		k.set_metadata('Content-Type', mime)
+		k.set_contents_from_filename(nombre_fichero) # Nombre del fichero a subir
+		k.set_acl('public_read') # cambia los permisos para hacerlo accesible a todo el publico
+		dicc = {'content' : 'OK', 'mensaje' : 'Hay POST'}
+	else:
+		dicc = {'content' : 'KO', 'mensaje' : 'No hay POST'}
 
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
 	return HttpResponse(data, 'application/json')
