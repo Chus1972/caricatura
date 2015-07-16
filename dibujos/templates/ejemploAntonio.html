@@ -37,7 +37,7 @@
  <form method="POST" id="formulario" name="formulario" enctype="multipart/form-data">
   {% csrf_token %}
        {{form.as_p}}
-    Subir imagen: <input type="file" id="file" name="file">
+    Subir imagen: <input type="file" id="filename" name="filename">
  </form>
   <div id="respuesta"></div>
  </body>
