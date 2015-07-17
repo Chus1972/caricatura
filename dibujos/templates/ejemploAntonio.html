@@ -8,12 +8,9 @@
         $("input[name='filename']").on("change", function() {
             
             //var formData = new FormData($("#formulario"));
-            var fichero = document.getElementById('filename');
-            var fic = fichero.files[0];
+            var fichero = $('#filename')[0].files[0];
             var formData = new FormData();
-            alert(formData)
-            formData.append("filename", fic);
-            alert(formData)
+            formData.append('filename', fichero);
             //formData.append("filename", $(this)[0].files[0]);
             //var datosAjax = {"fichero" : $("#file").file}
             //var ruta = "http://";
