@@ -8,8 +8,8 @@
         $("input[name='filename']").on("change", function() {
             
             //var formData = new FormData($("#formulario"));
-            var ficheros = $('#filename').get(0).files;
-            alert(ficheros[0])
+            var ficheros = $('#filename').get(0).files[0];
+            alert(ficheros)
             var formData = new FormData();
             formData.append('filename', fichero);
             //formData.append("filename", $(this)[0].files[0]);
@@ -20,7 +20,7 @@
                 url: 'http://lit-woodland-9635.herokuapp.com/subir_s3/',
                 type: 'POST',
                 data: formData,
-                //contentType: false,
+                contentType: false,
                 processData: false,
                 cache: false,
                 dataType: "jsonp",
