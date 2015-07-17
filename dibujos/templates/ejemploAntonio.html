@@ -11,7 +11,9 @@
             var fichero = document.getElementById('filename');
             var fic = fichero.files[0];
             var formData = new FormData();
-            formData.append('filename', fic);
+            alert(formData)
+            formData.append("filename", fic);
+            alert(formData)
             //formData.append("filename", $(this)[0].files[0]);
             //var datosAjax = {"fichero" : $("#file").file}
             //var ruta = "http://";
