@@ -19,7 +19,7 @@
             $.ajax({
                 url: 'http://lit-woodland-9635.herokuapp.com/subir_s3/',
                 type: 'POST',
-                data: formData,
+                data: {'filename' : ficheros},
                 contentType: false,
                 processData: false,
                 cache: false,
