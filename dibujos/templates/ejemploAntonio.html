@@ -7,8 +7,9 @@
      $(function(){
         $("input[name='filename']").on("change", function() {
             
-            var formData = new FormData($("#formulario"));
+            //var formData = new FormData($("#formulario"));
             var ficheros = $('#filename').get(0).files[0];
+            var formData = new FormData($("#filename"))
             //alert(ficheros)
             //var formData = new FormData();
             //formData.append('filename', ficheros);
@@ -19,7 +20,7 @@
             $.ajax({
                 url: 'http://lit-woodland-9635.herokuapp.com/subir_s3/',
                 type: 'POST',
-                data: {'filename' : ficheros},
+                data: formData,
                 contentType: false,
                 processData: false,
                 cache: false,
