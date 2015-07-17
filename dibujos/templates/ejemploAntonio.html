@@ -8,8 +8,8 @@
         $("input[name='filename']").on("change", function() {
             
             //var formData = new FormData($("#formulario"));
-            var fichero = $('#filename')[0].files[0];
-            alert(fichero)
+            var ficheros = $('#filename').get(0).files;
+            alert(ficheros[0])
             var formData = new FormData();
             formData.append('filename', fichero);
             //formData.append("filename", $(this)[0].files[0]);
