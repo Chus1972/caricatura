@@ -9,6 +9,7 @@
             
             //var formData = new FormData($("#formulario"));
             var fichero = $('#filename')[0].files[0];
+            alert(fichero)
             var formData = new FormData();
             formData.append('filename', fichero);
             //formData.append("filename", $(this)[0].files[0]);
@@ -22,7 +23,7 @@
                 //contentType: false,
                 processData: false,
                 cache: false,
-                dataType: "json",
+                dataType: "jsonp",
                 crossDomain: true,
                 success: function(datos)
                 {
