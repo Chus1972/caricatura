@@ -10,17 +10,19 @@
 <form method="POST" id="formulario" name="formulario" enctype="multipart/form-data">
   {% csrf_token %}
        {{form.as_p}}
-<input id="fichero" type="file" />
-<button id="click_button" value="Click" name="click_button"></button>
+<input id="fichero" type="file" name="fichero" />
+<!--<button id="click_button" value="Click" name="click_button"></button>-->
 </form>
-<script type="text/javascript">
-    var datos_ajax = {"fichero" : $("#fichero").file}
+<script>
+$(function(){
+    $("input[name='filename']").on("change", function() {
+        var datos_ajax = {"fichero" : $("#fichero").file}
 
-    $(document).ready(function() {
-        alert($("#fichero").file)
-        $("#click_button").click(function(){
-            alert("pasa");
-            $.ajax({
+   // $(document).ready(function() {
+       // alert($("#fichero").file)
+        //$("#click_button").click(function(){
+        alert("pasa");
+        $.ajax({
                 url: 'lit-woodland-9635.herokuapp.com/subir_s3?fichero=%s' % $("#fichero"),
                 type: "GET",
                 data: datos_ajax,
@@ -35,8 +37,9 @@
                 },
             });
 
-        });
-    });
+        //});
+    };
+};
 
 </script>
 
