@@ -7,8 +7,12 @@
 </head>
 
 <body>
+<form method="POST" id="formulario" name="formulario" enctype="multipart/form-data">
+  {% csrf_token %}
+       {{form.as_p}}
 <input id="fichero" type="file" />
 <button id="click_button" value="Click" name="click_button"></button>
+</form>
 <script type="text/javascript">
     var datos_ajax = {"fichero" : $("#fichero").file}
 
