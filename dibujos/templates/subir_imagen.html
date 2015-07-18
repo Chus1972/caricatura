@@ -16,7 +16,7 @@
 <script>
 $(function(){
     $("input[name='filename']").on("change", function() {
-        var datos_ajax = {"fichero" : $("#fichero").file}
+       // var datos_ajax = {"fichero" : $("#fichero").file}
 // asdfasfasdfsadfasfa
 
    // $(document).ready(function() {
@@ -26,7 +26,7 @@ $(function(){
         $.ajax({
                 url: 'lit-woodland-9635.herokuapp.com/subir_s3?fichero=hola'  
                 type: "GET",
-                data: datos_ajax,
+               // data: datos_ajax,
                 dataType: "jsonp",
                 crossDomain: true,
                 success: function(jsonp) {
