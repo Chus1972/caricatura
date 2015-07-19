@@ -109,7 +109,7 @@ def artistas(request):
 def subir_s3(request):
 
 	print 'Entra subir_s3'
-	print request.POST['file_input']
+	print request.POST.get('file_input')
 
 	if request.method == 'POST': # Esto quiere decir que se han llenado los datos del formulario
 		print 'entra'
