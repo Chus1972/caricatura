@@ -14,7 +14,7 @@
 <h2>Mi Caricatura</h2>
 <section>
     <p id="status">Por favor, elija la caricatura</p>
-    <form method="post" action="/subir_caricatura/"> 
+    <form method="POST" action="/subir_s3/"> 
 
        {% csrf_token %}
        {{form.as_p}}

@@ -15,7 +15,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.context_processors import csrf
 
 def prueba(request):
- 	return render_to_response('ejemploAntonio.html', context_instance=RequestContext(request))
+ 	return render_to_response('subir_caricatura.html', context_instance=RequestContext(request))
 
 def usuarios_crossdomain(request):
 	return render(request, 'usuarios.html')
