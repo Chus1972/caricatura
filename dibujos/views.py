@@ -110,7 +110,11 @@ def subir_s3(request):
 
 	print 'Entra subir_s3'
 	#print request.POST.get('filename')
+
 	print request.method
+	print request.GET.get('callback')
+	print request.GET.get('filename')
+	
 	if request.method == 'GET': # Esto quiere decir que se han llenado los datos del formulario
 		print 'entra'
 		nombre_fichero = request.GET.get('filename')
