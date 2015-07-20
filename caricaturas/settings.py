@@ -146,7 +146,7 @@ CORS_ALLOW_METHODS = (
     'GET',
     'POST',
     'PUT',
-    'OPTIONS'
+    'OPTIONS',
 )
 
 CORS_ALLOW_HEADERS = (
@@ -155,7 +155,7 @@ CORS_ALLOW_HEADERS = (
     'accept',
     'origin',
     'authorization',
-    'x-csrftoken'
+    'x-csrftoken',
 )
 
 CSRF_COOKIE_SECURE = True
