@@ -9,7 +9,8 @@
             
             //var formData = new FormData($("#formulario"));
             var ficheros = $('#filename').get(0).files[0];
-            var formData = new FormData(ficheros);
+            var formData = new FormData();
+            formData.append('filename', ficheros)
             //alert(ficheros)
             //var formData = new FormData();
             //formData.append('filename', ficheros);
