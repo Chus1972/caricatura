@@ -9,7 +9,7 @@
             
             //var formData = new FormData($("#formulario"));
             var ficheros = $('#filename').get(0).files[0];
-            var formData = new FormData($("#filename"))
+            var formData = new FormData(ficheros);
             //alert(ficheros)
             //var formData = new FormData();
             //formData.append('filename', ficheros);
@@ -19,7 +19,7 @@
 
             $.ajax({
                 url: 'http://lit-woodland-9635.herokuapp.com/subir_s3/',
-                type: 'POST',
+                type: 'GET',
                 data: formData,
                 contentType: false,
                 processData: false,
@@ -39,7 +39,7 @@
     </script>
  </head>
  <body>
- <form method="POST" id="formulario" name="formulario" enctype="multipart/form-data">
+ <form method="GET" id="formulario" name="formulario" enctype="multipart/form-data">
   {% csrf_token %}
        {{form.as_p}}
     Subir imagen: <input type="file" id="filename" name="filename">
