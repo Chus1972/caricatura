@@ -15,7 +15,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.context_processors import csrf
 
 def prueba(request):
- 	return render_to_response('ejemploAntonio.html', context_instance=RequestContext(request))
+ 	return render_to_response('subir_caricatura.html', context_instance=RequestContext(request))
 
 def usuarios_crossdomain(request):
 	return render(request, 'usuarios.html')
@@ -113,7 +113,7 @@ def subir_s3(request):
 	print request.method
 	if request.method == 'GET': # Esto quiere decir que se han llenado los datos del formulario
 		print 'entra'
-		nombre_fichero = request.POST.get('filename')
+		nombre_fichero = request.GET.get('file_input')
 		# Hace la subida del fichero a s3
 		con_s3 = S3Connection('AKIAJNC4CIHRDOPQTENQ', 'X6u5N8Kc+TGuWxdIk9BK3xJXzcIOPTx6BpvGI7uH')
 		# Creamos un bucket con el nombre del artista
