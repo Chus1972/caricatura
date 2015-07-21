@@ -105,7 +105,7 @@ def artistas(request):
 #def signin(request):
 
 #def signup(request):
-
+@csrf_protect
 def subir_s3(request):
 
 	print 'Entra subir_s3'
