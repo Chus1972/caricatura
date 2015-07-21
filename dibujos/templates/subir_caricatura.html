@@ -1,35 +1,45 @@
-<!doctype html>
-{% load static from staticfiles %}
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Subir Caricatura</title>
+    <title>Upload S3</title>
 </head>
 <body>
-
-<h1>SUBIR CARICATURA</h1>
-
-<hr />
-
-<h2>Mi Caricatura</h2>
-<section>
-    <p id="status">Por favor, elija la caricatura</p>
-    <form method="POST" action="/subir_s3/" enctype="multipart/form-data">{% csrf_token %}
-       {{form.as_p}}
     
-       <input type="file" id="file_input" name="file_input"/>
-        
-       <img style="border:1px solid gray;width:300px;"  id="preview" src="{% static "iconoApp.jpg" %}" />
-       <input type="text" id="username" name="username"/>
-       <input
-       <input type="hidden" id="avatar_url" name="avatar_url" value="{{STATIC_URL}}iconoApp.jpg" />
+    <form enctype="multipart/form-data" id="formuploadajax" method="post">
     
-       <hr />
-       <h2>Save changes</h2>
-
-       <input type="submit" value="Update profile" />
+        <input  type="file" id="filename" name="filename"/>
+        <br />
+        <input type="submit" value="Subir archivos"/>
     </form>
-</section>
+    <div id="mensaje"></div>
+    
+    
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script>
+    $(function(){
+        $("#formuploadajax").on("submit", function(e){
+            e.preventDefault();
+            var f = $(this);
+            var formData = new FormData();
+            formData.append("filename", $("#filename").get(0).files[0]);
+            alert($("#filename").get(0).files[0]);
+            $.ajax({
+                url: "http://127.0.0.1:8000/subir_s3",
+                type: "get",
+                dataType: "jsonp",
+                data: formData,
+                cache: false,
+                contentType: false,
+                enctype: "multipart/form-data",
+         processData: false
+            })
+                .done(function(res){
+                    $("#mensaje").html("Respuesta: " + res);
+                });
+        });
+    });
+    </script>
 </body>
 </html>
 

@@ -114,24 +114,33 @@ def subir_s3(request):
 
 	print request.method
 	print request.GET.get('callback')
-	print request.GET.get('filename')
+	print request.GET.get('filen')
 	
 	if request.method == 'GET': # Esto quiere decir que se han llenado los datos del formulario
 		print 'entra'
-		nombre_fichero = request.GET.get('filename')
+		nombre_fichero = request.GET.get('filen')
+		print nombre_fichero
 		# Hace la subida del fichero a s3
+		S3Connection.signature = "v4"
 		con_s3 = S3Connection('AKIAJNC4CIHRDOPQTENQ', 'X6u5N8Kc+TGuWxdIk9BK3xJXzcIOPTx6BpvGI7uH')
+		print '111111'
 		# Creamos un bucket con el nombre del artista
 		# Si el bucket ya existe 
 		# Se recoge los datos de la base de datos
-		nombre_bucket = "imagenesprueba"
+		nombre_bucket = "nuevo_bucket"
 
 		bucket = con_s3.create_bucket(nombre_bucket)
+		print '222222'
 		k = Key(bucket)
+		print '333333333'
 		k.key = 'nombreArtista' + nombre_fichero # Nombre con que sera guardado el fichero
-		k.set_metadata('Content-Type', mime)
+		print '44444444'
+		#k.set_metadata('Content-Type', mime)
+		print '555555'
 		k.set_contents_from_filename(nombre_fichero) # Nombre del fichero a subir
-		k.set_acl('public_read') # cambia los permisos para hacerlo accesible a todo el publico
+		print '6666666'
+		#k.set_acl('public_read') # cambia los permisos para hacerlo accesible a todo el publico
+		print '7777777'
 		dicc = {'content' : 'OK', 'mensaje' : 'Hay POST'}
 	else:
 		dicc = {'content' : 'KO', 'mensaje' : 'No hay POST'}
