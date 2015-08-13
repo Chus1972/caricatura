@@ -12,6 +12,10 @@
             alert(ficheros)
             var formData = new FormData();
             formData.append('filen', ficheros)
+            formData.append('csrf_token' , {{ csrf_token }})
+            formData.append('csrf_name', 'csrfmiddlewaretoken')
+            formData.append('csrf_xname', 'X-CSRFToken' )
+
             alert(formData)
             //alert(ficheros)
             //var formData = new FormData();
@@ -21,7 +25,7 @@
             //var ruta = "http://";
 
             $.ajax({
-                url: 'http://127.0.0.1:8000/subir_s3/',
+                url: 'http://127.0.0.1:8000/ajax-upload/',
                 type: 'post',
                 data: formData,
                 contentType: false,

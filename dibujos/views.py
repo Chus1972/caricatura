@@ -14,9 +14,23 @@ from boto.s3.key import Key
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_protect
+from django.middleware.csrf import get_token
+
+from ajaxuploader.views import AjaxFileUploader
+
+#-------------------
+def start(request):
+	csrf_token = get_token(request)
+	return render_to_response('ejemploFrameworkUploader.html', { 'csrf_token' : csrf_token}, context_instance = RequestContext(request))
+
+import_uploader = AjaxFileUploader()
+#----------------------
 
 def prueba(request):
- 	return render_to_response('ejemploAntonio.html', context_instance=RequestContext(request))
+	csrf_token = get_token(request)
+
+	print "TOKEN %s" % csrf_token
+ 	return render_to_response('ejemploFrameworkUploader.html', { 'csrf_token' : csrf_token}, context_instance=RequestContext(request))
 
 def usuarios_crossdomain(request):
 	return render(request, 'usuarios.html')

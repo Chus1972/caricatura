@@ -1,0 +1,39 @@
+<!doctype html>
+<head>
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="{{ STATIC_URL }}ajaxuploader/js/fileuploader.js"></script>
+	<link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}ajaxuploader/css/fileuploader.css" />
+	<script>
+		$(function() {
+			var uploader = new qq.FileUploader({
+				action : "{% url 'my_ajax_upload' %}",
+				element : $('#file-uploader')[0],
+				multiple : true,
+				onComplete : function(id, fileName, responseJSON) {
+					if (responseJSON.success) {
+						alert("successsss");
+					} else {
+						alert("upload failed");
+					}
+				},
+				onAllComplete : function(uploads) {
+					alert("ALL complete");
+				},
+				params : {
+					'csrf_token' : {{ csrf_token }},
+					'csrf_name' : 'csrfmiddlewaretoken',
+					'csrf_xname' : 'X-CSRFToken',
+				},
+			});
+		});
+	</script>
+</head>
+
+<body>
+ <form method="post" id="formulario" name="formulario" enctype="multipart/form-data">{% csrf_token %}
+       {{form.as_p}}
+    Subir imagen: <input type="file" id="file-uploader" name="file-uploader" />
+    <input type="submit" id="enviar" />
+ </form>
+  <div id="respuesta"></div>
+</html>
