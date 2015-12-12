@@ -35,12 +35,10 @@ def borrar_artista(request, user):
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
 	return HttpResponse(data, 'application/json')
 
-def update_artista(request, id, usuario, password, nombre, apellidos, pais, codigopostal, telefono, 
-				   direccion, ciudad, codartista, correoe):
+def update_artista(request, user, password, nombre, apellidos, correoe, pais, direccion, ciudad, codigopostal, telefono):
 	dicc = {}
 	try:
-		artista = Artista.objects.get(id = id)
-		artista.user = usuario
+		artista = Artista.objects.get(username = user)
 		artista.password = password
 		artista.nombre = nombre
 		artista.apellidos = apellidos
@@ -54,7 +52,7 @@ def update_artista(request, id, usuario, password, nombre, apellidos, pais, codi
 		artista.save()
 
 		ar = {}
-		ar = {'usuario' : artista.user, 'password' : artista.password, 'nombre' : artista.nombre,
+		ar = {'usuario' : artista.username, 'password' : artista.password, 'nombre' : artista.nombre,
 		      'apellidos' : artista.apellidos, 'pais' : artista.pais,
 		      'codigopostal' : artista.codigopostal, 'telefono' : artista.telefono, 
 		      'direccion' : artista.direccion, 'ciudad' : artista.ciudad, 
@@ -67,7 +65,7 @@ def update_artista(request, id, usuario, password, nombre, apellidos, pais, codi
 
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
 	return HttpResponse(data, 'application/json')
-
+c
 def borrar_usuario(request, id):
 	dicc = {}
 	try:
