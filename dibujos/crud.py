@@ -52,10 +52,18 @@ def update_artista(request, id, usuario, password, nombre, apellidos, pais, codi
 		artista.correoe = correoe
 
 		artista.save()
-		dicc = {'content' : 'OK'}
+
+		ar = {}
+		ar = {'usuario' : artista.user, 'password' : artista.password, 'nombre' : artista.nombre,
+		      'apellidos' : artista.apellidos, 'pais' : artista.pais,
+		      'codigopostal' : artista.codigopostal, 'telefono' : artista.telefono, 
+		      'direccion' : artista.direccion, 'ciudad' : artista.ciudad, 
+		      'codartista' : artista.codartista, 'correoe' : artista.correoe}
+
+		dicc = {'content' : 'OK', 'mensaje' : ar}
 
 	except Artista.DoesNotExist:
-		dicc = {'content' : 'KO', 'mensaje' : 'Artista no existe'}
+		dicc = {'content' : 'KO', 'mensaje' : {'error' : 'Este artista NO existe'}}
 
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
 	return HttpResponse(data, 'application/json')
