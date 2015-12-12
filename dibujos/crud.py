@@ -84,7 +84,7 @@ def update_usuario(request, idusuario, user, password):
 	    dicc = {'content' : 'OK', 'mensaje' : us}
 
 	except Usuario.DoesNotExist: # Usuario no existe
-		dicc = {'content' : 'KO', 'mensaje' : 'Usuario no existe'}
+		dicc = {'content' : 'KO', 'mensaje' : {'error' : 'Este usuario NO existe'}}
 	
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
 	return HttpResponse(data, 'application/json')
