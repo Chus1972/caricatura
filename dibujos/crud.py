@@ -81,10 +81,7 @@ def update_usuario(request, idusuario, user, password):
 		usuario.password = password
 		usuario.save()
 
-		u = {'id' : usuario.id, 'username' : usuario.username, 'sesion' : usuario.sesion, 
-			 'conectado' : usuario.connect, 'ultimoacceso_ip' : usuario.ultimoaccesoip,
-		     'ultimoaccesofecha' : usuario.ultimoaccesofecha.isoformat(),
-	         'sesionactiva' : usuario.sesionactiva}
+		u = {'id' : usuario.id, 'username' : usuario.username, 'sesion' : usuario.sesion, 'conectado' : usuario.connect, 'ultimoacceso_ip' : usuario.ultimoaccesoip, 'ultimoaccesofecha' : usuario.ultimoaccesofecha.isoformat(), 'sesionactiva' : usuario.sesionactiva}
 	    dicc = {'content' : 'OK', 'mensaje' : u}
 
 	except Usuario.DoesNotExist: # Usuario no existe
