@@ -4,7 +4,7 @@ from django.conf import settings
 from django.contrib import admin
 from dibujos.crud import alta_usuario, alta_artista, update_artista, update_usuario , borrar_artista, borrar_usuario
 from dibujos.crud_caricaturas import borrar_caricatura, alta_caricatura
-from dibujos.views import  import_uploader, start, prueba, subir_s3, login_usuario, login_usuario_crossdomain, login_artista, login_artista_crossdomain, usuarios, artistas, usuarios_crossdomain, artistas_crossdomain, caricaturas_artista  #, ejemplo, sign_s3, 
+from dibujos.views import  upload_file, import_uploader, start, prueba, subir_s3, login_usuario, login_usuario_crossdomain, login_artista, login_artista_crossdomain, usuarios, artistas, usuarios_crossdomain, artistas_crossdomain, caricaturas_artista  #, ejemplo, sign_s3, 
 from dibujos.crud_caricaturas import alta_caricatura, borrar_caricatura, update_caricatura
 from django.conf.urls.static import static
 
@@ -42,7 +42,7 @@ urlpatterns = patterns('',
     url(r'^caricaturas_artista/([0-9]+)/', caricaturas_artista, name = 'caricaturas_artista'),
     #---------------------------------
     url(r'start$', start, name = "start"),
-    url(r'ajax-upload$', import_uploader, name = "my_ajax_upload"),
+    url(r'ajax-upload$', upload_file, name = "my_ajax_upload"),
     #---------------------------------------
     #url(r'^signup/(\w+)/(password)', signup, name = 'signup'),
     #url(r'^signin/', signin, name = 'signin'),

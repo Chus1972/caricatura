@@ -1,6 +1,6 @@
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 import json,os
 from dibujos.models import *
 #import sys,os, base64, hmac, urllib, hashlib
@@ -18,6 +18,9 @@ from django.middleware.csrf import get_token
 
 from ajaxuploader.views import AjaxFileUploader
 
+from .forms import UploadFileForm
+
+#from somewhere import handle_uploaded_file
 #-------------------
 def start(request):
 	csrf_token = get_token(request)
@@ -31,6 +34,23 @@ def prueba(request):
 
 	print "TOKEN %s" % csrf_token
  	return render_to_response('ejemploFrameworkUploader.html', { 'csrf_token' : csrf_token}, context_instance=RequestContext(request))
+
+def upload_file(request):
+	if request.method == 'POST':
+		form = UploadFileForm(request.POST, request.FILES)
+		print form.is_valid()
+		if form.is_valid():
+			handle_uploaded_file(request.FILES['file'])
+			return HttpResponseRedirect('subir_s3/')
+	else:
+		form = UploadFileForm()
+	return render_to_response('ejemploAntonio.html', {'form' : form})
+
+
+def hand_uploaded_file(f):
+	with open('nombreFichero.jpg', 'wb+') as destination:
+		for chunk in f.chunk():
+			destination.write(chunk)
 
 def usuarios_crossdomain(request):
 	return render(request, 'usuarios.html')

@@ -118,7 +118,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.CachedStaticFilesStorage'
 
 STATIC_URL = '/dibujos/static/'
-STATIC_ROOT = '/static/'
+STATIC_ROOT = '/dibujos/static/'
 
 MEDIA_ROOT = os.sep.join(os.path.abspath(__file__).split(os.sep)[:-2] + ['media'])
 MEDIA_URL = '/dibujos/media/'

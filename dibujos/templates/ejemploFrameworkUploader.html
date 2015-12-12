@@ -1,8 +1,8 @@
 <!doctype html>
 <head>
 	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-	<script src="{{ STATIC_URL }}ajaxuploader/js/fileuploader.js"></script>
-	<link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}ajaxuploader/css/fileuploader.css" />
+	<script src="/dibujos/js/fileuploader.js"></script>
+	<!--<link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}ajaxuploader/css/fileuploader.css" />-->
 	<script>
 		$(function() {
 			var uploader = new qq.FileUploader({
@@ -20,7 +20,7 @@
 					alert("ALL complete");
 				},
 				params : {
-					'csrf_token' : {{ csrf_token }},
+					'csrf_token' : '{{ csrf_token }}',
 					'csrf_name' : 'csrfmiddlewaretoken',
 					'csrf_xname' : 'X-CSRFToken',
 				},
