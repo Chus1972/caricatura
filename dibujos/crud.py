@@ -74,15 +74,14 @@ def borrar_usuario(request, id):
 
 def update_usuario(request, idusuario, user, password):
 	dicc = {}
-	u = {}
 	try:
 		usuario = Usuario.objects.get(id = idusuario)
 		usuario.username = user
 		usuario.password = password
 		usuario.save()
 
-		u = {'id' : usuario.id, 'username' : usuario.username, 'sesion' : usuario.sesion, 'conectado' : usuario.connect, 'ultimoacceso_ip' : usuario.ultimoaccesoip, 'ultimoaccesofecha' : usuario.ultimoaccesofecha.isoformat(), 'sesionactiva' : usuario.sesionactiva}
-	    dicc = {'content' : 'OK', 'mensaje' : u}
+		us = {'id' : usuario.id, 'username' : usuario.username, 'sesion' : usuario.sesion, 'conectado' : usuario.connect, 'ultimoacceso_ip' : usuario.ultimoaccesoip, 'ultimoaccesofecha' : usuario.ultimoaccesofecha.isoformat(), 'sesionactiva' : usuario.sesionactiva}
+	    dicc = {'content' : 'OK', 'mensaje' : us}
 
 	except Usuario.DoesNotExist: # Usuario no existe
 		dicc = {'content' : 'KO', 'mensaje' : 'Usuario no existe'}
