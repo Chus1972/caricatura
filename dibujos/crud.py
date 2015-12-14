@@ -1,14 +1,36 @@
 from dibujos.models import *
 from django.http import HttpResponse
-import json, os
+import json, os, datetime
 
-def alta_artista(request, user, password, nombre, apellidos, correoe, pais, direccion, ciudad, codigopostal, telefono):
+def alta_artista(request):
 	dicc = {}
 	try:
 		artista = Artista.objects.get(username = user)
 	except Artista.DoesNotExist: # Artista no existe y se puede crear
+		artista = Artista(username = request.POST['user'], password = request.POST['password'], nombre = request.POST['nombre'],
+						  apellidos = request.POST['apellidos'], correoe = request.POST['email'], pais = request.POST['pais'], 
+						  direccion = request.POST['direccion'], codigopostal = request.POST['codigopostal'], 
+						  telefono = request.POST['telefono'], ciudad = request.POST['ciudad'], activo = 1, 
+						  fechacreacion = datetime.datetime.now() + datetime.timedelta(hours = 2),
+						  fechaactivacion = datetime.datetime.now() + datetime.timedelta(hours = 2),
+						  ultimaaccionfecha = datetime.datetime.now() + datetime.timedelta(hours = 2),
+					      ultimoaccesofecha = datetime.datetime.now() + datetime.timedelta(hours = 2),
+					      ultimoaccesoip = get_client_ip(request), connect = 1, sesionactiva = 1)
+		artista.save()
+		dicc = {'content' : 'OK', 'mensaje' : {'username' : user}}
+	else: # el usuario ya existe
+		dicc = {'content' : 'KO', 'mensaje' : {'error' : 'Este artista ya existe'}}
+	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
+	return HttpResponse(data, 'application/json')
+
+def alta_artista2(request, user, password, nombre, apellidos,  pais, direccion, ciudad, codigopostal, telefono):
+	dicc = {}
+	print "email : " + request.GET['email']
+	try:
+		artista = Artista.objects.get(username = user)
+	except Artista.DoesNotExist: # Artista no existe y se puede crear
 		artista = Artista(username = user, password = password, nombre = nombre,
-						  apellidos = apellidos, correoe = correoe, pais = pais, direccion = direccion,
+						  apellidos = apellidos, correoe = request.GET['email'], pais = pais, direccion = direccion,
 						  codigopostal = codigopostal, telefono = telefono, ciudad = ciudad, activo = 1, 
 						  fechacreacion = datetime.datetime.now() + datetime.timedelta(hours = 2),
 						  fechaactivacion = datetime.datetime.now() + datetime.timedelta(hours = 2),
@@ -35,7 +57,7 @@ def borrar_artista(request, user):
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
 	return HttpResponse(data, 'application/json')
 
-def update_artista(request, user, password, nombre, apellidos, correoe, pais, direccion, ciudad, codigopostal, telefono):
+def update_artista(request, user, password, nombre, apellidos, pais, direccion, ciudad, codigopostal, telefono):
 	dicc = {}
 	try:
 		artista = Artista.objects.get(username = user)
@@ -47,7 +69,7 @@ def update_artista(request, user, password, nombre, apellidos, correoe, pais, di
 		artista.telefono = telefono
 		artista.direccion = direccion
 		artista.ciudad = ciudad
-		artista.correoe = correoe
+		artista.correoe = request.POST['email']
 
 		artista.save()
 
@@ -112,3 +134,14 @@ def alta_usuario(request, user, password):
 	
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
 	return HttpResponse(data, 'application/json')
+
+# Funcion que devuelve la ip del cliente
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
+
