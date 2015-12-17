@@ -57,6 +57,7 @@ def borrar_artista(request, user):
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
 	return HttpResponse(data, 'application/json')
 
+# Tengo que hacer update_artista2
 def update_artista(request, user, password, nombre, apellidos, pais, direccion, ciudad, codigopostal, telefono):
 	dicc = {}
 	try:
