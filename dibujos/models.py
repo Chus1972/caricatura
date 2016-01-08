@@ -9,6 +9,7 @@ class Usuario(models.Model):
 	ultimoaccesoip		= models.CharField(max_length = 32, default = "")
 	ultimoaccesofecha 	= models.DateTimeField(default = None)
 	sesionactiva		= models.BooleanField(default = False)
+	tipousuario			= models.CharField(max_length = 20)
 
 class Artista(models.Model):
 	 nombre				= models.CharField(max_length = 100)

@@ -71,7 +71,7 @@ def login_usuario(request, user, password):
 		dicc = {'content' : 'OK', 'mensaje' : {'id' : usuario.id, 'usuario' : usuario.username, 'conectado' : usuario.connect, 
 		        'sesion' : usuario.sesion, 'ultimoaccesoip' : usuario.ultimoaccesoip,
 		        'ultimoaccesofecha' : usuario.ultimoaccesofecha.isoformat(), 
-		        'sesionactiva' : usuario.sesionactiva}}
+		        'sesionactiva' : usuario.sesionactiva, 'tipousuario' : usuario.tipousuario}}
 
 	except Usuario.DoesNotExist:
 		dicc = {'content' : 'KO'}
@@ -108,7 +108,7 @@ def usuarios(request):
 		for usuario in usuarios:
 			listaUsuarios.append({'id' : usuario.id, 'username' : usuario.username, 'sesion' : usuario.sesion, 'conectado' : usuario.connect, 
 							      'ultimoacceso_ip' : usuario.ultimoaccesoip, 'ultimoaccesofecha' : usuario.ultimoaccesofecha.isoformat(),
-							      'sesionactiva' : usuario.sesionactiva})
+							      'sesionactiva' : usuario.sesionactiva, 'tipousuario' : usuario.tipousuario})
 		dicc = {"content" : "OK", "mensaje" : listaUsuarios}
 	except Exception as e:
 		dicc = {"content" : "KO", "error" : e}
@@ -137,9 +137,27 @@ def artistas(request):
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
 	return HttpResponse(data, 'application/json')
 
-#def signin(request):
+def artista(request, idartista):
+	dicc = {}
+	try:
+		artista = Artista.objects.get(id = idartista)
+		dicc = {'id' : artista.id, 'nombre' : artista.nombre, 'apellidos' : artista.apellidos, 'username' : artista.username, 
+							      'pais' : artista.pais, 'codigopostal' : artista.codigopostal, 'telefono' : artista.telefono,  
+							      'telefono' : artista.telefono, 'direccion' : artista.direccion, 'ciudad' : artista.ciudad, 
+							      'sesion' : artista.sesion, 'codigoartista' : artista.codartista,  'conectado' : artista.connect, 
+							      'ultimoaccesoip' : artista.ultimoaccesoip, 'ultimoaccesofecha' : artista.ultimoaccesofecha.isoformat(),
+							      'estadosuscripcion' : artista.estadosuscripcion, 'sesionactiva' : artista.sesionactiva,
+							      'activo' : artista.activo, 'correoelectronico' : artista.correoe, 'ultimaaccionfecha' : artista.ultimaaccionfecha.isoformat(),
+							      'fechacreacion' : artista.fechacreacion.isoformat(), 'fechaactivacion' : artista.fechaactivacion.isoformat(),
+							      'content' : 'OK'}
+		
+	except Exception as e:
+		dicc = {'content' : 'KO', 'error' : e}
 
-#def signup(request):
+	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
+	return HttpResponse(data, 'application/json')
+
+
 @csrf_protect
 def subir_s3(request):
 

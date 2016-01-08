@@ -4,7 +4,7 @@ from django.conf import settings
 from django.contrib import admin
 from dibujos.crud import alta_usuario, alta_artista, alta_artista2, update_artista, update_usuario , borrar_artista, borrar_usuario
 from dibujos.crud_caricaturas import borrar_caricatura, alta_caricatura
-from dibujos.views import  upload_file, import_uploader, start, prueba, subir_s3, login_usuario, login_usuario_crossdomain, login_artista, login_artista_crossdomain, usuarios, artistas, usuarios_crossdomain, artistas_crossdomain, caricaturas_artista  #, ejemplo, sign_s3, 
+from dibujos.views import  upload_file, import_uploader, start, prueba, subir_s3, login_usuario, login_usuario_crossdomain, login_artista, login_artista_crossdomain, usuarios, artistas, artista, usuarios_crossdomain, artistas_crossdomain, caricaturas_artista  #, ejemplo, sign_s3, 
 from dibujos.crud_caricaturas import alta_caricatura, borrar_caricatura, update_caricatura
 from django.conf.urls.static import static
 
@@ -27,6 +27,7 @@ urlpatterns = patterns('',
     url(r'^usuarios/$', usuarios, name = 'usuarios'),
     url(r'^usuarios_crossdomain/$', usuarios_crossdomain, name = 'usuarios_crossdomain'),
     url(r'^artistas/$', artistas, name = 'artistas'),
+    url(r'^artista/(\d+)/$', artista, name = 'artista'),
     url(r'^artistas_crossdomain/$', artistas_crossdomain, name = 'artistas_crossdomain'),
     url(r'^update_artista/(\w+)/(\S{5,})/(\w+)/(\w+)/(\w+)/(\w+)/(\w+)/(\w+)/(\w+)/', update_artista, name = 'update_artista'),
     url(r'^update_usuario/(\w+)/(\w+)/(\S{5,})', update_usuario, name = 'update_usuario'),
