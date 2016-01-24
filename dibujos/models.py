@@ -17,6 +17,7 @@ class Artista(models.Model):
 	 connect			= models.BooleanField(default = False)
 	 username			= models.CharField(max_length = 32)
 	 password 			= models.CharField(max_length = 100)
+	 tipousuario		= models.CharField(max_length = 20)
 	 correoe		    = models.EmailField()
 	 pais				= models.CharField(max_length = 200, default = "")
 	 codigopostal		= models.CharField(max_length = 10, default = "")

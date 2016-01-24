@@ -8,7 +8,8 @@ def alta_artista(request):
 		artista = Artista.objects.get(username = request.POST['user'])
 	except Artista.DoesNotExist: # Artista no existe y se puede crear
 		artista = Artista(username = request.POST['user'], password = request.POST['password'], nombre = request.POST['nombre'],
-						  apellidos = request.POST['apellidos'], correoe = request.POST['email'], pais = request.POST['pais'], 
+						  apellidos = request.POST['apellidos'], tipousuario = request.POST['tipoususario'], 
+						  correoe = request.POST['email'], pais = request.POST['pais'], 
 						  direccion = request.POST['direccion'], codigopostal = request.POST['codigopostal'], 
 						  telefono = request.POST['telefono'], ciudad = request.POST['ciudad'], activo = 1, 
 						  fechacreacion = datetime.datetime.now() + datetime.timedelta(hours = 2),
@@ -30,7 +31,7 @@ def alta_artista2(request, user, password, nombre, apellidos,  pais, direccion, 
 		artista = Artista.objects.get(username = user)
 	except Artista.DoesNotExist: # Artista no existe y se puede crear
 		artista = Artista(username = user, password = password, nombre = nombre,
-						  apellidos = apellidos, correoe = request.GET['email'], pais = pais, direccion = direccion,
+						  apellidos = apellidos, tipousuario = request.POST['tipoususario'],  correoe = request.GET['email'], pais = pais, direccion = direccion,
 						  codigopostal = codigopostal, telefono = telefono, ciudad = ciudad, activo = 1, 
 						  fechacreacion = datetime.datetime.now() + datetime.timedelta(hours = 2),
 						  fechaactivacion = datetime.datetime.now() + datetime.timedelta(hours = 2),
@@ -58,13 +59,14 @@ def borrar_artista(request, user):
 	return HttpResponse(data, 'application/json')
 
 # Tengo que hacer update_artista2
-def update_artista(request, user, password, nombre, apellidos, pais, direccion, ciudad, codigopostal, telefono):
+def update_artista(request, user, password, nombre, apellidos, tipousuario, pais, direccion, ciudad, codigopostal, telefono):
 	dicc = {}
 	try:
 		artista = Artista.objects.get(username = user)
 		artista.password = password
 		artista.nombre = nombre
 		artista.apellidos = apellidos
+		artista.tipousuario = tipousuario
 		artista.pais = pais
 		artista.codigopostal = codigopostal
 		artista.telefono = telefono
@@ -76,7 +78,7 @@ def update_artista(request, user, password, nombre, apellidos, pais, direccion, 
 
 		ar = {}
 		ar = {'usuario' : artista.username, 'password' : artista.password, 'nombre' : artista.nombre,
-		      'apellidos' : artista.apellidos, 'pais' : artista.pais,
+		      'apellidos' : artista.apellidos, 'tipousuario' : artista.tipousuario, 'pais' : artista.pais,
 		      'codigopostal' : artista.codigopostal, 'telefono' : artista.telefono, 
 		      'direccion' : artista.direccion, 'ciudad' : artista.ciudad, 
 		      'codartista' : artista.codartista, 'correoe' : artista.correoe}
