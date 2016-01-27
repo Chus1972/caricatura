@@ -136,6 +136,7 @@ def alta_usuario(request, user, password):
 		us = {}
 		us = {'id' : usuario.id, 'username' : usuario.username, 'sesion' : usuario.sesion, 'conectado' : usuario.connect, 'ultimoacceso_ip' : usuario.ultimoaccesoip, 'ultimoaccesofecha' : usuario.ultimoaccesofecha.isoformat(), 'sesionactiva' : usuario.sesionactiva}
 		dicc = {'content' : 'OK', 'mensaje' : us}
+		print dicc
 
 	else: # el usuario ya existe
 		dicc = {'content' : 'KO', 'mensaje' : {'error' : 'Este usuario ya existe'}}
