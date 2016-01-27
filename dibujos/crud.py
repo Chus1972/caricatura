@@ -131,7 +131,11 @@ def alta_usuario(request, user, password):
 					      ultimoaccesofecha = datetime.datetime.now() + datetime.timedelta(hours = 2),
 					      ultimoaccesoip = get_client_ip(request), connect = 1, sesionactiva = 1)
 		usuario.save()
-		dicc = {'content' : 'OK', 'mensaje' : {'username' : user}}
+
+		us = {}
+		us = {'id' : usuario.id, 'username' : usuario.username, 'sesion' : usuario.sesion, 'conectado' : usuario.connect, 'ultimoacceso_ip' : usuario.ultimoaccesoip, 'ultimoaccesofecha' : usuario.ultimoaccesofecha.isoformat(), 'sesionactiva' : usuario.sesionactiva}
+		dicc = {'content' : 'OK', 'mensaje' : us}
+
 	else: # el usuario ya existe
 		dicc = {'content' : 'KO', 'mensaje' : {'error' : 'Este usuario ya existe'}}
 	
