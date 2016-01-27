@@ -122,6 +122,7 @@ def update_usuario(request, idusuario, user, password):
 	return HttpResponse(data, 'application/json')
 
 
+#devuelve todos los datos del nuevo usuario si el usuario se ha creado con exito
 def alta_usuario(request, user, password):
 	dicc = {}
 	try:
