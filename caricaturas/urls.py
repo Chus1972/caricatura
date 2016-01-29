@@ -9,9 +9,7 @@ from dibujos.crud_caricaturas import alta_caricatura, borrar_caricatura, update_
 from django.conf.urls.static import static
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'caricaturas.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
+    
     url(r'^admin/', include(admin.site.urls)),
     url(r'^prueba/', prueba),
     #url(r'^ejemplo/', ejemplo),
