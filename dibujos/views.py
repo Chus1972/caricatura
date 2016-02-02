@@ -67,13 +67,18 @@ def subir_imagen(request):
 def login_usuario(request, user, password):
 	dicc = {}
 	try:
-		usuario = Usuario.objects.get(username = user, password = password)
-		dicc = {'content' : 'OK', 'mensaje' : {'id' : usuario.id, 'usuario' : usuario.username, 'conectado' : usuario.connect, 
-		        'sesion' : usuario.sesion, 'ultimoaccesoip' : usuario.ultimoaccesoip,
-		        'ultimoaccesofecha' : usuario.ultimoaccesofecha.isoformat(), 
-		        'sesionactiva' : usuario.sesionactiva, 'tipousuario' : usuario.tipousuario}}
+		usuario = Artista.objects.get(username = user, password = password)
+		dicc = {'content' : 'OK', 'mensaje' : {'id' : usuario.id, 'nombre' : usuario.nombre, 'apellidos' : usuario.apellidos,
+			    'username' : usuario.username, 'tipousuario' : usuario.tipousuario, 'correoe' : usuario.correoe, 'pais' : usuario.pais, 
+		        'codigopostal' : usuario.codigopostal, 'telefono' : usuario.telefono,
+		        'direccion' : usuario.direccion, 'ciudad' : usuario.ciudad, 
+		        'sesion' : usuario.sesion, 'codusuario' : usuario.codusuario,
+		        'connect' : usuario.connect, 'ultimoaccesoip' : usuario.ultimoaccesoip,
+		        'ultimoaccesofecha' : usuario.ultimoaccesofecha.isoformat(),
+		        'estadosuscripcion' : usuario.estadosuscripcion,
+		        'sesionactiva' : usuario.sesionactiva, 'activo' : usuario.activo}}
 
-	except Usuario.DoesNotExist:
+	except Artista.DoesNotExist:
 		dicc = {'content' : 'KO'}
 
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
@@ -85,7 +90,7 @@ def login_artista(request, user, password):
 	try:
 		artista = Artista.objects.get(username = user, password = password)
 		dicc = {'content' : 'OK', 'mensaje' : {'id' : artista.id, 'nombre' : artista.nombre, 'apellidos' : artista.apellidos,
-			    'username' : artista.username, 'correoe' : artista.correoe, 'pais' : artista.pais, 
+			    'username' : artista.username, 'tipousuario' : artista.tipousuario, 'correoe' : artista.correoe, 'pais' : artista.pais, 
 		        'codigopostal' : artista.codigopostal, 'telefono' : artista.telefono,
 		        'direccion' : artista.direccion, 'ciudad' : artista.ciudad, 
 		        'sesion' : artista.sesion, 'codartista' : artista.codartista,
@@ -99,22 +104,22 @@ def login_artista(request, user, password):
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
 	return HttpResponse(data, 'application/json')
 
-def usuarios(request):
-
-	dicc = {}
-	listaUsuarios = []
-	try:
-		usuarios = Usuario.objects.all()
-		for usuario in usuarios:
-			listaUsuarios.append({'id' : usuario.id, 'username' : usuario.username, 'sesion' : usuario.sesion, 'conectado' : usuario.connect, 
-							      'ultimoacceso_ip' : usuario.ultimoaccesoip, 'ultimoaccesofecha' : usuario.ultimoaccesofecha.isoformat(),
-							      'sesionactiva' : usuario.sesionactiva, 'tipousuario' : usuario.tipousuario})
-		dicc = {"content" : "OK", "mensaje" : listaUsuarios}
-	except Exception as e:
-		dicc = {"content" : "KO", "error" : e}
-	
-	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))     
-   	return HttpResponse(data, 'application/json')
+#def usuarios(request):
+#
+#	dicc = {}
+#	listaUsuarios = []
+#	try:
+#		usuarios = Usuario.objects.all()
+#		for usuario in usuarios:
+#			listaUsuarios.append({'id' : usuario.id, 'username' : usuario.username, 'sesion' : usuario.sesion, 'conectado' : usuario.connect, 
+#							      'ultimoacceso_ip' : usuario.ultimoaccesoip, 'ultimoaccesofecha' : usuario.ultimoaccesofecha.isoformat(),
+#							      'sesionactiva' : usuario.sesionactiva, 'tipousuario' : usuario.tipousuario})
+#		dicc = {"content" : "OK", "mensaje" : listaUsuarios}
+#	except Exception as e:
+#		dicc = {"content" : "KO", "error" : e}
+#	
+#	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))     
+ #  	return HttpResponse(data, 'application/json')
 
 def artistas(request):
 	dicc = {}
@@ -122,7 +127,7 @@ def artistas(request):
 	try:
 		artistas = Artista.objects.all()
 		for artista in artistas:
-			listaArtistas.append({'id' : artista.id, 'nombre' : artista.nombre, 'apellidos' : artista.apellidos, 'username' : artista.username, 
+			listaArtistas.append({'id' : artista.id, 'nombre' : artista.nombre, 'apellidos' : artista.apellidos, 'username' : artista.username, 'tipousuario' : artista.tipousuario,
 							      'pais' : artista.pais, 'codigopostal' : artista.codigopostal, 'telefono' : artista.telefono,  
 							      'telefono' : artista.telefono, 'direccion' : artista.direccion, 'ciudad' : artista.ciudad, 
 							      'sesion' : artista.sesion, 'codigoartista' : artista.codartista,  'conectado' : artista.connect, 
@@ -141,7 +146,7 @@ def artista(request, idartista):
 	dicc = {}
 	try:
 		artista = Artista.objects.get(id = idartista)
-		dicc = {'id' : artista.id, 'nombre' : artista.nombre, 'apellidos' : artista.apellidos, 'username' : artista.username, 
+		dicc = {'id' : artista.id, 'nombre' : artista.nombre, 'apellidos' : artista.apellidos, 'username' : artista.username, 'tipousuario' : artista.tipousuario,
 							      'pais' : artista.pais, 'codigopostal' : artista.codigopostal, 'telefono' : artista.telefono,  
 							      'telefono' : artista.telefono, 'direccion' : artista.direccion, 'ciudad' : artista.ciudad, 
 							      'sesion' : artista.sesion, 'codigoartista' : artista.codartista,  'conectado' : artista.connect, 
