@@ -5,7 +5,7 @@ import json, os, datetime
 def alta_artista(request):
 	dicc = {}
 	try:
-		artista = Artista.objects.get(username = request.POST['user'])
+		artista = Artista.objects.get(username = request.POST['user'], password = request.POST['password'])
 	except Artista.DoesNotExist: # Artista no existe y se puede crear
 		artista = Artista(username = request.POST['user'], password = request.POST['password'], nombre = request.POST['nombre'],
 						  apellidos = request.POST['apellidos'], tipousuario = request.POST['tipoususario'], 
@@ -140,7 +140,7 @@ def update_usuario(request, user, password, nombre, apellidos, tipousuario, pais
 def alta_usuario(request):
 	dicc = {}
 	try:
-		usuario = Artista.objects.get(username = request.POST['user'])
+		usuario = Artista.objects.get(username = request.POST['user'], password = request.POST['password'])
 	except Artista.DoesNotExist: # usuario no existe y se puede crear
 		usuario = Artista(username = request.POST['user'], password = request.POST['password'], nombre = request.POST['nombre'],
 						  apellidos = request.POST['apellidos'], tipousuario = request.POST['tipoususario'], 
