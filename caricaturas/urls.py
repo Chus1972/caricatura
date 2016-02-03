@@ -2,7 +2,7 @@
 from django.conf.urls import include, url, patterns
 from django.conf import settings
 from django.contrib import admin
-from dibujos.crud import alta_usuario, alta_artista, alta_artista2, update_artista, update_usuario , borrar_artista, borrar_usuario
+from dibujos.crud import alta_usuario, alta_artista,  update_artista, update_usuario , borrar_artista, borrar_usuario #, alta_artista2,
 from dibujos.crud_caricaturas import borrar_caricatura, alta_caricatura
 from dibujos.views import  upload_file, import_uploader, start, prueba, subir_s3, login_usuario, login_usuario_crossdomain, login_artista, login_artista_crossdomain,  artistas, artista, usuarios_crossdomain, artistas_crossdomain, caricaturas_artista  #, ejemplo, sign_s3, 
 from dibujos.crud_caricaturas import alta_caricatura, borrar_caricatura, update_caricatura
@@ -18,7 +18,7 @@ urlpatterns = patterns('',
     url(r'^alta_usuario/(\w+)/(\S{5,})', alta_usuario, name = 'alta_usuario'),
     url(r'^login_usuario/(\w+)/(\S{5,})', login_usuario, name = 'login_usuario'),
     url(r'^login_usuario_crossdomain/(\w+)/(\S{5,})', login_usuario_crossdomain, name = 'login_usuario_crossdomain'),
-    url(r'^alta_artista/(\w+)/(\S{5,})/(\w+)/(\w+)/(\w+)(\w+)/(\w+)/(\w+)/(\w+)/', alta_artista2, name = 'alta_artista2'),
+    #url(r'^alta_artista/(\w+)/(\S{5,})/(\w+)/(\w+)/(\w+)(\w+)/(\w+)/(\w+)/(\w+)/', alta_artista2, name = 'alta_artista2'),
     url(r'^alta_artista/$', alta_artista, name = 'alta_artista'),
     url(r'^login_artista/(\w+)/(\S{5,})', login_artista, name = 'login_artista'),
     url(r'^login_artista_crossdomain/(\w+)/(\S{5,})', login_artista_crossdomain, name = 'login_artista_crossdomain'),
