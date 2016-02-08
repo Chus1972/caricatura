@@ -23,7 +23,6 @@ def alta_artista(request):
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
 	return HttpResponse(data, 'application/json')
 
-<<<<<<< HEAD
 def alta_artista2(request, user, password, nombre, apellidos,  pais, direccion, ciudad, codigopostal, telefono):
 	dicc = {}
 	print "email : " + request.GET['email']
@@ -43,7 +42,6 @@ def alta_artista2(request, user, password, nombre, apellidos,  pais, direccion, 
 		dicc = {'content' : 'KO', 'mensaje' : {'error' : 'Este artista ya existe'}}
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
 	return HttpResponse(data, 'application/json')
-=======
 #def alta_artista2(request, user, password, nombre, apellidos,  pais, direccion, ciudad, codigopostal, telefono):
 #	dicc = {}
 #	print "email : " + request.GET['email']
@@ -64,7 +62,6 @@ def alta_artista2(request, user, password, nombre, apellidos,  pais, direccion, 
 #		dicc = {'content' : 'KO', 'mensaje' : {'error' : 'Este artista ya existe'}}
 #	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
 #	return HttpResponse(data, 'application/json')
->>>>>>> a22035cc02cac0a58a373785c46e30e5545fd6a6
 
 def borrar_artista(request,idartista, user):
 	dicc = {}
