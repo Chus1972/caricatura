@@ -2,15 +2,12 @@
 from django.conf.urls import include, url, patterns
 from django.conf import settings
 from django.contrib import admin
-<<<<<<< HEAD
 from dibujos.crud import alta_usuario, alta_artista, alta_artista2, update_artista, update_usuario , borrar_artista, borrar_usuario
 from dibujos.crud_caricaturas import borrar_caricatura, alta_caricatura, caricatura
 from dibujos.views import  upload_file, import_uploader, start, prueba, subir_s3, login_usuario, login_usuario_crossdomain, login_artista, login_artista_crossdomain,  artistas, artista, administradores, usuarios_crossdomain, artistas_crossdomain, caricaturas_artista  #, ejemplo, sign_s3, 
-=======
 from dibujos.crud import alta_usuario, alta_artista,  update_artista, update_usuario , borrar_artista, borrar_usuario #, alta_artista2,
 from dibujos.crud_caricaturas import borrar_caricatura, alta_caricatura
 from dibujos.views import  upload_file, import_uploader, start, prueba, subir_s3, login_usuario, login_usuario_crossdomain, login_artista, login_artista_crossdomain,  artistas, artista, usuarios_crossdomain, artistas_crossdomain, caricaturas_artista  #, ejemplo, sign_s3, 
->>>>>>> a22035cc02cac0a58a373785c46e30e5545fd6a6
 from dibujos.crud_caricaturas import alta_caricatura, borrar_caricatura, update_caricatura
 from django.conf.urls.static import static
 
