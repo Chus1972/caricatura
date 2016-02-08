@@ -92,7 +92,7 @@ def login_artista(request, user, password):
 		        'direccion' : artista.direccion, 'ciudad' : artista.ciudad, 
 		        'ultimoaccesoip' : artista.ultimoaccesoip,
 		        'ultimoaccesofecha' : artista.ultimoaccesofecha.isoformat()}}
-	except Artista.DoesNotExist, e:
+	except Artista.DoesNotExist:
 		dicc = {'content' : 'KO'}
 
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
@@ -147,7 +147,7 @@ def artista(request, idartista):
 							      'content' : 'OK'}
 		
 	except Artista.DoesNotExist:
-		dicc = {'content' : 'KO', 'error' : e}
+		dicc = {'content' : 'KO', 'error' : 'Este artista/usuario no existe'}
 
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
 	return HttpResponse(data, 'application/json')
