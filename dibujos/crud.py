@@ -154,6 +154,28 @@ def update_usuario(request, user, password, nombre, apellidos, tipousuario, pais
 	return HttpResponse(data, 'application/json')
 
 
+def update_pass_usuario(request):
+	dicc = {}
+	try:
+		usuario = Artista.objects.get(id = request.POST['idusuario'])
+		usuario.password = request.POST['password']
+
+		usuario.save()
+
+		us = {}
+		us = {'usuario' : usuario.username, 'password' : usuario.password, 'nombre' : usuario.nombre,
+		      'apellidos' : usuario.apellidos, 'tipousuario' : usuario.tipousuario, 'pais' : usuario.pais,
+		      'codigopostal' : usuario.codigopostal, 'telefono' : usuario.telefono, 
+		      'direccion' : usuario.direccion, 'ciudad' : usuario.ciudad, 
+		      'correoe' : usuario.correoe, 'fechacreacion' : usuario.fechacreacion, 'ultimaaccionfecha' : usuario.ultimaaccionfecha,
+		      'ultimoaccesofecha' : usuario.ultimoaccesofecha, 'ultimoaccesoip' : usuario.ultimoaccesoip}
+
+		dicc = {'content' : 'OK', 'mensaje' : us}
+	except Artista.DoesNotExist:
+		dicc = {'content' : 'KO', 'mensaje' : 'Este usuario no existe'}
+
+	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
+
 #devuelve todos los datos del nuevo usuario si el usuario se ha creado con exito
 def alta_usuario(request):
 	dicc = {}
