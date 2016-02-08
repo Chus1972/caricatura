@@ -2,9 +2,15 @@
 from django.conf.urls import include, url, patterns
 from django.conf import settings
 from django.contrib import admin
+<<<<<<< HEAD
 from dibujos.crud import alta_usuario, alta_artista, alta_artista2, update_artista, update_usuario , borrar_artista, borrar_usuario
 from dibujos.crud_caricaturas import borrar_caricatura, alta_caricatura, caricatura
 from dibujos.views import  upload_file, import_uploader, start, prueba, subir_s3, login_usuario, login_usuario_crossdomain, login_artista, login_artista_crossdomain,  artistas, artista, administradores, usuarios_crossdomain, artistas_crossdomain, caricaturas_artista  #, ejemplo, sign_s3, 
+=======
+from dibujos.crud import alta_usuario, alta_artista,  update_artista, update_usuario , borrar_artista, borrar_usuario #, alta_artista2,
+from dibujos.crud_caricaturas import borrar_caricatura, alta_caricatura
+from dibujos.views import  upload_file, import_uploader, start, prueba, subir_s3, login_usuario, login_usuario_crossdomain, login_artista, login_artista_crossdomain,  artistas, artista, usuarios_crossdomain, artistas_crossdomain, caricaturas_artista  #, ejemplo, sign_s3, 
+>>>>>>> a22035cc02cac0a58a373785c46e30e5545fd6a6
 from dibujos.crud_caricaturas import alta_caricatura, borrar_caricatura, update_caricatura
 from django.conf.urls.static import static
 
@@ -15,10 +21,10 @@ urlpatterns = patterns('',
     #url(r'^ejemplo/', ejemplo),
     #url(r'^sign_s3/', sign_s3),
     #url(r'^submit_form/', submit_form),
-    url(r'^alta_usuario/(\w+)/(\S{5,})', alta_usuario, name = 'alta_usuario'),
+    url(r'^alta_usuario/$', alta_usuario, name = 'alta_usuario'),
     url(r'^login_usuario/(\w+)/(\S{5,})', login_usuario, name = 'login_usuario'),
     url(r'^login_usuario_crossdomain/(\w+)/(\S{5,})', login_usuario_crossdomain, name = 'login_usuario_crossdomain'),
-    url(r'^alta_artista/(\w+)/(\S{5,})/(\w+)/(\w+)/(\w+)(\w+)/(\w+)/(\w+)/(\w+)/', alta_artista2, name = 'alta_artista2'),
+    #url(r'^alta_artista/(\w+)/(\S{5,})/(\w+)/(\w+)/(\w+)(\w+)/(\w+)/(\w+)/(\w+)/', alta_artista2, name = 'alta_artista2'),
     url(r'^alta_artista/$', alta_artista, name = 'alta_artista'),
     url(r'^login_artista/(\w+)/(\S{5,})', login_artista, name = 'login_artista'),
     url(r'^login_artista_crossdomain/(\w+)/(\S{5,})', login_artista_crossdomain, name = 'login_artista_crossdomain'),
