@@ -146,7 +146,7 @@ def artista(request, idartista):
 							      'fechacreacion' : artista.fechacreacion.isoformat(),
 							      'content' : 'OK'}
 		
-	except Exception as e:
+	except Artista.DoesNotExist:
 		dicc = {'content' : 'KO', 'error' : e}
 
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
