@@ -23,6 +23,22 @@ def alta_caricatura(request, idArtista, titulo, tag, imgAlta, imgBaja):
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
 	return HttpResponse(data, 'application/json')
 
+def caricatura(request, idcaricatura):
+	dicc = {}
+	try:
+		caric = Caricaturas.objects.get(id = idcaricatura)
+		dicc = {'id' : idcaricatura, 'titulo' : caric.titulo, 'tag' : caric.tag,
+				'img_alta' : caric.img_alta, 'img_miniatura' : caric.img_miniatura,
+				'fechasubida' : caric.fechasubida.isoformat(), 'facebook' : caric.facebook,
+				'twitter' : caric.twitter, 'googleplus' : caric.googleplus, 
+				'whatsapp' : caric.whatsapp, 'visualizaciones' : caric.visualizaciones}
+		
+	except Exception as e:
+		dicc = {'content' : 'KO', 'error' : e}
+
+	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
+	return HttpResponse(data, 'application/json')
+
 
 def borrar_caricatura(request, idartista, titulo):
 	dicc = {}

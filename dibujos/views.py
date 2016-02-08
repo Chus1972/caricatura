@@ -72,11 +72,8 @@ def login_usuario(request, user, password):
 			    'username' : usuario.username, 'tipousuario' : usuario.tipousuario, 'correoe' : usuario.correoe, 'pais' : usuario.pais, 
 		        'codigopostal' : usuario.codigopostal, 'telefono' : usuario.telefono,
 		        'direccion' : usuario.direccion, 'ciudad' : usuario.ciudad, 
-		        'sesion' : usuario.sesion, 'codusuario' : usuario.codusuario,
-		        'connect' : usuario.connect, 'ultimoaccesoip' : usuario.ultimoaccesoip,
-		        'ultimoaccesofecha' : usuario.ultimoaccesofecha.isoformat(),
-		        'estadosuscripcion' : usuario.estadosuscripcion,
-		        'sesionactiva' : usuario.sesionactiva, 'activo' : usuario.activo}}
+		        'ultimoaccesoip' : usuario.ultimoaccesoip,
+		        'ultimoaccesofecha' : usuario.ultimoaccesofecha.isoformat()}}
 
 	except Artista.DoesNotExist:
 		dicc = {'content' : 'KO'}
@@ -93,11 +90,8 @@ def login_artista(request, user, password):
 			    'username' : artista.username, 'tipousuario' : artista.tipousuario, 'correoe' : artista.correoe, 'pais' : artista.pais, 
 		        'codigopostal' : artista.codigopostal, 'telefono' : artista.telefono,
 		        'direccion' : artista.direccion, 'ciudad' : artista.ciudad, 
-		        'sesion' : artista.sesion, 'codartista' : artista.codartista,
-		        'connect' : artista.connect, 'ultimoaccesoip' : artista.ultimoaccesoip,
-		        'ultimoaccesofecha' : artista.ultimoaccesofecha.isoformat(),
-		        'estadosuscripcion' : artista.estadosuscripcion,
-		        'sesionactiva' : artista.sesionactiva, 'activo' : artista.activo}}
+		        'ultimoaccesoip' : artista.ultimoaccesoip,
+		        'ultimoaccesofecha' : artista.ultimoaccesofecha.isoformat()}}
 	except Artista.DoesNotExist, e:
 		dicc = {'content' : 'KO'}
 
@@ -125,16 +119,14 @@ def artistas(request):
 	dicc = {}
 	listaArtistas = []
 	try:
-		artistas = Artista.objects.all()
+		artistas = Artista.objects.filter(tipousuario = 'normal')
 		for artista in artistas:
 			listaArtistas.append({'id' : artista.id, 'nombre' : artista.nombre, 'apellidos' : artista.apellidos, 'username' : artista.username, 'tipousuario' : artista.tipousuario,
 							      'pais' : artista.pais, 'codigopostal' : artista.codigopostal, 'telefono' : artista.telefono,  
 							      'telefono' : artista.telefono, 'direccion' : artista.direccion, 'ciudad' : artista.ciudad, 
-							      'sesion' : artista.sesion, 'codigoartista' : artista.codartista,  'conectado' : artista.connect, 
 							      'ultimoaccesoip' : artista.ultimoaccesoip, 'ultimoaccesofecha' : artista.ultimoaccesofecha.isoformat(),
-							      'estadosuscripcion' : artista.estadosuscripcion, 'sesionactiva' : artista.sesionactiva,
-							      'activo' : artista.activo, 'correoelectronico' : artista.correoe, 'ultimaaccionfecha' : artista.ultimaaccionfecha.isoformat(),
-							      'fechacreacion' : artista.fechacreacion.isoformat(), 'fechaactivacion' : artista.fechaactivacion.isoformat()})
+							      'correoelectronico' : artista.correoe, 'ultimaaccionfecha' : artista.ultimaaccionfecha.isoformat(),
+							      'fechacreacion' : artista.fechacreacion.isoformat()})
 		dicc = {'content' : 'OK', 'mensaje' : listaArtistas}
 	except Exception as e:
 		dicc = {'content' : 'KO', 'error' : e}
@@ -148,14 +140,31 @@ def artista(request, idartista):
 		artista = Artista.objects.get(id = idartista)
 		dicc = {'id' : artista.id, 'nombre' : artista.nombre, 'apellidos' : artista.apellidos, 'username' : artista.username, 'tipousuario' : artista.tipousuario,
 							      'pais' : artista.pais, 'codigopostal' : artista.codigopostal, 'telefono' : artista.telefono,  
-							      'telefono' : artista.telefono, 'direccion' : artista.direccion, 'ciudad' : artista.ciudad, 
-							      'sesion' : artista.sesion, 'codigoartista' : artista.codartista,  'conectado' : artista.connect, 
+							      'telefono' : artista.telefono, 'direccion' : artista.direccion, 'ciudad' : artista.ciudad,
 							      'ultimoaccesoip' : artista.ultimoaccesoip, 'ultimoaccesofecha' : artista.ultimoaccesofecha.isoformat(),
-							      'estadosuscripcion' : artista.estadosuscripcion, 'sesionactiva' : artista.sesionactiva,
-							      'activo' : artista.activo, 'correoelectronico' : artista.correoe, 'ultimaaccionfecha' : artista.ultimaaccionfecha.isoformat(),
-							      'fechacreacion' : artista.fechacreacion.isoformat(), 'fechaactivacion' : artista.fechaactivacion.isoformat(),
+							      'correoelectronico' : artista.correoe, 'ultimaaccionfecha' : artista.ultimaaccionfecha.isoformat(),
+							      'fechacreacion' : artista.fechacreacion.isoformat(),
 							      'content' : 'OK'}
 		
+	except Exception as e:
+		dicc = {'content' : 'KO', 'error' : e}
+
+	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
+	return HttpResponse(data, 'application/json')
+
+def administradores(request):
+	dicc = {}
+	listaArtistas = []
+	try:
+		artistas = Artista.objects.filter(tipousuario = 'administrador')
+		for artista in artistas:
+			listaArtistas.append({'id' : artista.id, 'nombre' : artista.nombre, 'apellidos' : artista.apellidos, 'username' : artista.username, 'tipousuario' : artista.tipousuario,
+							      'pais' : artista.pais, 'codigopostal' : artista.codigopostal, 'telefono' : artista.telefono,  
+							      'telefono' : artista.telefono, 'direccion' : artista.direccion, 'ciudad' : artista.ciudad, 
+							      'ultimoaccesoip' : artista.ultimoaccesoip, 'ultimoaccesofecha' : artista.ultimoaccesofecha.isoformat(),
+							      'correoelectronico' : artista.correoe, 'ultimaaccionfecha' : artista.ultimaaccionfecha.isoformat(),
+							      'fechacreacion' : artista.fechacreacion.isoformat()})
+		dicc = {'content' : 'OK', 'mensaje' : listaArtistas}
 	except Exception as e:
 		dicc = {'content' : 'KO', 'error' : e}
 
