@@ -154,7 +154,7 @@ def update_usuario(request, user, password, nombre, apellidos, tipousuario, pais
 	return HttpResponse(data, 'application/json')
 
 
-def update_pass_usuario(request):
+def update_pass_artista(request):
 	dicc = {}
 	try:
 		usuario = Artista.objects.get(id = request.POST['idusuario'])
