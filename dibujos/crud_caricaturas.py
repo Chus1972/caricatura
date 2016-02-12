@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 from dibujos.models import *
 from django.http import HttpResponse
 import json, os
@@ -12,9 +13,8 @@ def alta_caricatura(request, idArtista, titulo, tag, imgAlta, imgBaja):
 		artista = Artista.objects.get(id = idArtista)
 		caricatura = Caricaturas(idartista = artista, titulo = titulo, tag = tag, img_alta = imgAlta, 
 								 img_miniatura = imgBaja, 
-								 fechasubida = datetime.datetime.now() + datetime.timedelta(hours = 2),
+								 fechasubida = datetime.datetime.now() + datetime.timedelta(hours = 1),
 								 facebook = 0, twitter = 0, googleplus = 0)
-		print 'por aqui pasa'
 		caricatura.save()
 
 		dicc = {'content' : 'OK', 'mensaje' : {'idartista' : caricatura.idartista.id, 'titulo' : titulo}}
@@ -44,6 +44,12 @@ def borrar_caricatura(request, idartista, titulo):
 	dicc = {}
 	try:
 		artista = Artista.objects.get(id = idartista)
+	except Artista.DoesNotExist: #No existe el artista -> improbable
+		dicc = {'content' : 'KO', 'mensaje' : 'El artista con id = %s no esta en la BDD.' % idartista}
+		data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
+		return HttpResponse(data, 'application/json')
+		
+	try:
 		caricatura = Caricaturas.objects.get(idartista = artista, titulo = titulo)
 		caricatura.delete()
 		dicc = {'content' : 'OK'}
@@ -66,7 +72,8 @@ def update_caricatura(request, idartista, titulo, nuevo_titulo, tag, img_alta, i
 		caricatura.img_miniatura = img_miniatura
 
 		caricatura.save()
-		dicc = {'content' : 'OK'}
+		datos = {'titulo' : caricatura.titulo, 'tag' : caricatura.tag, 'img_alta' : caricatura.img_alta, 'img_miniatura' : caricatura.img_miniatura}
+		dicc = {'content' : 'OK', 'mensaje' : json.dumps(datos)}
 
 	except Caricaturas.DoesNotExist:
 		dicc = {'content' : 'KO', 'mensaje' : 'Caricatura no existe'}
