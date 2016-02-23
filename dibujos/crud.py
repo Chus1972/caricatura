@@ -198,8 +198,8 @@ def alta_usuario(request):
 		      'apellidos' : usuario.apellidos, 'tipousuario' : usuario.tipousuario, 'pais' : usuario.pais,
 		      'codigopostal' : usuario.codigopostal, 'telefono' : usuario.telefono, 
 		      'direccion' : usuario.direccion, 'ciudad' : usuario.ciudad, 
-		      'correoe' : usuario.correoe, 'fechacreacion' : usuario.fechacreacion, 'ultimaaccionfecha' : usuario.ultimaaccionfecha,
-		      'ultimoaccesofecha' : usuario.ultimoaccesofecha, 'ultimoaccesoip' : usuario.ultimoaccesoip}
+		      'correoe' : usuario.correoe, 'fechacreacion' : usuario.fechacreacion.isoformat(), 'ultimaaccionfecha' : usuario.ultimaaccionfecha.isoformat(),
+		      'ultimoaccesofecha' : usuario.ultimoaccesofecha.isoformat(), 'ultimoaccesoip' : usuario.ultimoaccesoip.isoformat()}
 
 
 		dicc = {'content' : 'OK', 'mensaje' : us}
