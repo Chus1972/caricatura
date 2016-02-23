@@ -199,7 +199,7 @@ def alta_usuario(request):
 		      'codigopostal' : usuario.codigopostal, 'telefono' : usuario.telefono, 
 		      'direccion' : usuario.direccion, 'ciudad' : usuario.ciudad, 
 		      'correoe' : usuario.correoe, 'fechacreacion' : usuario.fechacreacion.isoformat(), 'ultimaaccionfecha' : usuario.ultimaaccionfecha.isoformat(),
-		      'ultimoaccesofecha' : usuario.ultimoaccesofecha.isoformat(), 'ultimoaccesoip' : usuario.ultimoaccesoip.isoformat()}
+		      'ultimoaccesofecha' : usuario.ultimoaccesofecha.isoformat(), 'ultimoaccesoip' : usuario.ultimoaccesoip}
 
 
 		dicc = {'content' : 'OK', 'mensaje' : us}
