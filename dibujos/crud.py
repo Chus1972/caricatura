@@ -115,7 +115,7 @@ def borrar_usuario(request, idartista, user):
 		usuario = Artista.objects.get(id = idartista, username = user)
 		usuario.delete()
 		dicc = {'content' : 'OK'}
-	except Usuario.DoesNotExist: # Usuario no existe y no puede ser borrado
+	except Artista.DoesNotExist: # Usuario no existe y no puede ser borrado
 		dicc = {'content' : 'KO', 'mensaje' :  'El usuario %s no existe.' % user}
 
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
