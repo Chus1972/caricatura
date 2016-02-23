@@ -183,7 +183,7 @@ def alta_usuario(request):
 		usuario = Artista.objects.get(username = request.GET['user'], password = request.GET['password'])
 	except Artista.DoesNotExist: # usuario no existe y se puede crear
 		usuario = Artista(username = request.GET['user'], password = request.GET['password'], nombre = request.GET['nombre'],
-						  apellidos = request.GET['apellidos'], tipousuario = request.GET['tipoususario'], 
+						  apellidos = request.GET['apellidos'], tipousuario = request.GET['tipousuario'], 
 						  correoe = request.GET['email'], pais = request.GET['pais'], 
 						  direccion = request.GET['direccion'], codigopostal = request.GET['codigopostal'], 
 						  telefono = request.GET['telefono'], ciudad = request.GET['ciudad'],
