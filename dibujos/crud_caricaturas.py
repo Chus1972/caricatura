@@ -33,8 +33,8 @@ def caricatura(request, idcaricatura):
 				'twitter' : caric.twitter, 'googleplus' : caric.googleplus, 
 				'whatsapp' : caric.whatsapp, 'visualizaciones' : caric.visualizaciones}
 		
-	except Exception as e:
-		dicc = {'content' : 'KO', 'error' : e}
+	except Caricaturas.DoesNotExist:
+		dicc = {'content' : 'KO', 'error' : 'La caricatura con este id : %s, no existe' % idcaricatura}
 
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
 	return HttpResponse(data, 'application/json')
