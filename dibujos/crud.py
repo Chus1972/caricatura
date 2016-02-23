@@ -192,7 +192,17 @@ def alta_usuario(request):
 					      ultimoaccesofecha = datetime.datetime.now() + datetime.timedelta(hours = 2),
 					      ultimoaccesoip = get_client_ip(request))
 		usuario.save()
-		dicc = {'content' : 'OK', 'mensaje' : {'username' : user}}
+
+		us = {}
+		us = {'usuario' : usuario.username, 'password' : usuario.password, 'nombre' : usuario.nombre,
+		      'apellidos' : usuario.apellidos, 'tipousuario' : usuario.tipousuario, 'pais' : usuario.pais,
+		      'codigopostal' : usuario.codigopostal, 'telefono' : usuario.telefono, 
+		      'direccion' : usuario.direccion, 'ciudad' : usuario.ciudad, 
+		      'correoe' : usuario.correoe, 'fechacreacion' : usuario.fechacreacion, 'ultimaaccionfecha' : usuario.ultimaaccionfecha,
+		      'ultimoaccesofecha' : usuario.ultimoaccesofecha, 'ultimoaccesoip' : usuario.ultimoaccesoip}
+
+
+		dicc = {'content' : 'OK', 'mensaje' : us}
 	else: # el usuario ya existe
 		dicc = {'content' : 'KO', 'mensaje' : {'error' : 'Este usuario ya existe'}}
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
