@@ -175,6 +175,7 @@ def update_pass_artista(request):
 		dicc = {'content' : 'KO', 'mensaje' : 'Este usuario no existe'}
 
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
+	return HttpResponse(data, 'application/json')
 
 #devuelve todos los datos del nuevo usuario si el usuario se ha creado con exito
 def alta_usuario(request):
