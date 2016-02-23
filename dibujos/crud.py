@@ -1,7 +1,7 @@
 from dibujos.models import *
 from django.http import HttpResponse
 import json, os, datetime
-from django.views.decorators.csrf import csrf_protect
+#from django.views.decorators.csrf import csrf_protect
 
 def alta_artista(request):
 	dicc = {}
