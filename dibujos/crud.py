@@ -1,30 +1,47 @@
 from dibujos.models import *
 from django.http import HttpResponse
 import json, os, datetime
-#from django.views.decorators.csrf import csrf_protect
 
 def alta_artista(request):
 	dicc = {}
 	try:
-		artista = Artista.objects.get(username = request.POST['user'], password = request.POST['password'])
+		artista = Artista.objects.get(username = request.GET['user'], password = request.GET['password'])
 	except Artista.DoesNotExist: # Artista no existe y se puede crear
-		artista = Artista(username = request.POST['user'], password = request.POST['password'], nombre = request.POST['nombre'],
-						  apellidos = request.POST['apellidos'], tipousuario = request.POST['tipoususario'], 
-						  correoe = request.POST['email'], pais = request.POST['pais'], 
-						  direccion = request.POST['direccion'], codigopostal = request.POST['codigopostal'], 
-						  telefono = request.POST['telefono'], ciudad = request.POST['ciudad'], activo = 1, 
+		artista = Artista(username = request.GET['user'], password = request.GET['password'], nombre = request.GET['nombre'],
+						  apellidos = request.GET['apellidos'], tipousuario = request.GET['tipoususario'], 
+						  correoe = request.GET['email'], pais = request.GET['pais'], 
+						  direccion = request.GET['direccion'], codigopostal = request.GET['codigopostal'], 
+						  telefono = request.GET['telefono'], ciudad = request.GET['ciudad'], 
 						  fechacreacion = datetime.datetime.now() + datetime.timedelta(hours = 2),
-						  fechaactivacion = datetime.datetime.now() + datetime.timedelta(hours = 2),
 						  ultimaaccionfecha = datetime.datetime.now() + datetime.timedelta(hours = 2),
 					      ultimoaccesofecha = datetime.datetime.now() + datetime.timedelta(hours = 2),
-					      ultimoaccesoip = get_client_ip(request), connect = 1, sesionactiva = 1)
+					      ultimoaccesoip = get_client_ip(request))
+		artista.save()
+		dicc = {'content' : 'OK', 'mensaje' : {'username' : artista}}
+	else: # el usuario ya existe
+		dicc = {'content' : 'KO', 'mensaje' : {'error' : 'Este artista ya existe'}}
+	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
+	return HttpResponse(data, 'application/json')
+
+def alta_artista2(request, user, password, nombre, apellidos,  pais, direccion, ciudad, codigopostal, telefono):
+	dicc = {}
+	print "email : " + request.GET['email']
+	try:
+		artista = Artista.objects.get(username = user)
+	except Artista.DoesNotExist: # Artista no existe y se puede crear
+		artista = Artista(username = user, password = password, nombre = nombre,
+						  apellidos = apellidos, tipousuario = request.GET['tipoususario'],  correoe = request.GET['email'], pais = pais, direccion = direccion,
+						  codigopostal = codigopostal, telefono = telefono, ciudad = ciudad,
+						  fechacreacion = datetime.datetime.now() + datetime.timedelta(hours = 2),
+						  ultimaaccionfecha = datetime.datetime.now() + datetime.timedelta(hours = 2),
+					      ultimoaccesofecha = datetime.datetime.now() + datetime.timedelta(hours = 2),
+					      ultimoaccesoip = get_client_ip(request))
 		artista.save()
 		dicc = {'content' : 'OK', 'mensaje' : {'username' : user}}
 	else: # el usuario ya existe
 		dicc = {'content' : 'KO', 'mensaje' : {'error' : 'Este artista ya existe'}}
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
 	return HttpResponse(data, 'application/json')
-
 #def alta_artista2(request, user, password, nombre, apellidos,  pais, direccion, ciudad, codigopostal, telefono):
 #	dicc = {}
 #	print "email : " + request.GET['email']
@@ -32,7 +49,7 @@ def alta_artista(request):
 #		artista = Artista.objects.get(username = user)
 #	except Artista.DoesNotExist: # Artista no existe y se puede crear
 #		artista = Artista(username = user, password = password, nombre = nombre,
-#						  apellidos = apellidos, tipousuario = request.POST['tipoususario'],  correoe = request.GET['email'], pais = pais, direccion = direccion,
+#						  apellidos = apellidos, tipousuario = request.GET['tipoususario'],  correoe = request.GET['email'], pais = pais, direccion = direccion,
 #						  codigopostal = codigopostal, telefono = telefono, ciudad = ciudad, activo = 1, 
 #						  fechacreacion = datetime.datetime.now() + datetime.timedelta(hours = 2),
 #						  fechaactivacion = datetime.datetime.now() + datetime.timedelta(hours = 2),
@@ -64,16 +81,16 @@ def update_artista(request, user, password, nombre, apellidos, tipousuario, pais
 	dicc = {}
 	try:
 		artista = Artista.objects.get(username = user)
-		artista.password = password
-		artista.nombre = nombre
-		artista.apellidos = apellidos
-		artista.tipousuario = tipousuario
-		artista.pais = pais
-		artista.codigopostal = codigopostal
-		artista.telefono = telefono
-		artista.direccion = direccion
-		artista.ciudad = ciudad
-		artista.correoe = request.POST['email']
+		artista.password = request.GET['password']
+		artista.nombre = request.GET['nombre']
+		artista.apellidos = request.GET['apellidos']
+		artista.tipousuario = request.GET['tipousuario']
+		artista.pais = request.GET['pais']
+		artista.codigopostal = request.GET['codigopostal']
+		artista.telefono = request.GET['telefono']
+		artista.direccion = request.GET['direccion']
+		artista.ciudad = request.GET['ciudad']
+		artista.correoe = request.GET['email']
 
 		artista.save()
 
@@ -82,7 +99,7 @@ def update_artista(request, user, password, nombre, apellidos, tipousuario, pais
 		      'apellidos' : artista.apellidos, 'tipousuario' : artista.tipousuario, 'pais' : artista.pais,
 		      'codigopostal' : artista.codigopostal, 'telefono' : artista.telefono, 
 		      'direccion' : artista.direccion, 'ciudad' : artista.ciudad, 
-		      'codartista' : artista.codartista, 'correoe' : artista.correoe}
+		      'correoe' : artista.correoe}
 
 		dicc = {'content' : 'OK', 'mensaje' : ar}
 
@@ -117,7 +134,7 @@ def update_usuario(request, user, password, nombre, apellidos, tipousuario, pais
 		usuario.telefono = telefono
 		usuario.direccion = direccion
 		usuario.ciudad = ciudad
-		usuario.correoe = request.POST['email']
+		usuario.correoe = request.GET['email']
 
 		usuario.save()
 
@@ -126,7 +143,7 @@ def update_usuario(request, user, password, nombre, apellidos, tipousuario, pais
 		      'apellidos' : usuario.apellidos, 'tipousuario' : usuario.tipousuario, 'pais' : usuario.pais,
 		      'codigopostal' : usuario.codigopostal, 'telefono' : usuario.telefono, 
 		      'direccion' : usuario.direccion, 'ciudad' : usuario.ciudad, 
-		      'codusuario' : usuario.codartista, 'correoe' : usuario.correoe}
+		      'correoe' : usuario.correoe}
 
 		dicc = {'content' : 'OK', 'mensaje' : ar}
 
@@ -137,23 +154,43 @@ def update_usuario(request, user, password, nombre, apellidos, tipousuario, pais
 	return HttpResponse(data, 'application/json')
 
 
+def update_pass_artista(request):
+	dicc = {}
+	try:
+		usuario = Artista.objects.get(id = request.GET['idusuario'])
+		usuario.password = request.GET['password']
+
+		usuario.save()
+
+		us = {}
+		us = {'usuario' : usuario.username, 'password' : usuario.password, 'nombre' : usuario.nombre,
+		      'apellidos' : usuario.apellidos, 'tipousuario' : usuario.tipousuario, 'pais' : usuario.pais,
+		      'codigopostal' : usuario.codigopostal, 'telefono' : usuario.telefono, 
+		      'direccion' : usuario.direccion, 'ciudad' : usuario.ciudad, 
+		      'correoe' : usuario.correoe, 'fechacreacion' : usuario.fechacreacion, 'ultimaaccionfecha' : usuario.ultimaaccionfecha,
+		      'ultimoaccesofecha' : usuario.ultimoaccesofecha, 'ultimoaccesoip' : usuario.ultimoaccesoip}
+
+		dicc = {'content' : 'OK', 'mensaje' : us}
+	except Artista.DoesNotExist:
+		dicc = {'content' : 'KO', 'mensaje' : 'Este usuario no existe'}
+
+	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
+
 #devuelve todos los datos del nuevo usuario si el usuario se ha creado con exito
-@csrf_protect
 def alta_usuario(request):
 	dicc = {}
 	try:
-		usuario = Artista.objects.get(username = request.POST['user'], password = request.POST['password'])
+		usuario = Artista.objects.get(username = request.GET['user'], password = request.GET['password'])
 	except Artista.DoesNotExist: # usuario no existe y se puede crear
-		usuario = Artista(username = request.POST['user'], password = request.POST['password'], nombre = request.POST['nombre'],
-						  apellidos = request.POST['apellidos'], tipousuario = request.POST['tipoususario'], 
-						  correoe = request.POST['email'], pais = request.POST['pais'], 
-						  direccion = request.POST['direccion'], codigopostal = request.POST['codigopostal'], 
-						  telefono = request.POST['telefono'], ciudad = request.POST['ciudad'], activo = 1, 
+		usuario = Artista(username = request.GET['user'], password = request.GET['password'], nombre = request.GET['nombre'],
+						  apellidos = request.GET['apellidos'], tipousuario = request.GET['tipoususario'], 
+						  correoe = request.GET['email'], pais = request.GET['pais'], 
+						  direccion = request.GET['direccion'], codigopostal = request.GET['codigopostal'], 
+						  telefono = request.GET['telefono'], ciudad = request.GET['ciudad'],
 						  fechacreacion = datetime.datetime.now() + datetime.timedelta(hours = 2),
-						  fechaactivacion = datetime.datetime.now() + datetime.timedelta(hours = 2),
 						  ultimaaccionfecha = datetime.datetime.now() + datetime.timedelta(hours = 2),
 					      ultimoaccesofecha = datetime.datetime.now() + datetime.timedelta(hours = 2),
-					      ultimoaccesoip = get_client_ip(request), connect = 1, sesionactiva = 1)
+					      ultimoaccesoip = get_client_ip(request))
 		usuario.save()
 		dicc = {'content' : 'OK', 'mensaje' : {'username' : user}}
 	else: # el usuario ya existe
