@@ -38,7 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'corsheaders',
     'dibujos',
-    'ajaxuploader',
+    #'ajaxuploader',
     #'s3_folder_storage',
 
     #'usuarios',
