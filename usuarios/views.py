@@ -4,7 +4,7 @@ from django.contrib.auth import login
 from dibujos.models import Usuario
 
 def signup(request):
-	form = CreacionUsuario(request.POST or None) # El formulario se crea con los datos. Si no hay nada esta vacio
+	form = CreacionUsuario(request.GET or None) # El formulario se crea con los datos. Si no hay nada esta vacio
 
 	if form.is_valid(): # Esto valida que todo este correcto
 		form.save() # Esto crea el usuario. Toma los datos y crea un usuario
@@ -18,7 +18,7 @@ def signup(request):
 
 def signin(request):
 
-	form = AutenticacionEmail(request.POST or None)
+	form = AutenticacionEmail(request.GET or None)
 	print 'entra en signin con form : %s' % form.is_valid() 
 	if form.is_valid(): # Se valida que exista
 		print 'entra en if de signin'
@@ -30,8 +30,8 @@ def signin(request):
 	return render(request, 'signin.html', {'form' : form})
 
 def guardaUsuarioBDD(request):
-	nombre = request.POST['username']
-	pas = request.POST['password']
+	nombre = request.GET['username']
+	pas = request.GET['password']
 
 	usuario = Usuario(username = nombre,
 					  password = pas,

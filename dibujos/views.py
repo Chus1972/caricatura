@@ -36,8 +36,8 @@ def prueba(request):
  	return render_to_response('ejemploFrameworkUploader.html', { 'csrf_token' : csrf_token}, context_instance=RequestContext(request))
 
 def upload_file(request):
-	if request.method == 'POST':
-		form = UploadFileForm(request.POST, request.FILES)
+	if request.method == 'GET':
+		form = UploadFileForm(request.GET, request.FILES)
 		print form.is_valid()
 		if form.is_valid():
 			handle_uploaded_file(request.FILES['file'])
@@ -176,7 +176,7 @@ def administradores(request):
 def subir_s3(request):
 
 	print 'Entra subir_s3'
-	#print request.POST.get('filename')
+	#print request.GET.get('filename')
 
 	print request.method
 	print request.GET.get('callback')
@@ -207,9 +207,9 @@ def subir_s3(request):
 		print '6666666'
 		#k.set_acl('public_read') # cambia los permisos para hacerlo accesible a todo el publico
 		print '7777777'
-		dicc = {'content' : 'OK', 'mensaje' : 'Hay POST'}
+		dicc = {'content' : 'OK', 'mensaje' : 'Hay GET'}
 	else:
-		dicc = {'content' : 'KO', 'mensaje' : 'No hay POST'}
+		dicc = {'content' : 'KO', 'mensaje' : 'No hay GET'}
 
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
 	return HttpResponse(data, 'application/json')
@@ -225,7 +225,7 @@ def caricaturas_artista(request, idartista):
 
 	caricaturas = Caricaturas.objects.filter(idartista = artista)
 	for caricatura in caricaturas:
-		lista_caricaturas.append({'idartista' : idartista, 'titulo' : caricatura.titulo, 'tag' : caricatura.tag,
+		lista_caricaturas.append({'id' : id, 'idartista' : idartista, 'titulo' : caricatura.titulo, 'tag' : caricatura.tag,
 								 'imgAlta' : caricatura.img_alta, 'imgMiniatura' : caricatura.img_miniatura, 
 								 'fechasubida' : caricatura.fechasubida.isoformat(), 'facebook' : caricatura.facebook, 
 								 'twitter' : caricatura.twitter, 'googleplus' : caricatura.googleplus, 
@@ -422,9 +422,9 @@ def get_client_ip(request):
 # 	print 'Esto es c.update : '
 # 	print c
 
-# 	username = request.POST["username"]
-# 	full_name = request.POST["full_name"]
-# 	avatar_url = request.POST["avatar_url"]
+# 	username = request.GET["username"]
+# 	full_name = request.GET["full_name"]
+# 	avatar_url = request.GET["avatar_url"]
 
 # 	print 'username : %s' % username
 # 	print 'full_name : %s' % full_name
