@@ -225,7 +225,7 @@ def caricaturas_artista(request, idartista):
 
 	caricaturas = Caricaturas.objects.filter(idartista = artista)
 	for caricatura in caricaturas:
-		lista_caricaturas.append({'id' : id, 'idartista' : idartista, 'titulo' : caricatura.titulo, 'tag' : caricatura.tag,
+		lista_caricaturas.append({'idartista' : idartista, 'titulo' : caricatura.titulo, 'tag' : caricatura.tag,
 								 'imgAlta' : caricatura.img_alta, 'imgMiniatura' : caricatura.img_miniatura, 
 								 'fechasubida' : caricatura.fechasubida.isoformat(), 'facebook' : caricatura.facebook, 
 								 'twitter' : caricatura.twitter, 'googleplus' : caricatura.googleplus, 
