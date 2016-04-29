@@ -215,7 +215,7 @@ def subir_s3(request):
 	return HttpResponse(data, 'application/json')
 
 
-# Devuelve las caricaturas hechas por un artista. Se le pasa el id del artista y
+# Davuelve las caricaturas hechas por un artista. Se le pasa el id del artista y
 def caricaturas_artista(request, idartista):
 	lista_caricaturas = []
 	try:
