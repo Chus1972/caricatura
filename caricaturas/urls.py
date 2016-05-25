@@ -12,7 +12,7 @@ from dibujos.crud_caricaturas import alta_caricatura, borrar_caricatura, update_
 from django.conf.urls.static import static
 
 urlpatterns = patterns('',
-    
+    #hola
     url(r'^admin/', include(admin.site.urls)),
     url(r'^prueba/', prueba),
     #url(r'^ejemplo/', ejemplo),
