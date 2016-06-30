@@ -40,18 +40,18 @@ def caricatura(request, idcaricatura):
 	return HttpResponse(data, 'application/json')
 
 def caricaturas(request):
-	dicc = {}
+	dicc = []
 	diccs = {}
 	try:
 		carics = Caricaturas.objects.all()
 		for caric in carics:
-			dicc = {'id' : caric.id, 'titulo' : caric.titulo, 'tag' : caric.tag,
+			dicc.append = {'id' : caric.id, 'titulo' : caric.titulo, 'tag' : caric.tag,
 					'img_alta' : caric.img_alta, 'img_miniatura' : caric.img_miniatura,
 					'fechasubida' : caric.fechasubida.isoformat(), 'facebook' : caric.facebook,
 					'twitter' : caric.twitter, 'googleplus' : caric.googleplus, 
 					'whatsapp' : caric.whatsapp, 'visualizaciones' : caric.visualizaciones}
-			diccs += dicc
 
+	diccs = {'content' : 'ok', 'caricaturas' : dicc}
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(diccs))
 	return HttpResponse(data, 'application/json')
 
