@@ -45,12 +45,12 @@ def caricaturas(request):
 	try:
 		carics = Caricaturas.objects.all()
 		for caric in carics:
-			dicc.append = {'id' : caric.id, 'titulo' : caric.titulo, 'tag' : caric.tag,
+			dicc.append({'id' : caric.id, 'titulo' : caric.titulo, 'tag' : caric.tag,
 					'img_alta' : caric.img_alta, 'img_miniatura' : caric.img_miniatura,
 					'fechasubida' : caric.fechasubida.isoformat(), 'facebook' : caric.facebook,
 					'twitter' : caric.twitter, 'googleplus' : caric.googleplus, 
-					'whatsapp' : caric.whatsapp, 'visualizaciones' : caric.visualizaciones}
-					
+					'whatsapp' : caric.whatsapp, 'visualizaciones' : caric.visualizaciones})
+
 	diccs = {'content' : 'ok', 'caricaturas' : dicc}
 	except Caricaturas.DoesNotExist:
 		diccs = {'content' : ko}
