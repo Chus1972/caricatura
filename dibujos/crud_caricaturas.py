@@ -39,6 +39,22 @@ def caricatura(request, idcaricatura):
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
 	return HttpResponse(data, 'application/json')
 
+def caricaturas(request):
+	dicc = {}
+	diccs = {}
+	try:
+		carics = Caricaturas.objects.all()
+		for caric in carics:
+			dicc = {'id' : caric.id, 'titulo' : caric.titulo, 'tag' : caric.tag,
+					'img_alta' : caric.img_alta, 'img_miniatura' : caric.img_miniatura,
+					'fechasubida' : caric.fechasubida.isoformat(), 'facebook' : caric.facebook,
+					'twitter' : caric.twitter, 'googleplus' : caric.googleplus, 
+					'whatsapp' : caric.whatsapp, 'visualizaciones' : caric.visualizaciones}
+			diccs += dicc
+
+	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(diccs))
+	return HttpResponse(data, 'application/json')
+
 
 def borrar_caricatura(request, idartista, titulo):
 	dicc = {}
