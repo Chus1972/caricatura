@@ -50,8 +50,11 @@ def caricaturas(request):
 					'fechasubida' : caric.fechasubida.isoformat(), 'facebook' : caric.facebook,
 					'twitter' : caric.twitter, 'googleplus' : caric.googleplus, 
 					'whatsapp' : caric.whatsapp, 'visualizaciones' : caric.visualizaciones}
-
+					
 	diccs = {'content' : 'ok', 'caricaturas' : dicc}
+	except Caricaturas.DoesNotExist:
+		diccs = {'content' : ko}
+	
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(diccs))
 	return HttpResponse(data, 'application/json')
 
