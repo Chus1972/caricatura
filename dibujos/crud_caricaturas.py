@@ -43,7 +43,7 @@ def caricaturas(request):
 	dicc = []
 	diccs = {}
 	try:
-		carics = Caricaturas.objects.all()
+		carics = Caricaturas.objects.all().order_by('id')
 		for caric in carics:
 			dicc.append({'id' : caric.id, 'titulo' : caric.titulo, 'tag' : caric.tag,
 					'img_alta' : caric.img_alta, 'img_miniatura' : caric.img_miniatura,
