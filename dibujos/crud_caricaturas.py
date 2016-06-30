@@ -51,7 +51,7 @@ def caricaturas(request):
 					'twitter' : caric.twitter, 'googleplus' : caric.googleplus, 
 					'whatsapp' : caric.whatsapp, 'visualizaciones' : caric.visualizaciones})
 
-	diccs = {'content' : 'ok', 'caricaturas' : dicc}
+		diccs = {'content' : 'ok', 'caricaturas' : dicc}
 	except Caricaturas.DoesNotExist:
 		diccs = {'content' : ko}
 	
