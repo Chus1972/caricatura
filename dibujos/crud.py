@@ -13,7 +13,7 @@ def alta_artista(request):
 						  direccion = request.GET['direccion'], codigopostal = request.GET['codigopostal'], 
 						  telefono = request.GET['telefono'], ciudad = request.GET['ciudad'], 
 						  fechacreacion = datetime.datetime.now() + datetime.timedelta(hours = 2),
-						  ultimaaccionfecha = datetime.datetime.now() + datetime.timedelta(hours = 2),
+			 			  ultimaaccionfecha = datetime.datetime.now() + datetime.timedelta(hours = 2),
 					      ultimoaccesofecha = datetime.datetime.now() + datetime.timedelta(hours = 2),
 					      ultimoaccesoip = get_client_ip(request))
 		artista.save()
@@ -77,10 +77,10 @@ def borrar_artista(request,idartista, user):
 	return HttpResponse(data, 'application/json')
 
 # Tengo que hacer update_artista2
-def update_artista(request, user, password, nombre, apellidos, tipousuario, pais, direccion, ciudad, codigopostal, telefono):
+def update_artista(request):
 	dicc = {}
 	try:
-		artista = Artista.objects.get(username = user)
+		artista = Artista.objects.get(username = request.GET['user'])
 		artista.password = request.GET['password']
 		artista.nombre = request.GET['nombre']
 		artista.apellidos = request.GET['apellidos']
@@ -109,10 +109,11 @@ def update_artista(request, user, password, nombre, apellidos, tipousuario, pais
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
 	return HttpResponse(data, 'application/json')
 
-def borrar_usuario(request, idartista, user):
+def borrar_usuario(request):
+	user      = request.GET['username']
 	dicc = {}
 	try:
-		usuario = Artista.objects.get(id = idartista, username = user)
+		usuario = Artista.objects.get(username = user)
 		usuario.delete()
 		dicc = {'content' : 'OK'}
 	except Artista.DoesNotExist: # Usuario no existe y no puede ser borrado
@@ -121,7 +122,19 @@ def borrar_usuario(request, idartista, user):
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
 	return HttpResponse(data, 'application/json')
 
-def update_usuario(request, user, password, nombre, apellidos, tipousuario, pais, direccion, ciudad, codigopostal, telefono):
+def update_usuario(request):
+	user 		= request.GET['user']
+	password 	= request.GET['password']
+	nombre	    = request.GET['nombre']
+	apellidos	= request.GET['apellidos']
+	tipousuario = request.GET['tipousuario']
+	pais        = request.GET['pais']
+	direccion   = request.GET['direccion']
+	ciudad      = request.GET['ciudad']
+	codigopostal= request.GET['codigopostal']
+	telefono    = request.GET['telefono']
+	correoe     = request.GET['correoe']
+
 	dicc = {}
 	try:
 		usuario = Artista.objects.get(username = user)
@@ -134,7 +147,7 @@ def update_usuario(request, user, password, nombre, apellidos, tipousuario, pais
 		usuario.telefono = telefono
 		usuario.direccion = direccion
 		usuario.ciudad = ciudad
-		usuario.correoe = request.GET['email']
+		usuario.correoe = correoe
 
 		usuario.save()
 
@@ -177,7 +190,7 @@ def update_pass_artista(request):
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
 	return HttpResponse(data, 'application/json')
 
-#devuelve todos los datos del nuevo usuario si el usuario se ha creado con exito
+#devuelve todos los datos del nuevo usuario si el administrador se ha creado con exito 
 def alta_usuario(request):
 	dicc = {}
 	try:

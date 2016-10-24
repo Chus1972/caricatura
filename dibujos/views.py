@@ -63,11 +63,12 @@ def login_artista_crossdomain(request, user, password):
 
 def subir_imagen(request):
 	return render(request, 'subir_imagen.html')
+ 
+def login_usuario(request):
 
-def login_usuario(request, user, password):
 	dicc = {}
 	try:
-		usuario = Artista.objects.get(username = user, password = password)
+		usuario = Artista.objects.get(username = request.GET['user'], password = request.GET['password'])
 		dicc = {'content' : 'OK', 'mensaje' : {'id' : usuario.id, 'nombre' : usuario.nombre, 'apellidos' : usuario.apellidos,
 			    'username' : usuario.username, 'tipousuario' : usuario.tipousuario, 'correoe' : usuario.correoe, 'pais' : usuario.pais, 
 		        'codigopostal' : usuario.codigopostal, 'telefono' : usuario.telefono,
@@ -115,11 +116,16 @@ def login_artista(request, user, password):
 #	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))     
  #  	return HttpResponse(data, 'application/json')
 
-def artistas(request):
+def usuarios(request):
+	tipo_usuario = request.GET['tipousuario']
 	dicc = {}
 	listaArtistas = []
 	try:
-		artistas = Artista.objects.filter(tipousuario = 'normal')
+		if tipo_usuario == 'todos':
+			artistas = Artista.objects.all()
+		else:
+			artistas = Artista.objects.filter(tipousuario = tipo_usuario)
+
 		for artista in artistas:
 			listaArtistas.append({'id' : artista.id, 'nombre' : artista.nombre, 'apellidos' : artista.apellidos, 'username' : artista.username, 'tipousuario' : artista.tipousuario,
 							      'pais' : artista.pais, 'codigopostal' : artista.codigopostal, 'telefono' : artista.telefono,  
@@ -130,6 +136,26 @@ def artistas(request):
 		dicc = {'content' : 'OK', 'mensaje' : listaArtistas}
 	except Exception as e:
 		dicc = {'content' : 'KO', 'error' : e}
+
+	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
+	return HttpResponse(data, 'application/json')
+
+def usuario(request):
+	user_name = request.GET['username']
+	dicc = {}
+
+	try:
+		usuario = Artista.objects.get(username = user_name)
+		print 'no pasa'
+		dicc = {'nombre' : usuario.nombre, 'apellidos' : usuario.apellidos, 'username' : usuario.username, 'tipousuario' : usuario.tipousuario,
+				'pais' : usuario.pais, 'codigopostal' : usuario.codigopostal, 'telefono' : usuario.telefono,  
+				'telefono' : usuario.telefono, 'direccion' : usuario.direccion, 'ciudad' : usuario.ciudad,
+				'ultimoaccesoip' : usuario.ultimoaccesoip, 'ultimoaccesofecha' : usuario.ultimoaccesofecha.isoformat(),
+				'correoelectronico' : usuario.correoe, 'ultimaaccionfecha' : usuario.ultimaaccionfecha.isoformat(),
+				'fechacreacion' : usuario.fechacreacion.isoformat(),
+				'content' : 'OK'}
+	except Artista.DoesNotExist:
+		dicc = {'content' : 'KO', 'error' : 'Este usuario no existe'}
 
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
 	return HttpResponse(data, 'application/json')
@@ -216,16 +242,17 @@ def subir_s3(request):
 
 
 # Davuelve las caricaturas hechas por un artista. Se le pasa el id del artista y
-def caricaturas_artista(request, idartista):
+def caricaturas_artista(request):
 	lista_caricaturas = []
+	id_artista = request.GET['idartista']
 	try:
-		artista = Artista.objects.get(id = idartista)
+		artista = Artista.objects.get(id = id_artista)
 	except Artista.DoesNotExist:
 		dicc = {'content' : 'KO', 'mensaje' : 'No hay ningun artista con este ID'}
 
 	caricaturas = Caricaturas.objects.filter(idartista = artista)
 	for caricatura in caricaturas:
-		lista_caricaturas.append({'idcaricatura' : caricatura.id, 'idartista' : idartista, 'titulo' : caricatura.titulo, 'tag' : caricatura.tag,
+		lista_caricaturas.append({'idcaricatura' : caricatura.id, 'idartista' : id_artista, 'titulo' : caricatura.titulo, 'tag' : caricatura.tag,
 								 'imgAlta' : caricatura.img_alta, 'imgMiniatura' : caricatura.img_miniatura, 
 								 'fechasubida' : caricatura.fechasubida.isoformat(), 'facebook' : caricatura.facebook, 
 								 'twitter' : caricatura.twitter, 'googleplus' : caricatura.googleplus, 
