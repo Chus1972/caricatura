@@ -9,7 +9,7 @@ from dibujos.crud import alta_usuario, alta_artista,  update_artista, update_usu
 from dibujos.crud_caricaturas import borrar_caricatura, alta_caricatura, update_caricatura
 from dibujos.views import  upload_file, import_uploader, start, prueba, subir_s3, login_usuario, login_usuario_crossdomain, login_artista, login_artista_crossdomain,  usuarios_crossdomain, artistas_crossdomain  #, ejemplo, sign_s3, 
 from dibujos.crud_caricaturas import alta_caricatura, borrar_caricatura, update_caricatura, caricaturas
-from dibujos.estadisticas import visualizacion_mas_1
+from dibujos.estadisticas import redes_mas_1 #, facebook_mas_1, twitter_mas_1, googlelus_mas_1, whatsapp_mas_1
 from django.conf.urls.static import static
 
 urlpatterns = patterns('',
@@ -66,7 +66,11 @@ urlpatterns = patterns('',
     #url(r'^signup/(\w+)/(password)', signup, name = 'signup'),
     #url(r'^signin/', signin, name = 'signin'),
     # ESTADISTICAS
-    url(r'^visualizacion_mas_1/', visualizacion_mas_1, name = 'visualizacion_mas_1'),
+    url(r'^redes_mas_1/', redes_mas_1, name = 'redes_mas_1'),
+    #url(r'^facebook_mas_1/', facebook_mas_1, name = 'facebook_mas_1'),
+    #url(r'^twitter_mas_1/', twitter_mas_1, name = 'twitter_mas_1'),
+    #url(r'^googlelus_mas_1/', googlelus_mas_1, name = 'googlelus_mas_1'),
+    #url(r'^whatsapp_mas_1/', whatsapp_mas_1, name = 'whatsapp_mas_1'),
 )
 
 urlpatterns += patterns('',

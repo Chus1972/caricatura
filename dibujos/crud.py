@@ -169,9 +169,16 @@ def update_usuario(request):
 
 def update_pass_artista(request):
 	dicc = {}
+	pass_antiguo = request.GET['password_antiguo']
 	try:
 		usuario = Artista.objects.get(id = request.GET['idusuario'])
-		usuario.password = request.GET['password']
+		print usuario.password
+		if usuario.password == pass_antiguo:
+			usuario.password = request.GET['password']
+		else:
+			dicc = {'content' : 'KO', 'mensaje' : 'Password erroneo'}
+			data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
+			return HttpResponse(data, 'application/json')
 
 		usuario.save()
 
