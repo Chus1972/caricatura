@@ -5,9 +5,9 @@ import json, os, datetime
 def alta_artista(request):
 	dicc = {}
 	try:
-		artista = Artista.objects.get(username = request.GET['user'], password = request.GET['password'])
+		artista = Artista.objects.get(username = request.GET['user'], password = request.GET['password'].replace('$@$',';'))
 	except Artista.DoesNotExist: # Artista no existe y se puede crear
-		artista = Artista(username = request.GET['user'], password = request.GET['password'], nombre = request.GET['nombre'],
+		artista = Artista(username = request.GET['user'], password = request.GET['password'].replace('$@$',';'), nombre = request.GET['nombre'],
 						  apellidos = request.GET['apellidos'], tipousuario = request.GET['tipoususario'], 
 						  correoe = request.GET['email'], pais = request.GET['pais'], 
 						  direccion = request.GET['direccion'], codigopostal = request.GET['codigopostal'], 
@@ -81,7 +81,7 @@ def update_artista(request):
 	dicc = {}
 	try:
 		artista = Artista.objects.get(username = request.GET['user'])
-		artista.password = request.GET['password']
+		artista.password = request.GET['password'].replace('$@$',';')
 		artista.nombre = request.GET['nombre']
 		artista.apellidos = request.GET['apellidos']
 		artista.tipousuario = request.GET['tipousuario']
@@ -124,7 +124,7 @@ def borrar_usuario(request):
 
 def update_usuario(request):
 	user 		= request.GET['user']
-	password 	= request.GET['password']
+	password 	= request.GET['password'].replace('$@$',';')
 	nombre	    = request.GET['nombre']
 	apellidos	= request.GET['apellidos']
 	tipousuario = request.GET['tipousuario']
@@ -169,12 +169,11 @@ def update_usuario(request):
 
 def update_pass_artista(request):
 	dicc = {}
-	pass_antiguo = request.GET['password_antiguo']
+	pass_antiguo = request.GET['password_antiguo'].replace('$@$',';') # reemplazamos la cadena $@$ por ;
 	try:
 		usuario = Artista.objects.get(id = request.GET['idusuario'])
-		print usuario.password
 		if usuario.password == pass_antiguo:
-			usuario.password = request.GET['password']
+			usuario.password = request.GET['password'].replace('$@$',';')
 		else:
 			dicc = {'content' : 'KO', 'mensaje' : 'Password erroneo'}
 			data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
@@ -201,9 +200,9 @@ def update_pass_artista(request):
 def alta_usuario(request):
 	dicc = {}
 	try:
-		usuario = Artista.objects.get(username = request.GET['user'], password = request.GET['password'])
+		usuario = Artista.objects.get(username = request.GET['user'], password = request.GET['password'].replace('$@$',';'))
 	except Artista.DoesNotExist: # usuario no existe y se puede crear
-		usuario = Artista(username = request.GET['user'], password = request.GET['password'], nombre = request.GET['nombre'],
+		usuario = Artista(username = request.GET['user'], password = request.GET['password'].replace('$@$',';'), nombre = request.GET['nombre'],
 						  apellidos = request.GET['apellidos'], tipousuario = request.GET['tipousuario'], 
 						  correoe = request.GET['email'], pais = request.GET['pais'], 
 						  direccion = request.GET['direccion'], codigopostal = request.GET['codigopostal'], 
