@@ -3,6 +3,7 @@ from dibujos.models import *
 from django.http import HttpResponse
 import json, os
 import datetime
+#bueno
 
 def alta_caricatura(request):
 	id_artista_get = request.GET['idartista']
@@ -48,14 +49,14 @@ def caricatura(request):
 
 def caricaturas(request):
 		
-	usuario = request.GET['username']
+	usuario = request.GET['idartista']
 	dicc = []
 	diccs = {}
 	try:
 		if usuario == 'todos':
 			carics = Caricaturas.objects.all().order_by('id')
 		else:
-			carics = Caricaturas.objects.filter(username = usuario)
+			carics = Caricaturas.objects.filter(idartista = usuario)
 
 		for caric in carics:
 			dicc.append({'id' : caric.id, 'titulo' : caric.titulo, 'tag' : caric.tag,
