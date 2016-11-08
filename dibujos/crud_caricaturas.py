@@ -35,7 +35,8 @@ def caricatura(request):
 	dicc = {}
 	try:
 		caric = Caricaturas.objects.get(id = id_caricatura)
-		dicc = {'id' : id_caricatura, 'titulo' : caric.titulo, 'tag' : caric.tag,
+		artista = Artista.objects.get(id = caric.idartista_id)
+		dicc = {'id' : id_caricatura, 'titulo' : caric.titulo, 'idartista' : artista.id, 'nombre_artista' : artista.nombre, 'tag' : caric.tag,
 				'img_alta' : caric.img_alta, 'img_miniatura' : caric.img_miniatura,
 				'fechasubida' : caric.fechasubida.isoformat(), 'facebook' : caric.facebook,
 				'twitter' : caric.twitter, 'googleplus' : caric.googleplus, 
@@ -55,11 +56,19 @@ def caricaturas(request):
 	try:
 		if usuario == 'todos':
 			carics = Caricaturas.objects.all().order_by('id')
+			for caric in carics:
+				artista = Artista.objects.get(id = caric.idartista_id)
+				dicc.append({'id' : caric.id, 'titulo' : caric.titulo, 'idartista' : caric.idartista_id, 'nombre_artista' : artista.nombre, 'tag' : caric.tag,
+					'img_alta' : caric.img_alta, 'img_miniatura' : caric.img_miniatura,
+					'fechasubida' : caric.fechasubida.isoformat(), 'facebook' : caric.facebook,
+					'twitter' : caric.twitter, 'googleplus' : caric.googleplus, 
+					'whatsapp' : caric.whatsapp, 'visualizaciones' : caric.visualizaciones})
+
 		else:
 			carics = Caricaturas.objects.filter(idartista = usuario)
-
-		for caric in carics:
-			dicc.append({'id' : caric.id, 'titulo' : caric.titulo, 'tag' : caric.tag,
+			for caric in carics:
+				artista = Artista.objects.get(id = caric.idartista_id)
+				dicc.append({'id' : caric.id, 'titulo' : caric.titulo, 'idartista' : caric.idartista_id, 'nombre_artista' : artista.nombre, 'tag' : caric.tag,
 					'img_alta' : caric.img_alta, 'img_miniatura' : caric.img_miniatura,
 					'fechasubida' : caric.fechasubida.isoformat(), 'facebook' : caric.facebook,
 					'twitter' : caric.twitter, 'googleplus' : caric.googleplus, 
