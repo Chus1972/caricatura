@@ -2,6 +2,7 @@ from dibujos.models import *
 from django.http import HttpResponse
 import json, os, datetime
 
+
 def alta_artista(request):
 	dicc = {}
 	try:
@@ -81,7 +82,7 @@ def update_artista(request):
 	dicc = {}
 	try:
 		artista = Artista.objects.get(username = request.GET['user'])
-		artista.password = request.GET['password'].replace('$@$',';')
+		#artista.password = request.GET['password'].replace('$@$',';')
 		artista.nombre = request.GET['nombre']
 		artista.apellidos = request.GET['apellidos']
 		artista.tipousuario = request.GET['tipousuario']
@@ -108,6 +109,43 @@ def update_artista(request):
 
 	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
 	return HttpResponse(data, 'application/json')
+
+
+# Cambios datos del artista por parte de un administrador
+def update_artista_administrador(request):
+	dicc = {}
+	try:
+		artista = Artista.objects.get(username = request.GET['user'])
+		
+		if request.GET['password'] != '##@@##':
+			artista.password = request.GET['password'].replace('$$@@$$',';')
+		artista.nombre = request.GET['nombre']
+		artista.apellidos = request.GET['apellidos']
+		artista.tipousuario = request.GET['tipousuario']
+		artista.pais = request.GET['pais']
+		artista.codigopostal = request.GET['codigopostal']
+		artista.telefono = request.GET['telefono']
+		artista.direccion = request.GET['direccion']
+		artista.ciudad = request.GET['ciudad']
+		artista.correoe = request.GET['email']
+
+		artista.save()
+
+		ar = {}
+		ar = {'usuario' : artista.username, 'password' : artista.password, 'nombre' : artista.nombre,
+		      'apellidos' : artista.apellidos, 'tipousuario' : artista.tipousuario, 'pais' : artista.pais,
+		      'codigopostal' : artista.codigopostal, 'telefono' : artista.telefono, 
+		      'direccion' : artista.direccion, 'ciudad' : artista.ciudad, 
+		      'correoe' : artista.correoe}
+
+		dicc = {'content' : 'OK', 'mensaje' : ar}
+
+	except Artista.DoesNotExist:
+		dicc = {'content' : 'KO', 'mensaje' : {'error' : 'Este artista NO existe'}}
+
+	data = '%s(%s);' % (request.GET.get('callback'), json.dumps(dicc))
+	return HttpResponse(data, 'application/json')
+
 
 def borrar_usuario(request):
 	user      = request.GET['username']
